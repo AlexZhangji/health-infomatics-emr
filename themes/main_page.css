@@ -1,0 +1,95 @@
+#heading{
+	background-color: white;
+	width: 100%;
+	padding: 0px 0px 0px 0px; 
+
+
+}
+
+img.LoginLogo {
+	 display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0px 0px 0px 0px; 
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #5c6066
+}
+li{
+	color: white;
+	text-decoration: none;
+	font-family: Verdana; 
+	font-size: 20px
+}
+li.right{
+    float: right;
+    display: block;
+    padding: 8px;
+     text-decoration: none;
+}
+
+li.left {
+	 float: left;
+    display: block;
+    padding: 8px;
+     text-decoration: none;
+
+}
+li:hover {
+    background-color: #555;
+    color: white;
+}
+a:link {
+    text-decoration: none;
+    color: white;
+}
+
+a:visited {
+    text-decoration: none;
+    color: white;
+
+}
+
+div{
+ 
+	width: 900px;
+	height: 300px;
+    border: 1px solid grey;
+
+    padding: 25px;
+	color:#FFF;
+   	margin: 0 auto; 
+    -webkit-box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
+    -moz-box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
+}
+
+input[type=button], input[type=submit], input[type=reset] {
+    background-color: #4CAF50;
+    width: 100%;
+    border: none;
+    color: white;
+    
+    height: 100px;
+    padding: 10px 10px 10px 10px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family: Verdana; 
+	font-size: 40px
+}
+
+td{
+  padding: 10px 10px 10px 10px;
+  -webkit-box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
+    -moz-box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
+}
+
+table {
+  width:500px;
+  margin: 10px auto;
+}
+
