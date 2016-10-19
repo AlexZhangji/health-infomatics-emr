@@ -61,6 +61,7 @@ li {
 }
 
 li.right {
+  
     float: right;
     display: block;
     margin-right: 5px;
@@ -87,7 +88,7 @@ li:hover {
 }
 
 a:hover{
-    
+
     background-color: #326dbb;
 }
 
