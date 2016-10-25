@@ -40,7 +40,7 @@ img.LoginLogo {
     padding: 0px 0px 0px 0px;
 }
 
-ul {
+ul.header{
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -52,7 +52,7 @@ ul {
     -webkit-margin-start: 0px;
 }
 
-li {
+.header li {
     color: white;
     text-decoration: none;
     font-size: 22px;
@@ -61,7 +61,7 @@ li {
 }
 
 li.right {
-  
+
     float: right;
     display: block;
     margin-right: 5px;
@@ -76,7 +76,7 @@ li.left {
     text-decoration: none;
 }
 
-li:hover {
+.header li:hover {
         /* original color #2196F3*/
         background-color: #326dbb;
         -webkit-transition: color 0.3s ease-out;
