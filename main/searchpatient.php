@@ -32,6 +32,11 @@ require_once("$srcdir/formdata.inc.php");
 // session cookie for this specific OpenEMR instance that is then maintained
 // within the OpenEMR instance by calling top.restoreSession() whenever
 // refreshing or starting a new script.
+
+
+
+
+
 if (isset($_POST['new_login_session_management'])) {
   // This is a new login, so create a new session id and remove the old session
   session_regenerate_id(true);
@@ -104,7 +109,6 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
     <?php echo text($openemr_name) ?>
     </title>
     <script type="text/javascript" src="../../library/topdialog.js"></script>
-    <script src="js/vendor/jquery-2.1.4.min.js"></script>
 
     <script language='JavaScript'>
       <?php require($GLOBALS['srcdir'] . "/restoreSession.php"); ?>
@@ -138,7 +142,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
       <li class = "left"><a href="#news">News</a></li>
       <li class = "left"><a href="#contact">Contact</a></li>
       <li class = "left"><a href="#tutorial">Tutorial</a></li>
-
+      
       <li class = "right">
        <a href="../logout.php" target="_top" class="css_button_small"  id="logout_link" onclick="top.restoreSession()" >
       <span><?php echo htmlspecialchars( xl('Logout'), ENT_QUOTES) ?></span></a></td>
@@ -151,10 +155,10 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
     </br>
         <style>
         input[type=text], select {
-    border: 1px solid #ccc;
+    border: 1px solid #ccc; 
                 padding: 7px 0px;
-                border-radius: 3px;
-                padding-left:5px;
+                border-radius: 3px; 
+                padding-left:5px; 
 }
 input[type=submit] {
     width: 20%;
@@ -225,41 +229,71 @@ table, th, td {
 
  <div class="container">
 
+<form class = "" method = "POST">
  <div class="panel panel-default" id="search_module">
- <p> <input type="text" placeholder="Firstname">
-<input type="text" placeholder="Lastname">
+ <p> <input type="text" placeholder="Name" name='namefield' id='namefield'> 
 <button name="search_button">Search</button>
-
-
-
 </p>
 </div>
+</form>
+
+<div class="panel-heading">Patient List</div>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Date of Birth</th>
+        <th>Village</th>
+    </tr>
+
+<?php
+
+if (isset($_POST['namefield'])){
+  $name = $_POST['namefield'];
+}
+else{
+  $name = null;
+}
+
+if ($name==null){
+  $query ="SELECT * FROM PatientData";
+} else{
+  $query ="SELECT * FROM PatientData WHERE name = '$name'";
+}
+
+$comments = mysql_query($query);
 
 
+// Please remember that  mysql_fetch_array has been deprecated in earlier
+// versions of PHP.  As of PHP 7.0, it has been replaced with mysqli_fetch_array.  
 
+while($row = mysql_fetch_array($comments, MYSQL_ASSOC))
+{
+  $name = $row['name'];
+  $dob = $row['DateofBirth'];
+  $village = $row['cityVillage'];
+
+  
+  echo "<tr>";
+  echo "<td><a href=md.php style='color: #0B0080 '>".$row['name']."</a></td>";
+  echo "<td>{$row['DateofBirth']}</td>";
+  echo "<td>{$row['cityVillage']}</td>";
+  echo "</tr>";
+}
+
+?>
+</table>
 
 
 <div class="panel panel-default" id="patient_list" >
-    <div class="panel-heading">Patient List</div>
-    <div class="panel-body" style="overflow:scroll; font-size: large; padding: 1px">
-        <table class="patient_table" id="patient_table" style="padding: 3px; font-size: large">
-            <tr>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Date of Birth</th>
-                <th>Village</th>
-            </tr>
-
-
-        </table>
-    </div>
+    
     <form action="registration.php" method="get">
-                      <input type="submit" value="NewPatient"
+                      <input type="submit" value="NewPatient" 
                                name="create_new_patient" id="messages_link" onclick="top.restoreSession()" />
 </form>
 </div>
 
-    <button onclick="postDataToMD();"> Medical record page </button>
+
 <p></p>
 <p></p>
 </center>
@@ -268,28 +302,14 @@ table, th, td {
 
 
 
-<script>
-// test ajax functions
-function postDataToMD(){
-  console.log('post to md excuted');
-  // $.ajax({
-  //   type: 'POST',
-  //   url: 'md.php',
-  //   data: { patientId: '777' },
-  //   success: function(response) {
-  //       content.html(response);
-  //   }
-  // });
-  window.location.href = 'md.php?patientId=' + '777';
-}
-</script>
 
 
 
+    
     </body>
 
+  
 
-
-
+  
 
 </html>
