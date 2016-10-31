@@ -212,7 +212,7 @@ if($patientId){
 
 
     </ul>
-    </br>
+    <!-- </br> -->
     <!-- END OF HEADER -->
 
     <!-- container  -->
@@ -282,9 +282,10 @@ if($patientId){
                 </div>
             </div>
         </div>
+        <!-- END OF LEFT PANE -->
 
         <!-- right pane -->
-        <div style="width:56%; margin-left:20px; float:left;">
+        <div style="width:58.5%; margin-left:1.5%; float:left;">
 
             <!-- visulization -->
             <div class="patient-visulization m-card" style="float:left;width:100%; ">
