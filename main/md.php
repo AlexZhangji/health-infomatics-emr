@@ -396,12 +396,20 @@ if($patientId){
     }
 </script>
 
+<script type="text/javascript">
+var something=<?php echo json_encode($patientData); ?>;
+console.log('js obj');
+console.log(something);
+</script>
+
 <script>
   // for toogle patient info
   $(function(){
     $('#expand-patient-info').click(function(){
       $('#more-patient-info').toggleClass('hidden');
     });
+
+
   });
 </script>
 
