@@ -96,6 +96,21 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
     $nav_area_width = $GLOBALS['gbl_nav_area_width'];
 }
 
+function getYearsOld($DOB){
+  date_default_timezone_set('America/Los_Angeles');
+  // $curDate = DateTime::createFromFormat('Y-m-d', time());
+  // $dobDate = DateTime::createFromFormat('Y-m-d', $DOB);
+  // // debug_to_console($curDate);
+  // $yearsOld = $curDate->diff($dobDate);
+  // return $yearsOld['y'];
+  $diff = abs(time() - strtotime($DOB));
+  $years = floor($diff / (365*60*60*24));
+
+  return $years;
+}
+
+
+
 function debug_to_console_2( $data ) {
 
         $output = "<script>console.log( '" . array_values($data)[1] . "' );</script>";
@@ -123,7 +138,9 @@ if($patientId){
 
     debug_to_console_2($patientData);
     debug_to_console($patientData["name"]);
-    $patientName = $patientData["name"];
+
+    $patientYO = getYearsOld($patientData["DOB"]);
+
 }
 // echo "console.log( patientId : " + $patientId + ")";
 ?>
@@ -220,7 +237,8 @@ if($patientId){
         <div class="patient-basic-info m-card" id='patient-info'>
             <div class="title" style="float:left;">
                 <i class="fa fa-user" aria-hidden="true"></i><?php echo text($patientData["name"]); ?>
-                <span style="margin-left:10px;color:black;font-family: 'Open Sans', sans-serif;font-size:17px;">Male   10 year(s)</span>
+                <span style="margin-left:10px;color:black;font-family: 'Open Sans', sans-serif;font-size:17px;"><?php echo text($patientData["gender"]);?>
+                  <span style="margin-left:5px;"><?php echo text($patientYO);?> year(s) </span></span>
 
             </div>
 
@@ -397,6 +415,8 @@ if($patientId){
 </script>
 
 <script type="text/javascript">
+// make a php var to js objejct, json_encode makes it safe to contain things
+// like quotation marks and other things that can break the echo.
 var something=<?php echo json_encode($patientData); ?>;
 console.log('js obj');
 console.log(something);
