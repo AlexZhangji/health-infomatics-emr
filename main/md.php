@@ -96,6 +96,14 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
     $nav_area_width = $GLOBALS['gbl_nav_area_width'];
 }
 
+function debug_to_console_2( $data ) {
+
+        $output = "<script>console.log( '" . array_values($data)[1] . "' );</script>";
+
+    echo $output;
+}
+
+
 function debug_to_console( $data ) {
 
     if ( is_array( $data ) )
@@ -112,7 +120,10 @@ if($patientId){
   $patientData = sqlQuery("SELECT * " .
     "FROM `patient_data_gb` " .
     "WHERE `id`=?", array(intval($patientId)) );
-    debug_to_console($patientData);
+
+    debug_to_console_2($patientData);
+    debug_to_console($patientData["name"]);
+    $patientName = $patientData["name"];
 }
 // echo "console.log( patientId : " + $patientId + ")";
 ?>
@@ -202,19 +213,20 @@ if($patientId){
 
     </ul>
     </br>
+    <!-- END OF HEADER -->
 
     <!-- container  -->
     <div class="md-plain-card" style="margin-top:20px; ">
         <div class="patient-basic-info m-card ">
             <div class="title" style="float:left;">
-                <i class="fa fa-user" aria-hidden="true"></i> Test One
+                <i class="fa fa-user" aria-hidden="true"></i><?php echo text($patientData["name"]); ?>
                 <span style="margin-left:10px;color:black;font-family: 'Open Sans', sans-serif;font-size:17px;">Male   10 year(s)</span>
 
             </div>
 
 
             <div class="patient-id" style="margin-top: 4px;">
-                PatientID <span>10002V</span>
+                PatientID <span>000<?php echo text($patientData["id"]);?>V</span>
             </div>
             <br style="clear:both;" />
         </div>
