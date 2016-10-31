@@ -217,7 +217,7 @@ if($patientId){
 
     <!-- container  -->
     <div class="md-plain-card" style="margin-top:20px; ">
-        <div class="patient-basic-info m-card ">
+        <div class="patient-basic-info m-card" id='patient-info'>
             <div class="title" style="float:left;">
                 <i class="fa fa-user" aria-hidden="true"></i><?php echo text($patientData["name"]); ?>
                 <span style="margin-left:10px;color:black;font-family: 'Open Sans', sans-serif;font-size:17px;">Male   10 year(s)</span>
@@ -225,10 +225,38 @@ if($patientId){
             </div>
 
 
-            <div class="patient-id" style="margin-top: 4px;">
-                PatientID <span>000<?php echo text($patientData["id"]);?>V</span>
+            <div class="patient-info-right" style="margin-top: 7px;">
+                <span style="margin-right: 20px;">PatientID <span class="md-patient-id">000<?php echo text($patientData["id"]);?>V</span></span>
+                <i class="fa fa-arrows-alt" aria-hidden="true" id='expand-patient-info'
+                style="" ></i>
             </div>
+
+
             <br style="clear:both;" />
+            <!-- END OF DEFAULT INFO -->
+
+            <div id="more-patient-info" class='hidden' >
+              <div style="min-height:6px;;border-bottom: 5px solid #2196F3; margin-bottom: 5px;">
+              </div>
+
+              <div class="basic-stats" >
+                  <ul class="list-group" >
+                      <li class="list-group-item">
+                          <span class="badge"><?php echo text($patientData["gender"]); ?></span> Gender
+                      </li>
+                      <li class="list-group-item">
+                        <span class="badge"><?php echo text($patientData["DOB"]); ?></span> Date of Birth
+                      </li>
+                      <li class="list-group-item">
+                        <span class="badge"><?php echo text($patientData["city_village"]); ?></span> City/Village
+                      </li>
+                      <li class="list-group-item">
+                        <span class="badge"><?php echo text($patientData["phone_num"]); ?></span> Phone Number
+                      </li>
+
+                  </ul>
+              </div>
+            </div>
         </div>
 
         <div style="width:40%;float:left;">
@@ -366,6 +394,15 @@ if($patientId){
         // Start listening.
         annyang.start();
     }
+</script>
+
+<script>
+  // for toogle patient info
+  $(function(){
+    $('#expand-patient-info').click(function(){
+      $('#more-patient-info').toggleClass('hidden');
+    });
+  });
 </script>
 
 <script>

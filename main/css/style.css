@@ -22,7 +22,6 @@ body {
     -o-transition: color 0.2s ease-out;
     transition: color 0.2s ease-out;
     box-shadow: 0 4px 7px 0 rgba(0, 0, 0, 0.16), 0 4px 13px 0 rgba(0, 0, 0, 0.12);
-
 }
 
 .m-card:not(.title) {
@@ -36,6 +35,20 @@ body {
 .m-card:hover {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }*/
+
+.patient-basic-info {
+    height: auto;
+    transition: height .5s;
+    -moz-transition: height .5s;
+    /* Firefox 4 */
+    -webkit-transition: height .5s;
+    /* Safari and Chrome */
+    transition: opacity .5s;
+    -moz-transition: opacity .5s;
+    /* Firefox 4 */
+    -webkit-transition: opacity .5s;
+
+}
 
 .m-card .title {
     font-family: 'Roboto Slab', serif;
@@ -51,19 +64,43 @@ body {
     margin-left: 10px;
 }
 
-.patient-id {
+.patient-info-right {
     float: right;
-    margin-right: 20px;
+    /*margin-right: 20px;*/
 }
 
-.md-plain-card{
-  height:auto;
-  /*background: white;*/
-  /*padding: 30px;*/
-  margin-top: 5px;
+.md-plain-card {
+    height: auto;
+    /*background: white;*/
+    /*padding: 30px;*/
+    margin-top: 5px;
 }
 
-.patient-id span {
+#expand-patient-info {
+    opacity: .8;
+    font-size: 20px;
+    float: right;
+    margin-right: 5px;
+    font-size: 18px;
+    color: #2196F3;
+    -webkit-transition: opacity 0.2s ease-out;
+    -moz-transition: opacity 0.2s ease-out;
+    -ms-transition: opacity 0.2s ease-out;
+    -o-transition: opacity 0.2s ease-out;
+    transition: opacity 0.2s ease-out;
+    -webkit-transition: transform 0.2s ease-out;
+    -moz-transition: transform 0.2s ease-out;
+    -ms-transition: transform 0.2s ease-out;
+    -o-transition: transform 0.2s ease-out;
+    transition: transform 0.2s ease-out;
+}
+
+#expand-patient-info:hover {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.patient-info-right span .md-patient-id {
     background: #666666;
     color: white;
     letter-spacing: 1px;
@@ -76,9 +113,32 @@ body {
     border-radius: 50px;
 }
 
-.patient-vitals{
-  width:100%;
-  float: left;
+#more-patient-info {}
+
+.hidden {
+    display: none;
+}
+
+.patient-vitals {
+    width: 100%;
+    float: left;
+}
+
+.basic-stats {
+    /*margin-bottom: 10px;*/
+}
+
+.basic-stats .list-group .list-group-item {
+    font-weight: 400;
+    margin-bottom: 7px;
+}
+
+.basic-stats .list-group .list-group-item .badge {
+    background-color: inherit;
+    color: black;
+    font-weight: 400;
+    font-size: 17px;
+    border-radius: 0px;
 }
 
 .vitals-stats .list-group .list-group-item {
@@ -93,24 +153,26 @@ body {
     border-radius: 0px;
 }
 
-.tab-pane div{
-  width: 100%;
-  float: left;
+.tab-pane div {
+    width: 100%;
+    float: left;
 }
 
+
 /* cat img */
+
 #cat_img {
-  /*width: 100%;*/
-  max-width: 300px;
-  position: fixed;
-  z-index: 1000;
-  bottom: -500px;
-  right: 10px;
-  -webkit-transform: rotate(-15deg);
-  -moz-transform: rotate(-15deg);
-  -ms-transform: rotate(-15deg);
-  -o-transform: rotate(-15deg);
-  transform: rotate(-15deg);
-  -webkit-box-shadow: 2px 1px 6px 1px #555;
-  box-shadow: 2px 1px 6px 1px #555;
+    /*width: 100%;*/
+    max-width: 300px;
+    position: fixed;
+    z-index: 1000;
+    bottom: -500px;
+    right: 10px;
+    -webkit-transform: rotate(-15deg);
+    -moz-transform: rotate(-15deg);
+    -ms-transform: rotate(-15deg);
+    -o-transform: rotate(-15deg);
+    transform: rotate(-15deg);
+    -webkit-box-shadow: 2px 1px 6px 1px #555;
+    box-shadow: 2px 1px 6px 1px #555;
 }
