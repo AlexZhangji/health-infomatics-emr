@@ -157,6 +157,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
 
     </ul>
     </br>
+
     <div class="container">
 
         <div class="card-shadow main-option">

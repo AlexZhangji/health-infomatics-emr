@@ -4,14 +4,14 @@ require_once("$srcdir/formdata.inc.php");
 include_once("$srcdir/sql.inc");
 	if (isset($_POST['submitbutton'])) {
 
-					$name = $_POST['namefield'];  
+					$name = $_POST['namefield'];
 					echo $name;
         		$gender = $_POST['gender'];
         			 echo $gender;
         			 $address1 = $_POST["address1"];
         			 echo $address1;
 
-					 $address2 = $_POST["address2"];	
+					 $address2 = $_POST["address2"];
 					 echo $address2;
                      $date = $_POST["date"];
                      echo $date;
@@ -27,18 +27,18 @@ include_once("$srcdir/sql.inc");
 
                      $phoneNumber = $_POST["phoneNumber"];
                      echo $phoneNumber;
-                     
-                    $query = "insert into PatientData (name,gender,DateofBirth,Address1,Address2,cityVillage,stateProvince,Country,Postal,Phonenumber) values 
+
+                    $query = "insert into patient_data_gb (name,gender,DOB,address_1,address_2,city_village,state_province,country,postal_num,phone_num) values
                     ('$name','$gender','$date','$address1', '$address2', '$cityvillage', '$stateProvince','$selectCountry','$postalCode','$phoneNumber')";
                      echo $query;
-                     
-                    
+
+
                     // echo '$task';
-                     sqlStatement("insert into PatientData (name,gender,DateofBirth,Address1,Address2,cityVillage,stateProvince,Country,Postal,Phonenumber) values 
+                     sqlStatement("insert into patient_data_gb (name,gender,DOB,address_1,address_2,city_village,state_province,country,postal_num,phone_num) values
                     ('$name','$gender','$date','$address1', '$address2', '$cityvillage', '$stateProvince','$selectCountry','$postalCode','$phoneNumber')");
-                    	
+
                  header("Location: searchpatient.php");
-          
+
 }
 
 

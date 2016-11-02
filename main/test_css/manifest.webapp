@@ -1,0 +1,21 @@
+{
+    "version": "0.1",
+    "name": "Experimental w/ voice and bootstrap",
+    "description": "Experimental version of Patient Info Page ",
+    "launch_path": "/index.html",
+    "icons": {
+        "16": "/img/icons/openmrs-logo.png",
+        "48": "/img/icons/openmrs-logo.png",
+        "128": "/img/icons/openmrs-logo.png"
+    },
+    "developer": {
+        "name": "CS401 Team EMR ",
+        "url": ""
+    },
+    "default_locale": "en",
+    "activities": {
+      "openmrs": {
+        "href": "*"
+      }
+    }
+}
