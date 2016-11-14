@@ -98,11 +98,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
 
 function getYearsOld($DOB){
   date_default_timezone_set('America/Los_Angeles');
-  // $curDate = DateTime::createFromFormat('Y-m-d', time());
-  // $dobDate = DateTime::createFromFormat('Y-m-d', $DOB);
-  // // debug_to_console($curDate);
-  // $yearsOld = $curDate->diff($dobDate);
-  // return $yearsOld['y'];
+
   $diff = abs(time() - strtotime($DOB));
   $years = floor($diff / (365*60*60*24));
 
@@ -112,9 +108,7 @@ function getYearsOld($DOB){
 
 
 function debug_to_console_2( $data ) {
-
-        $output = "<script>console.log( '" . array_values($data)[1] . "' );</script>";
-
+    $output = "<script>console.log( '" . array_values($data)[1] . "' );</script>";
     echo $output;
 }
 
@@ -141,6 +135,9 @@ if($patientId){
 
     $patientYO = getYearsOld($patientData["DOB"]);
 
+    $patientVisitData = sqlQuery("SELECT * " .
+      "FROM `patient_visit_gb` " .
+      "WHERE `patient_id`=?", array(intval($patientId)) );
 }
 // echo "console.log( patientId : " + $patientId + ")";
 ?>
@@ -388,7 +385,7 @@ if($patientId){
 <script src="js/ripples.min.js"></script>
 
 <!-- highcharts data-->
-<script src="js/chart.js"></script>
+<script src="chart.js"></script>
 
 <!-- voice control -->
 <script src="js/voice.js"></script>
@@ -423,8 +420,32 @@ console.log(something);
 </script>
 
 <script>
-  // for toogle patient info
+// make a php var to js objejct, json_encode makes it safe to contain things
+// like quotation marks and other things that can break the echo.
+var visitData=<?php echo json_encode($patientVisitData); ?>;
+
+  function getValuesFromObj(obj, filterList){
+    var resultArr = [];
+    // parse the visit data to array of number
+    Object.keys(obj).forEach(function (key) {
+      // if key is not in filterList
+      if(filterList.indexOf(key) === -1){
+        resultArr.push(obj[key]);
+      }
+    });
+    return resultArr;
+  }
+
   $(function(){
+    var plotNumArr = getValuesFromObj(visitData,['patient_id','visit_id']);
+    // parse visit data to array of numbers inseaad of string.
+    plotNumArr = plotNumArr.map(function(data){
+      return parseInt(data, 10);
+    });
+
+    initSpiderWeb(plotNumArr);
+
+    // for toggle patient info
     $('#expand-patient-info').click(function(){
       $('#more-patient-info').toggleClass('hidden');
     });
