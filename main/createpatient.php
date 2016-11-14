@@ -2,6 +2,7 @@
 require_once('../globals.php');
 require_once("$srcdir/formdata.inc.php");
 include_once("$srcdir/sql.inc");
+<<<<<<< HEAD
 	//if (isset($_POST['submitbutton'])) {
             
            
@@ -15,12 +16,14 @@ include_once("$srcdir/sql.inc");
 				$name = $_POST['namefield'];  
 				echo $name;
                     //echo (json_encode($name));
+=======
+>>>>>>> 78271b2572649dbe4e53c1f9e098615827d3496c
         		$gender = $_POST['gender'];
         			 echo $gender;
         			 $address1 = $_POST["address1"];
         			 echo $address1;
 
-					 $address2 = $_POST["address2"];	
+					 $address2 = $_POST["address2"];
 					 echo $address2;
                      $date = $_POST["date"];
                      echo $date;
@@ -36,22 +39,28 @@ include_once("$srcdir/sql.inc");
 
                      $phoneNumber = $_POST["phoneNumber"];
                      echo $phoneNumber;
-                     
-                    $query = "insert into PatientData (name,gender,DateofBirth,Address1,Address2,cityVillage,stateProvince,Country,Postal,Phonenumber) values 
+
+                    $query = "insert into patient_data_gb (name,gender,DOB,address_1,address_2,city_village,state_province,country,postal_num,phone_num) values
                     ('$name','$gender','$date','$address1', '$address2', '$cityvillage', '$stateProvince','$selectCountry','$postalCode','$phoneNumber')";
+<<<<<<< HEAD
                     // echo $query;
                      
                     
+=======
+
+
+>>>>>>> 78271b2572649dbe4e53c1f9e098615827d3496c
                     // echo '$task';
-                     sqlStatement("insert into PatientData (name,gender,DateofBirth,Address1,Address2,cityVillage,stateProvince,Country,Postal,Phonenumber) values 
+                     sqlStatement("insert into patient_data_gb (name,gender,DOB,address_1,address_2,city_village,state_province,country,postal_num,phone_num) values
                     ('$name','$gender','$date','$address1', '$address2', '$cityvillage', '$stateProvince','$selectCountry','$postalCode','$phoneNumber')");
-                    	
-                 //header("Location: searchpatient.php");
-          
-//}
-//else{
- //   echo "what's up";
-//}
+<<<<<<< HEAD
+
+=======
+
+                 header("Location: searchpatient.php");
+
+}
+>>>>>>> 78271b2572649dbe4e53c1f9e098615827d3496c
 
 
 
