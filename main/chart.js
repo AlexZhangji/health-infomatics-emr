@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-
-initSpiderWeb();
-=======
 // initSpiderWeb();
->>>>>>> origin/master
+
 initScatterPlot();
 initPressureHist();
 
