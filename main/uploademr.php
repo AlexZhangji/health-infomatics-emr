@@ -23,6 +23,9 @@ $sanitize_all_escapes = true;
 /* Include our required headers */
 require_once '../globals.php';
 require_once "$srcdir/formdata.inc.php";
+require_once'wordparcer.php';
+
+
 
 // Creates a new session id when load this outer frame
 // (allows creations of separate OpenEMR frames to view patients concurrently
@@ -102,6 +105,8 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
         <?php echo text($openemr_name) ?>
     </title>
     <script type="text/javascript" src="../../library/topdialog.js"></script>
+     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <!--  fonts import  -->
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,500" rel="stylesheet">
@@ -123,7 +128,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
 
         }
     </script>
-    <link rel=stylesheet href="../themes/main_screen.css" type="text/css">
+    <link rel=stylesheet href="../themes/uploademr.css" type="text/css">
     <!--    <link rel=stylesheet href="../themes/material-style.css" type="text/css">-->
 </head>
 
@@ -158,57 +163,51 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
     </ul>
     </br>
     <div class="container">
+        <p>
+            
+        <form name = "formupload" action = "uploademrserver.php" method = "POST" enctype="multipart/form-data">
+        <input type="file" id = "fileupload"name="file" >
+        </br>
+         <input type="submit" value="SubmitEMR" id="SubmitEMR" name = "submit">
+        <script>
+            /* jQuery(function($) {
+                  $("#SubmitEMR").click(function(e){
+                      e.preventDefault();
+                      var file = $("#fileupload").val();
+                      alert(file);
+                        $.ajax({
+                          type: "POST", //or GET. Whichever floats your boat.
+                          url: "uploademrserver.php",
+                          //dataType: "JSON",
+                          //ContentType: 'application/json',
+                          //data: { 'filevalue': file },
+                          success: function(data) {
 
-        <div class="card-shadow main-option">
+                                alert(data);
+                                      
+                                        
 
-            <i class="fa fa-check-square-o" aria-hidden="true"></i><br>
-            <form action="Tasklist.php" method="get">
+                                           //Write code here for you successful update (if you want to)
+                          },
+                          error: function() {
+                            alert("Error.");
+                          }
+                        });
+                 
 
-                <input type="submit" value="To Do List"
-                       name="Messages" id="messages_link" onclick="top.restoreSession()"/>
-            </form>
-        </div>
-
-        <div class="card-shadow main-option">
-            <i class="fa fa-heartbeat" aria-hidden="true"></i><br>
-            <form action="searchpatient.php" method="get">
-                <input type="submit" value="Patient Records" id="Patients"/>
-            </form>
-        </div>
-        <div class="card-shadow main-option">
-            <i class="fa fa-comments-o" aria-hidden="true"></i><br>
-            <form action="message.php" method="get">
-                <input type="submit" value="Messages"
-                       name="Messages" id="messages_link" onclick="top.restoreSession()"/>
-            </form>
-        </div>
-        <div class="card-shadow main-option">
-            <i class="fa fa-book" aria-hidden="true"></i><br>
-
-            <form action="dictionary.php" method="get">
-                <input type="submit" value="Dictionary" id="dictionary">
-
-            </form>
-        </div>
-        <div class="card-shadow main-option">
-            <i class="fa fa-bar-chart" aria-hidden="true"></i><br>
-
-            <form action="uploademr.php" method="get">
-                <input type="submit" value="Upload Record" id="Upload Record">
-            </form>
-        </div>
-
-        <div class="card-shadow main-option">
-            <i class="fa fa-cogs" aria-hidden="true"></i><br>
-
-            <form action="place_holder.php" method="get">
-                <input type="submit" value="System Setting" id="system">
-            </form>
-        </div>
+                  });
+                });*/
+               
 
 
-        <br style="clear:both;">
+
+                           
+            
+
+        </script>
+        </form>
     </div>
+</p>
 </div>
 <?php
 //

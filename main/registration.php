@@ -98,13 +98,16 @@ else {
 $nav_area_width = $GLOBALS['athletic_team'] ? '230' : '130';
 if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_area_width'];
 ?>
-<html>
+
+<html manifest="app.appcache">
   <head>
     <title>
     <?php echo text($openemr_name) ?>
     </title>
-    <script type="text/javascript" src="../../library/topdialog.js"></script>
 
+    <script type="text/javascript" src="../../library/topdialog.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script language='JavaScript'>
       <?php require($GLOBALS['srcdir'] . "/restoreSession.php"); ?>
 
@@ -118,129 +121,236 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
        return loadedFrameCount >= 2;
 
       }
+      
+      
+      if (localStorage.getItem("Sizeofnewpatientcache") === null){
+        localStorage.setItem("Sizeofnewpatientcache", 0);
+        
+        
+        
+      } 
+      else{
+        if (localStorage.getItem("Sizeofnewpatientcache") == 0){
+          alert("there are no pending registrations");
+        }
+        else{
+          alert("there are pending registrations");
+          alert(localStorage.getItem("Sizeofnewpatientcache"));
+
+          //for (int i = 0; i < parseInt(localStorage.getItem("Sizeofnewpatientcache")); i++){
+            
+           
+           
+           
+          var names;
+          var gender;
+          var address1;
+          var address2;
+          var date;
+          var cityVillage;
+          var stateProvince;
+          var selectCountry;
+          var postalCode;
+          var phoneNumber;
+          var test = false;
+
+           for( var i = 0; i < parseInt(localStorage.getItem("Sizeofnewpatientcache")); i++) {
+                    var keyval = "NewPatient" + i;
+                    var getdata = JSON.parse(localStorage.getItem(keyval));
+                    //getdata = getdata.split(",");
+
+                  
+                    names = getdata[0];
+                    gender = getdata[1];
+                    address1= getdata[2];
+                    address2= getdata[3];
+                    date= getdata[4];
+                    cityVillage= getdata[5];
+                    stateProvince= getdata[6];                                    
+                    selectCountry= getdata[7];                               
+                    postalCode= getdata[8];              
+                    phoneNumber= getdata[9];
+                    //alert(names+gender+address1);
+                  
+                  $.ajax({
+                        type: "POST",
+                        url: "createpatient.php",
+                        //dataType: "JSON",
+                        data: {'namefield': names,
+                               'gender': gender,
+                               'address1': address1,
+                               'address2': address2,
+                               'date': date,
+                               'cityVillage': cityVillage,
+                               'stateProvince': stateProvince,
+                               'selectCountry': selectCountry,
+                               'postalCode': postalCode,
+                               'phoneNumber': phoneNumber
+                                                 },
+                        success:function(result){
+                          //alert(result);
+                          //alert("hello");
+                          test = true;
+
+                        },
+                        error: function() {
+                          // Save
+                            i = parseInt(localStorage.getItem("Sizeofnewpatientcache"));
+
+                        }
+
+                  });
+                 //
+                          
+                 
+
+            }
+            alert(test);
+
+            
+              if (test){
+                            for (var y = 0; y < parseInt(localStorage.getItem("Sizeofnewpatientcache")); y++){
+                              var keyvals = "NewPatient" + y;
+                              localStorage.removeItem(keyvals);
+
+                            } 
+                            localStorage["Sizeofnewpatientcache"] = 0;
+                          }
+
+           
+        //  }
+
+
+
+        }
+        
+      }
+
+
     </script>
     <link rel=stylesheet href="../themes/registration.css" type="text/css">
   </head>
 
    <body  >
-      <h id = "heading">
+    
+    </br>
 
-        <p id = "heading">
-          <a href="main_screen.php">
-            <img class="LoginLogo" src="/openemr-4.2.0/sites/default/images/Global_Brigades_Logo.png" alt="Login Image" style="width:200px;height:100px;">
-          </a>
+
+
+<div class="main-page">
+    <h id="heading">
+
+        <p id="heading">
+            <a href="main_screen.php">
+                <img class="LoginLogo" src="../pic/sites/images/Global_Brigades_Logo_H.png" alt="Login Image"
+                     style="height:100px;">
+            </a>
         </p>
 
-        </h>
-    <ul>
-      <li class = "left"><a href="main_screen.php">Home</a></li>
-      <li class = "left"><a href="#news">News</a></li>
-      <li class = "left"><a href="#contact">Contact</a></li>
-      <li class = "left"><a href="#tutorial">Tutorial</a></li>
-      
-      <li class = "right">
-       <a href="../logout.php" target="_top" class="css_button_small"  id="logout_link" onclick="top.restoreSession()" >
-      <span><?php echo htmlspecialchars( xl('Logout'), ENT_QUOTES) ?></span></a></td>
-      </li>
-      <li class = "right">User</li>
-      <li class = "right"><a href="#settings">Settings</a></li>
+    </h>
+    <ul class="header card-shadow">
+        <li class="left"><a href="main_screen.php">Home</a></li>
+        <li class="left"><a href="#news">News</a></li>
+        <li class="left"><a href="#contact">Contact</a></li>
+        <li class="left"><a href="#tutorial">Tutorial</a></li>
+
+        <li class="right">
+            <a href="../logout.php" target="_top" class="css_button_small" id="logout_link"
+               onclick="top.restoreSession()">
+                <span><?php echo htmlspecialchars(xl('Logout'), ENT_QUOTES) ?></span></a></td>
+        </li>
+        <li class="right">User</li>
+        <li class="right"><a href="#settings">Settings</a></li>
 
 
     </ul>
     </br>
-     
-        <style>
-        input[type=text], select {
-    border: 1px solid #ccc; 
-                padding: 7px 0px;
-                border-radius: 3px; 
-                padding-left:5px; 
-}
-input[type=submit] {
-    width: 20%;
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-div.container {
-    width: 60%;
-    border: 1px solid gray;
-    background-color:#FFFFFF;
-}
-
-div.header {
-    width: 100%;
-    border: 1px solid gray;
-    background-color:#FFFFFF;
-    background-color: #20B2AA;
-}
-
-</style>
-
-
-  
-
-<tr>
-
-
-
-
-<br>
-<br>
-
-
-
-
-<center>
-
-
-<style>
-ul.tab {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    border: 1px solid #ccc;
-    background-color: #A9A9A9;
-}
-
-/* Float the list items side by side */
-ul.tab li {float: left;}
-
-/* Style the links inside the list items */
-ul.tab li a {
-    display: inline-block;
-    color: black;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    transition: 0.3s;
-    font-size: 17px;
-}
-</style>
-
-
-   
-
-        <div class="container">
+     <div class="container">
         <form action="searchpatient.php" method="get">
                       <input type="submit" value="Back" 
                                name="create_new_patient" id="backbutton" onclick="top.restoreSession()"  />
         </form>
+      
+  
+
         </br>
         </br>
-        <form class = "newpatient" id = "newtask" action = "createpatient.php" method = "POST">
+        
+            <script>
+    $(document).ready(function(){
+      $("#submitbutton").click(function(e){
+          
+         var names = $("#namefield").val();
+
+         var genderarray = document.getElementsByName("gender");
+         var gender;
+         if (genderarray[0].checked){
+            gender = genderarray[0].value;
+
+         }
+         else if(genderarray[1].checked){
+            gender = genderarray[1].value;
+         }
+         else{
+          gender = genderarray[2].value;
+         }
+         var address1 = $("#address1").val();
+          var address2 = $("#address2").val();
+          var date = $("#date").val();
+          var cityVillage = $("#cityVillage").val();
+          var stateProvince = $("#stateProvince").val();
+          var selectCountry = $("#selectCountry").val();
+          var postalCode = $("#postalCode").val();
+          var phoneNumber = $("#phoneNumber").val();
+          alert(postalCode);
+          alert(phoneNumber);
+          var numberofcachedfiles = localStorage.getItem("Sizeofnewpatientcache");
+                  
+        $.ajax({
+                type: "POST",
+                url: "createpatient.php",
+                //dataType: "JSON",
+                data: {'namefield': names,
+                       'gender': gender,
+                       'address1': address1,
+                       'address2': address2,
+                       'date': date,
+                       'cityVillage': cityVillage,
+                       'stateProvince': stateProvince,
+                       'selectCountry': selectCountry,
+                       'postalCode': postalCode,
+                       'phoneNumber': phoneNumber
+                                         },
+                success:function(result){
+                  alert(result);
+                },
+                error: function() {
+                  // Save
+                  var cacheditems = parseInt(localStorage.getItem("Sizeofnewpatientcache"));
+                  var cacheditemarr = [names,gender,address1,address2,date,cityVillage,stateProvince,selectCountry,postalCode,phoneNumber];
+                  
+                  var key = "NewPatient" + cacheditems;
+                 // alert(key);
+                  localStorage.setItem(key, JSON.stringify(cacheditemarr));
+                  localStorage["Sizeofnewpatientcache"] = cacheditems + 1;
+                  //alert(key);
+                  //alert(JSON.parse(localStorage.getItem(key)));
+
+                }
+
+        });
+
+      });
+    });
+    </script>
+
+
         <h2>Register a patient &nbsp;&nbsp;</h2>
         <p class="left"><label> Name:&nbsp;</label> <input id="namefield" class="" name="namefield" size="40" type="text" value="" /></p>
         <p>&nbsp;</p>
         <p>Gender:&nbsp;<input name="gender" type="radio" value="male" /> Male &nbsp; <input name="gender" type="radio" value="female" /> Female &nbsp;<input name="gender" type="radio" value="other" /> Other</p>
         <p>&nbsp;</p>
-        <p><label for="inputdob">Date of Birth</label><input type="date" name="date"/>&nbsp;</p>
+        <p><label for="inputdob">Date of Birth</label><input type="date" id = "date"  name="date"/>&nbsp;</p>
         <p>&nbsp;</p>
         <p>Address <span id="fr9101" class="field-error" style="display: none;"> </span></p>
         <p class="left"><label> Address 1&nbsp;</label> <input id="address1" class="" name="address1" size="40" type="text" value="" /></p>
@@ -249,7 +359,7 @@ ul.tab li a {
         <input id="cityVillage" class="" name="cityVillage" size="10" type="text" value="" />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
         <label>State/Province </label> 
         <input id="stateProvince" class="" name="stateProvince" size="10" type="text" value="" /></p>
-        <p class="left"><label> Country </label><select name = "selectCountry">
+        <p class="left"><label> Country </label><select name = "selectCountry" id = "selectCountry">
             <option value="AF">Afghanistan</option>
             <option value="AX">&Aring;land Islands</option>
             <option value="AL">Albania</option>
@@ -504,11 +614,64 @@ ul.tab li a {
         <p class="left">&nbsp;</p>
         <p class="left"><label> Phone Number &nbsp;</label> <input id="phoneNumber" class="" name="phoneNumber" size="40" type="text" value="" /></p>
         <p class="left">&nbsp;</p>
-        <input type="submit" value="Submit" name = "submitbutton">
-        </form>
+        <input type="submit" value="Submit" name = "submitbutton" id = "submitbutton">
+        
         </div>
    
 
+
+</div>
+
+
+
+
+
+
+  
+
+<tr>
+
+
+
+
+<br>
+<br>
+
+
+
+
+<center>
+
+
+<style>
+ul.tab {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #A9A9A9;
+}
+
+/* Float the list items side by side */
+ul.tab li {float: left;}
+
+/* Style the links inside the list items */
+ul.tab li a {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 17px;
+}
+</style>
+
+
+   
+
+       
   
     </body>
 

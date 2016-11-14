@@ -23,6 +23,9 @@ $sanitize_all_escapes = true;
 /* Include our required headers */
 require_once '../globals.php';
 require_once "$srcdir/formdata.inc.php";
+require_once'wordparcer.php';
+
+
 
 // Creates a new session id when load this outer frame
 // (allows creations of separate OpenEMR frames to view patients concurrently
@@ -123,7 +126,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
 
         }
     </script>
-    <link rel=stylesheet href="../themes/main_screen.css" type="text/css">
+    <link rel=stylesheet href="../themes/uploademr.css" type="text/css">
     <!--    <link rel=stylesheet href="../themes/material-style.css" type="text/css">-->
 </head>
 
@@ -158,57 +161,56 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
     </ul>
     </br>
     <div class="container">
+        <p>
+            
+        <form name = "formupload" method = "POST">
+        <input type="file" id = "fileupload"name="datafile" size="40">
+        </br>
+         <input type="submit" value="SubmitEMR" id="SubmitEMR">
+        <script>
+             /*$(document).ready(function(){
+                  $("#SubmitEMR").click(function(e){
+                      e.preventDefault();
+                      var newdate = $("#fileupload").val();
+                        $.ajax({
+                          type: "POST", //or GET. Whichever floats your boat.
+                          url: "uploademrserver.php",
+                          dataType: "JSON",
+                          //ContentType: 'application/json',
+                          data: { 'datevalue': newdate },
+                          success: function(json) {
 
-        <div class="card-shadow main-option">
+                                    $("#TaskList").empty();
 
-            <i class="fa fa-check-square-o" aria-hidden="true"></i><br>
-            <form action="Tasklist.php" method="get">
+                                    var arrayLength = json.length;
+                                      for (var i = 0; i < arrayLength; i++) {
+                                         $("#TaskList").append('<li>'+ json[i]+'</li>');
+                                          //Do something
+                                      }
+                                      
+                                        
 
-                <input type="submit" value="To Do List"
-                       name="Messages" id="messages_link" onclick="top.restoreSession()"/>
-            </form>
-        </div>
+                                           //Write code here for you successful update (if you want to)
+                          },
+                          error: function() {
+                            alert("Error.");
+                          }
+                        });
+                 
 
-        <div class="card-shadow main-option">
-            <i class="fa fa-heartbeat" aria-hidden="true"></i><br>
-            <form action="searchpatient.php" method="get">
-                <input type="submit" value="Patient Records" id="Patients"/>
-            </form>
-        </div>
-        <div class="card-shadow main-option">
-            <i class="fa fa-comments-o" aria-hidden="true"></i><br>
-            <form action="message.php" method="get">
-                <input type="submit" value="Messages"
-                       name="Messages" id="messages_link" onclick="top.restoreSession()"/>
-            </form>
-        </div>
-        <div class="card-shadow main-option">
-            <i class="fa fa-book" aria-hidden="true"></i><br>
-
-            <form action="dictionary.php" method="get">
-                <input type="submit" value="Dictionary" id="dictionary">
-
-            </form>
-        </div>
-        <div class="card-shadow main-option">
-            <i class="fa fa-bar-chart" aria-hidden="true"></i><br>
-
-            <form action="uploademr.php" method="get">
-                <input type="submit" value="Upload Record" id="Upload Record">
-            </form>
-        </div>
-
-        <div class="card-shadow main-option">
-            <i class="fa fa-cogs" aria-hidden="true"></i><br>
-
-            <form action="place_holder.php" method="get">
-                <input type="submit" value="System Setting" id="system">
-            </form>
-        </div>
+                  });
+                });*/
+               
 
 
-        <br style="clear:both;">
+
+                           
+            
+
+        </script>
+        </form>
     </div>
+</p>
 </div>
 <?php
 //
