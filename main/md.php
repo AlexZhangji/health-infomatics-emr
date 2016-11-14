@@ -54,7 +54,7 @@ if ($GLOBALS['password_expiration_days'] != 0) {
     }
 
     // Display the password expiration message (starting from 7 days before the password gets expired)
-    $pwd_alert_date = date('Y-m-d', strtotime($pwd_expires_date . '-7 days'));
+    $pwd_alert_date = date('Y-m-d', strtotime($pwd_expires_date.'-7 days'));
 
     if (strtotime($pwd_alert_date) != '' &&
         strtotime($current_date) >= strtotime($pwd_alert_date) &&
@@ -71,13 +71,13 @@ if ($is_expired) {
     $frame1url = 'pwd_expires_alert.php';
 } elseif (!empty($_POST['patientID'])) {
     $patientID = 0 + $_POST['patientID'];
-    $frame1url = '../patient_file/summary/demographics.php?set_pid=' . attr($patientID);
+    $frame1url = '../patient_file/summary/demographics.php?set_pid='.attr($patientID);
 } elseif ($GLOBALS['athletic_team']) {
     $frame1url = '../reports/players_report.php?embed=1';
 } elseif (isset($_GET['mode']) && $_GET['mode'] == 'loadcalendar') {
-    $frame1url = 'calendar/index.php?pid=' . attr($_GET['pid']);
+    $frame1url = 'calendar/index.php?pid='.attr($_GET['pid']);
     if (isset($_GET['date'])) {
-        $frame1url .= '&date=' . attr($_GET['date']);
+        $frame1url .= '&date='.attr($_GET['date']);
     }
 } elseif ($GLOBALS['concurrent_layout']) {
     // new layout
@@ -88,7 +88,7 @@ if ($is_expired) {
     }
 } else {
     // old layout
-    $frame1url = 'main.php?mode=' . attr($_GET['mode']);
+    $frame1url = 'main.php?mode='.attr($_GET['mode']);
 }
 
 $nav_area_width = $GLOBALS['athletic_team'] ? '230' : '130';
@@ -96,49 +96,48 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
     $nav_area_width = $GLOBALS['gbl_nav_area_width'];
 }
 
-function getYearsOld($DOB){
-  date_default_timezone_set('America/Los_Angeles');
+function getYearsOld($DOB)
+{
+    date_default_timezone_set('America/Los_Angeles');
 
-  $diff = abs(time() - strtotime($DOB));
-  $years = floor($diff / (365*60*60*24));
+    $diff = abs(time() - strtotime($DOB));
+    $years = floor($diff / (365 * 60 * 60 * 24));
 
-  return $years;
+    return $years;
 }
 
-
-
-function debug_to_console_2( $data ) {
-    $output = "<script>console.log( '" . array_values($data)[1] . "' );</script>";
+function debug_to_console_2($data)
+{
+    $output = "<script>console.log( '".array_values($data)[1]."' );</script>";
     echo $output;
 }
 
-
-
-function debug_to_console( $data ) {
-
-    if ( is_array( $data ) )
-        $output = "<script>console.log( 'Debug Objects: " . implode( ',', $data) . "' );</script>";
-    else
-        $output = "<script>console.log( 'Debug Objects: " . $data . "' );</script>";
+function debug_to_console($data)
+{
+    if (is_array($data)) {
+        $output = "<script>console.log( 'Debug Objects: ".implode(',', $data)."' );</script>";
+    } else {
+        $output = "<script>console.log( 'Debug Objects: ".$data."' );</script>";
+    }
 
     echo $output;
 }
 // get patinet id
 // $patientId = trim($_GET['patientId']);
 $patientId = trim($_GET['patientId']);
-if($patientId){
-  $patientData = sqlQuery("SELECT * " .
-    "FROM `patient_data_gb` " .
-    "WHERE `id`=?", array(intval($patientId)) );
+if ($patientId) {
+    $patientData = sqlQuery('SELECT * '.
+    'FROM `patient_data_gb` '.
+    'WHERE `id`=?', array(intval($patientId)));
 
     debug_to_console_2($patientData);
-    debug_to_console($patientData["name"]);
+    debug_to_console($patientData['name']);
 
-    $patientYO = getYearsOld($patientData["DOB"]);
+    $patientYO = getYearsOld($patientData['DOB']);
 
-    $patientVisitData = sqlQuery("SELECT * " .
-      "FROM `patient_visit_gb` " .
-      "WHERE `patient_id`=?", array(intval($patientId)) );
+    $patientVisitData = sqlQuery('SELECT * '.
+      'FROM `patient_visit_gb` '.
+      'WHERE `patient_id`=?', array(intval($patientId)));
 }
 // echo "console.log( patientId : " + $patientId + ")";
 ?>
@@ -181,7 +180,7 @@ if($patientId){
     <!-- <script src="js/main.js"></script> -->
 
     <script language='JavaScript'>
-        <?php require $GLOBALS['srcdir'] . '/restoreSession.php'; ?>
+        <?php require $GLOBALS['srcdir'].'/restoreSession.php'; ?>
 
         // This counts the number of frames that have reported themselves as loaded.
         // Currently only left_nav and Title do this, so the maximum will be 2.
@@ -293,9 +292,9 @@ input:checked + .slider:before {
     <div class="md-plain-card" style="margin-top:20px; ">
         <div class="patient-basic-info m-card" id='patient-info'>
             <div class="title" style="float:left;">
-                <i class="fa fa-user" aria-hidden="true"></i><?php echo text($patientData["name"]); ?>
-                <span style="margin-left:10px;color:black;font-family: 'Open Sans', sans-serif;font-size:17px;"><?php echo text($patientData["gender"]);?>
-                  <span style="margin-left:5px;"><?php echo text($patientYO);?> year(s) </span></span>
+                <i class="fa fa-user" aria-hidden="true"></i><?php echo text($patientData['name']); ?>
+                <span style="margin-left:10px;color:black;font-family: 'Open Sans', sans-serif;font-size:17px;"><?php echo text($patientData['gender']); ?>
+                  <span style="margin-left:5px;"><?php echo text($patientYO); ?> year(s) </span></span>
 
 
             </div>
@@ -303,7 +302,7 @@ input:checked + .slider:before {
 
 
             <div class="patient-info-right" style="margin-top: 7px;">
-                <span style="margin-right: 20px;">PatientID <span class="md-patient-id">000<?php echo text($patientData["id"]);?>V</span></span>
+                <span style="margin-right: 20px;">PatientID <span class="md-patient-id">000<?php echo text($patientData['id']); ?>V</span></span>
                 <i class="fa fa-arrows-alt" aria-hidden="true" id='expand-patient-info'
                 style="" ></i>
             </div>
@@ -319,16 +318,16 @@ input:checked + .slider:before {
               <div class="basic-stats" >
                   <ul class="list-group" >
                       <li class="list-group-item">
-                          <span class="badge"><?php echo text($patientData["gender"]); ?></span> Gender
+                          <span class="badge"><?php echo text($patientData['gender']); ?></span> Gender
                       </li>
                       <li class="list-group-item">
-                        <span class="badge"><?php echo text($patientData["DOB"]); ?></span> Date of Birth
+                        <span class="badge"><?php echo text($patientData['DOB']); ?></span> Date of Birth
                       </li>
                       <li class="list-group-item">
-                        <span class="badge"><?php echo text($patientData["city_village"]); ?></span> City/Village
+                        <span class="badge"><?php echo text($patientData['city_village']); ?></span> City/Village
                       </li>
                       <li class="list-group-item">
-                        <span class="badge"><?php echo text($patientData["phone_num"]); ?></span> Phone Number
+                        <span class="badge"><?php echo text($patientData['phone_num']); ?></span> Phone Number
                       </li>
 
                   </ul>
@@ -369,7 +368,7 @@ input:checked + .slider:before {
                             document.getElementById("editRespiratory").contentEditable=false;
                             document.getElementById("editBPH").contentEditable=false;
                             document.getElementById("editBPL").contentEditable=false;
-                            document.getElementById("editBOS").contentEditable=false; 
+                            document.getElementById("editBOS").contentEditable=false;
                         }
                     }
                     </script>
@@ -410,7 +409,7 @@ input:checked + .slider:before {
                 </div>
             </div>
 
-            
+
 
             <!-- vital card end -->
             <div class="patient-appoinment m-card" style="clear:both;width:100%;">
@@ -470,11 +469,11 @@ input:checked + .slider:before {
     <img src="./img/cat.jpg" id="cat_img">
 </div>
 <?php
-//
+
 //$x = $_SESSION['authUser'];
 //$y = $_SESSION['authId'];
 //echo "I love $x and $y";
-//?>
+?>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
