@@ -14,16 +14,7 @@ function readCSV($csvFile){
 	return $line_of_text;
 }
 
-
-// Set path to  file
-$filePath = 'tsv_files/human_disease_knowledge_filtered.tsv';
-
-$csv = readCSV($filePath);
-echo '<pre>';
-print_r($csv);
-echo '</pre>';
-
-// createDummyPatient(3);
+createDummyPatient(30);
 // importDiseaseDB();
 
 function importDiseaseDB(){
@@ -40,6 +31,13 @@ function importDiseaseDB(){
     sqlQuery("CREATE TABLE $tableName " .
     "(ensp_id VARCHAR(20), abrev VARCHAR(20), do_id INT, name VARCHAR(20));");
 
+		// readin data from files
+		$filePath = 'tsv_files/human_disease_knowledge_filtered.tsv';
+
+		$fileData = readCSV($filePath);
+		echo '<pre>';
+		print_r($fileData);
+		echo '</pre>';
   }
 }
 

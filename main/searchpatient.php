@@ -280,7 +280,7 @@ function postDataToMD(){
   //       content.html(response);
   //   }
   // });
-  window.location.href = 'md.php?patientId=' + '777';
+  window.location.href = 'md.php?patientId=' + '1';
 }
 </script>
 
