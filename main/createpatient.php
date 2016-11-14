@@ -51,12 +51,12 @@ include_once("$srcdir/sql.inc");
                     ('$name','$gender','$date','$address1', '$address2', '$cityvillage', '$stateProvince','$selectCountry','$postalCode','$phoneNumber')");
 
 
-=======
+
 
                  header("Location: searchpatient.php");
 
 }
->>>>>>> 78271b2572649dbe4e53c1f9e098615827d3496c
+
 
 
 
