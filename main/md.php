@@ -119,6 +119,7 @@ function debug_to_console_2( $data ) {
 }
 
 
+
 function debug_to_console( $data ) {
 
     if ( is_array( $data ) )
@@ -140,6 +141,7 @@ if($patientId){
     debug_to_console($patientData["name"]);
 
     $patientYO = getYearsOld($patientData["DOB"]);
+
 
 }
 // echo "console.log( patientId : " + $patientId + ")";
@@ -240,7 +242,9 @@ if($patientId){
                 <span style="margin-left:10px;color:black;font-family: 'Open Sans', sans-serif;font-size:17px;"><?php echo text($patientData["gender"]);?>
                   <span style="margin-left:5px;"><?php echo text($patientYO);?> year(s) </span></span>
 
+
             </div>
+
 
 
             <div class="patient-info-right" style="margin-top: 7px;">
@@ -275,6 +279,7 @@ if($patientId){
                   </ul>
               </div>
             </div>
+
         </div>
 
         <div style="width:40%;float:left;">
@@ -332,6 +337,7 @@ if($patientId){
 
         <!-- right pane -->
         <div style="width:58.5%; margin-left:1.5%; float:left;">
+
 
             <!-- visulization -->
             <div class="patient-visulization m-card" style="float:left;width:100%; ">
@@ -432,6 +438,7 @@ console.log(something);
 
   });
 </script>
+
 
 <script>
     $.material.init();

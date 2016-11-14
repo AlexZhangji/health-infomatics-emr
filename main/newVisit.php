@@ -32,11 +32,6 @@ require_once("$srcdir/formdata.inc.php");
 // session cookie for this specific OpenEMR instance that is then maintained
 // within the OpenEMR instance by calling top.restoreSession() whenever
 // refreshing or starting a new script.
-
-
-
-
-
 if (isset($_POST['new_login_session_management'])) {
   // This is a new login, so create a new session id and remove the old session
   session_regenerate_id(true);
@@ -109,7 +104,6 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
     <?php echo text($openemr_name) ?>
     </title>
     <script type="text/javascript" src="../../library/topdialog.js"></script>
-    <script src="js/vendor/jquery-2.1.4.min.js"></script>
 
     <script language='JavaScript'>
       <?php require($GLOBALS['srcdir'] . "/restoreSession.php"); ?>
@@ -138,12 +132,12 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
         </p>
 
         </h>
-        <ul>
+    <ul>
       <li class = "left"><a href="main_screen.php">Home</a></li>
       <li class = "left"><a href="#news">News</a></li>
       <li class = "left"><a href="#contact">Contact</a></li>
       <li class = "left"><a href="#tutorial">Tutorial</a></li>
-
+      
       <li class = "right">
        <a href="../logout.php" target="_top" class="css_button_small"  id="logout_link" onclick="top.restoreSession()" >
       <span><?php echo htmlspecialchars( xl('Logout'), ENT_QUOTES) ?></span></a></td>
@@ -154,12 +148,13 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
 
     </ul>
     </br>
+     
         <style>
         input[type=text], select {
-    border: 1px solid #ccc;
+    border: 1px solid #ccc; 
                 padding: 7px 0px;
-                border-radius: 3px;
-                padding-left:5px;
+                border-radius: 3px; 
+                padding-left:5px; 
 }
 input[type=submit] {
     width: 20%;
@@ -188,13 +183,20 @@ div.header {
 </style>
 
 
-    </head>
-    <body bgcolor="#f2f2f2">
+  
+
+<tr>
 
 
 
 
+<br>
+<br>
 
+
+
+
+<center>
 
 
 <style>
@@ -220,112 +222,57 @@ ul.tab li a {
     transition: 0.3s;
     font-size: 17px;
 }
-table, th, td {
-    border: 1px solid black;
-}
 </style>
 
 
- <center>
+   
 
- <div class="container">
+        <div class="container">
+        <form action="md.php" method="get">
+                      <input type="submit" value="Back" 
+                               name="create_new_patient" id="backbutton" onclick="top.restoreSession()"  />
+        </form>
+        </br>
+        </br>
+        <form class = "new_visit" id = "new_visit" action = "createVisit.php" method = "POST">
+        <h2>Create Visit &nbsp;&nbsp;</h2>
+        <p><label for="visitDate">Date</label><input type="date" name="visit_date"/>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p class="left"><label> Weight:&nbsp;</label> <input id="weight_field" class="" name="weight_field" size="10" type="int" value="" /><label>kg</label></p>
+        <p>&nbsp;</p>
+         <p class="left"><label> Height:&nbsp;</label> <input id="height_field" class="" name="height_field" size="10" type="int" value="" /><label>cm</label></p>
+        <p>&nbsp;</p>
+        <p class="left"><label>Temperature &nbsp;</label> <input id="temp_field" class="" name="temp_field" size="10" type="int" value="" /><label>°C</label></p>
+        <p>&nbsp;</p>
+        <p class="left"><label>Blood Pressure </label> 
+        <input id="b" class="" name="bph_field" size="10" type="int" value="" />
+        <label>/</label>
+        <input id="b" class="" name="bpl_field" size="10" type="int" value="" />
+        <p>&nbsp;</p>
+        <p class="left">&nbsp;<label>Pulse </label>
+        <input id="pulse_field" class="" name="pulse_field" size="10" type="int" value="" /><label>/min</label>
+        <p>&nbsp;</p>
+        <label>Respiratory Rate</label> 
+        <input id="respiratory_rate_field" class="" name="respiratory_rate_field" size="10" type="int" value="" /><label>/min</label></p>
+        <p>&nbsp;</p>
+        <p class="left"><label>Blood Oxygen Saturation </label> <input id="bos_field" class="" name="bos_field" size="10" type="int" value="" /><label>%</label></p>
+        <p class="left">&nbsp;</p>
+        <p class="left"> <label>Diagnose</label> <input id="diagnose_field" class="" name="diagnose_field" size="40" type="text" value="" /> </p>
+        <p>&nbsp;</p>
+        <label>Note</label>
+        &nbsp;
+ 
+        <p class="left"> <textarea name="note_area" class="" rows="4" cols="40" type="text" value="" ></textarea> </p>
+        <input type="submit" value="Submit" name = "submit_visit_button">
+        </form>
+        </div>
+   
 
-<form class = "" method = "POST">
- <div class="panel panel-default" id="search_module">
- <p> <input type="text" placeholder="Firstname">
-<input type="text" placeholder="Lastname">
-
-<button name="search_button">Search</button>
-</p>
-</div>
-</form>
-
-<div class="panel-heading">Patient List</div>
-
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Date of Birth</th>
-        <th>Village</th>
-    </tr>
-
-<?php
-
-//$name = $_POST['namefield'];
-if (isset($_POST['namefield'])){
-  $name = $_POST['namefield'];
-}
-else{
-  $name=null;
-}
-
-if (empty($name)){
-  $query = "SELECT * FROM PatientData";
-}else{
-  $query ="SELECT * FROM PatientData WHERE name = '$name'";
-}
-
-$comments = mysql_query($query);
-
-
-// Please remember that  mysql_fetch_array has been deprecated in earlier
-// versions of PHP.  As of PHP 7.0, it has been replaced with mysqli_fetch_array.  
-
-while($row = mysql_fetch_array($comments, MYSQL_ASSOC))
-{
-  $name = $row['name'];
-  $dob = $row['DateofBirth'];
-  $village = $row['cityVillage'];
-
-  echo "<tr>";
-  echo "<td><a href='md.php'><font color=#0000FF>".$row['name']."</font></a' ?></td>"; 
-  echo "<td>{$row['DateofBirth']}</td>";
-  echo "<td>{$row['cityVillage']}</td>";
-  echo "</tr>";
-}
-
-?>
-</table>
-
-
-
-
-    <form action="registration.php" method="get">
-                      <input type="submit" value="NewPatient"
-                               name="create_new_patient" id="messages_link" onclick="top.restoreSession()" />
-</form>
-</div>
-
-<p></p>
-<p></p>
-</center>
-
-
-
-
-
-<script>
-// test ajax functions
-function postDataToMD(){
-  console.log('post to md excuted');
-  // $.ajax({
-  //   type: 'POST',
-  //   url: 'md.php',
-  //   data: { patientId: '777' },
-  //   success: function(response) {
-  //       content.html(response);
-  //   }
-  // });
-  window.location.href = 'md.php?patientId=' + '777';
-}
-</script>
-
-
-
+  
     </body>
 
+  
 
-
-
+  
 
 </html>
