@@ -8,37 +8,43 @@ include_once("$srcdir/sql.inc");
 function readCSV($csvFile){
 	$file_handle = fopen($csvFile, 'r');
 	while (!feof($file_handle) ) {
-		$line_of_text[] = fgetcsv($file_handle, 1024);
+		$line_of_text[] = fgetcsv($file_handle, 1000, "\t");
 	}
 	fclose($file_handle);
 	return $line_of_text;
 }
 
-createDummyPatient(30);
+// createDummyPatient(30);
 // importDiseaseDB();
 
 function importDiseaseDB(){
   $tableName = "disease_data_gb";
 
   if ($result = sqlQuery("SHOW TABLES LIKE '$tableName'")) {
-    if($result->num_rows == 1) {
         echo "Table exists";
-    }
   }else {
     echo "create table";
-
-    // create tables;
-    sqlQuery("CREATE TABLE $tableName " .
-    "(ensp_id VARCHAR(20), abrev VARCHAR(20), do_id INT, name VARCHAR(20));");
+		// create tables;
+		sqlQuery("CREATE TABLE $tableName " .
+		"(ensp_id VARCHAR(20), abrev VARCHAR(20), do_id BIGINT, name VARCHAR(20) , sub_name VARCHAR(20), curated_level INT);");
 
 		// readin data from files
 		$filePath = 'tsv_files/human_disease_knowledge_filtered.tsv';
-
 		$fileData = readCSV($filePath);
-		echo '<pre>';
-		print_r($fileData);
-		echo '</pre>';
-  }
+
+		foreach ($fileData as $diseaseData) {
+	    $enspNum = mysql_real_escape_string(intval(substr($diseaseData[0], 4)));
+			$abrev =  mysql_real_escape_string($diseaseData[1]);
+			$doId = mysql_real_escape_string(intval(substr($diseaseData[2], 5)));
+			$diseaseName = mysql_real_escape_string($diseaseData[3]);
+			$subName = mysql_real_escape_string($diseaseData[4]);
+			$curatedLevel = mysql_real_escape_string(intval($diseaseData[6]));
+
+			sqlQuery("INSERT INTO disease_data_gb " .
+	      "(ensp_id,abrev, do_id ,name,sub_name, curated_level) " .
+	      "VALUES('$enspNum', '$abrev','$doId', '$diseaseName','$subName','$curatedLevel')");
+  	}
+	}
 }
 
 
