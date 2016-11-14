@@ -136,13 +136,9 @@ if($patientId){
 
     $patientYO = getYearsOld($patientData["DOB"]);
 
-<<<<<<< HEAD
-
-=======
     $patientVisitData = sqlQuery("SELECT * " .
       "FROM `patient_visit_gb` " .
       "WHERE `patient_id`=?", array(intval($patientId)) );
->>>>>>> origin/master
 }
 // echo "console.log( patientId : " + $patientId + ")";
 ?>
