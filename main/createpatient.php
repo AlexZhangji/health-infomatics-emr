@@ -3,7 +3,7 @@ require_once('../globals.php');
 require_once("$srcdir/formdata.inc.php");
 include_once("$srcdir/sql.inc");
 
-	//if (isset($_POST['submitbutton'])) {
+	if (isset($_POST['submitbutton'])) {
             
            
               
