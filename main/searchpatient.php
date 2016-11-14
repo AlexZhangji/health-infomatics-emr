@@ -109,7 +109,6 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
     <?php echo text($openemr_name) ?>
     </title>
     <script type="text/javascript" src="../../library/topdialog.js"></script>
-    <script src="js/vendor/jquery-2.1.4.min.js"></script>
 
     <script language='JavaScript'>
       <?php require($GLOBALS['srcdir'] . "/restoreSession.php"); ?>
@@ -143,7 +142,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
       <li class = "left"><a href="#news">News</a></li>
       <li class = "left"><a href="#contact">Contact</a></li>
       <li class = "left"><a href="#tutorial">Tutorial</a></li>
-
+      
       <li class = "right">
        <a href="../logout.php" target="_top" class="css_button_small"  id="logout_link" onclick="top.restoreSession()" >
       <span><?php echo htmlspecialchars( xl('Logout'), ENT_QUOTES) ?></span></a></td>
@@ -156,10 +155,10 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
     </br>
         <style>
         input[type=text], select {
-    border: 1px solid #ccc;
+    border: 1px solid #ccc; 
                 padding: 7px 0px;
-                border-radius: 3px;
-                padding-left:5px;
+                border-radius: 3px; 
+                padding-left:5px; 
 }
 input[type=submit] {
     width: 20%;
@@ -232,9 +231,8 @@ table, th, td {
 
 <form class = "" method = "POST">
  <div class="panel panel-default" id="search_module">
- <p> <input type="text" placeholder="Firstname">
-<input type="text" placeholder="Lastname">
 
+ <p> <input type="text" placeholder="Name" name='namefield' id='namefield'> 
 <button name="search_button">Search</button>
 </p>
 </div>
@@ -251,6 +249,7 @@ table, th, td {
 
 <?php
 
+
 //$name = $_POST['namefield'];
 if (isset($_POST['namefield'])){
   $name = $_POST['namefield'];
@@ -265,6 +264,7 @@ if (empty($name)){
   $query ="SELECT * FROM PatientData WHERE name = '$name'";
 }
 
+
 $comments = mysql_query($query);
 
 
@@ -277,8 +277,10 @@ while($row = mysql_fetch_array($comments, MYSQL_ASSOC))
   $dob = $row['DateofBirth'];
   $village = $row['cityVillage'];
 
+
+  
   echo "<tr>";
-  echo "<td><a href='md.php'><font color=#0000FF>".$row['name']."</font></a' ?></td>"; 
+  echo "<td><a href=md.php style='color: #0B0080 '>".$row['name']."</a></td>";
   echo "<td>{$row['DateofBirth']}</td>";
   echo "<td>{$row['cityVillage']}</td>";
   echo "</tr>";
@@ -289,12 +291,12 @@ while($row = mysql_fetch_array($comments, MYSQL_ASSOC))
 
 
 
-
     <form action="registration.php" method="get">
-                      <input type="submit" value="NewPatient"
+                      <input type="submit" value="NewPatient" 
                                name="create_new_patient" id="messages_link" onclick="top.restoreSession()" />
 </form>
 </div>
+
 
 <p></p>
 <p></p>
@@ -304,28 +306,14 @@ while($row = mysql_fetch_array($comments, MYSQL_ASSOC))
 
 
 
-<script>
-// test ajax functions
-function postDataToMD(){
-  console.log('post to md excuted');
-  // $.ajax({
-  //   type: 'POST',
-  //   url: 'md.php',
-  //   data: { patientId: '777' },
-  //   success: function(response) {
-  //       content.html(response);
-  //   }
-  // });
-  window.location.href = 'md.php?patientId=' + '777';
-}
-</script>
 
 
 
+    
     </body>
 
+  
 
-
-
+  
 
 </html>

@@ -257,12 +257,23 @@ ul.tab li a {
         <p>&nbsp;</p>
         <p class="left"><label>Blood Oxygen Saturation </label> <input id="bos_field" class="" name="bos_field" size="10" type="int" value="" /><label>%</label></p>
         <p class="left">&nbsp;</p>
-        <p class="left"> <label>Diagnose</label> <input id="diagnose_field" class="" name="diagnose_field" size="40" type="text" value="" /> </p>
+
+
+        <p class="left"><label>Cheif Complaint </label><input id="cc_field" class="" name="cc_field" size="40" type="text" value="" /> </p>
         <p>&nbsp;</p>
+
+        <p class="left"><label>Signs and Symptoms </label><input id="symptoms_field" class="" name="symptoms_field" size="40" type="text" value="" /> </p>
+        <p>&nbsp;</p>
+
+        <p class="left"> <label>Diagnosis</label> <input id="diagnosis_field" class="" name="diagnosis_field" size="40" type="text" value="" /> </p>
+        <p>&nbsp;</p>
+
+        <p class="left"><label>Prescription </label><input id="rx_field" class="" name="rx_field" size="40" type="text" value="" /> </p>
+        <p>&nbsp;</p>
+
         <label>Note</label>
         &nbsp;
- 
-        <p class="left"> <textarea name="note_area" class="" rows="4" cols="40" type="text" value="" ></textarea> </p>
+s        <p class="left"> <textarea name="note_area" class="" rows="4" cols="40" type="text" value="" ></textarea> </p>
         <input type="submit" value="Submit" name = "submit_visit_button">
         </form>
         </div>
