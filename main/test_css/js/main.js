@@ -48,8 +48,13 @@ $(function(){
   $.ajax({
   url:patientUrl,
   type:'get',
+<<<<<<< Updated upstream
   beforeSend: function(xhr) {
          xhr.setRequestHeader("Authorization", "Basic " + alterToken)
+=======
+  beforeSend: function(xhr) {
+         xhr.setRequestHeader("Authorization", "Basic " + alterToken)
+>>>>>>> Stashed changes
      },
   success:function(data){
     console.log('v1 patient:');

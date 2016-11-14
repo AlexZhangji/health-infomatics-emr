@@ -113,6 +113,7 @@ function debug_to_console_2( $data ) {
 }
 
 
+
 function debug_to_console( $data ) {
 
     if ( is_array( $data ) )
@@ -195,7 +196,66 @@ if($patientId){
     </script>
     <link rel=stylesheet href="../themes/main_screen.css" type="text/css">
     <!--    <link rel=stylesheet href="../themes/material-style.css" type="text/css">-->
+
 </head>
+
+<style>
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
 
 <body>
 
@@ -237,7 +297,9 @@ if($patientId){
                 <span style="margin-left:10px;color:black;font-family: 'Open Sans', sans-serif;font-size:17px;"><?php echo text($patientData["gender"]);?>
                   <span style="margin-left:5px;"><?php echo text($patientYO);?> year(s) </span></span>
 
+
             </div>
+
 
 
             <div class="patient-info-right" style="margin-top: 7px;">
@@ -272,6 +334,7 @@ if($patientId){
                   </ul>
               </div>
             </div>
+
         </div>
 
         <div style="width:40%;float:left;">
@@ -279,6 +342,37 @@ if($patientId){
             <div class="patient-vitals m-card">
                 <div class="title" style="border-bottom: 5px solid #2196F3;margin-bottom:5px;">
                     <i class="fa fa-heartbeat" aria-hidden="true"></i> Vitals
+                    <label class="switch">
+                        <input type="checkbox" id="editSwitch" onclick="editClicked()">
+                        <div class ="slider round"></div>
+                    </label>
+                    <script>
+                    function editClicked(){
+                        var checkbox = document.getElementById("editSwitch");
+                        if (checkbox.checked==true){
+                            document.getElementById("editHeight").contentEditable=true;
+                            document.getElementById("editWeight").contentEditable=true;
+                            document.getElementById("editBMI").contentEditable=true;
+                            document.getElementById("editTemp").contentEditable=true;
+                            document.getElementById("editPulse").contentEditable=true;
+                            document.getElementById("editRespiratory").contentEditable=true;
+                            document.getElementById("editBPH").contentEditable=true;
+                            document.getElementById("editBPL").contentEditable=true;
+                            document.getElementById("editBOS").contentEditable=true;
+                        }
+                        else{
+                           document.getElementById("editHeight").contentEditable=false;
+                            document.getElementById("editWeight").contentEditable=false;
+                            document.getElementById("editBMI").contentEditable=false;
+                            document.getElementById("editTemp").contentEditable=false;
+                            document.getElementById("editPulse").contentEditable=false;
+                            document.getElementById("editRespiratory").contentEditable=false;
+                            document.getElementById("editBPH").contentEditable=false;
+                            document.getElementById("editBPL").contentEditable=false;
+                            document.getElementById("editBOS").contentEditable=false; 
+                        }
+                    }
+                    </script>
                 </div>
 
                 <div style="margin-left:3%; font-weight:bold;margin-bottom:4px;">
@@ -288,33 +382,36 @@ if($patientId){
                 <div class="vitals-stats">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <span class="badge">162cm</span> Height (cm)
+                            <span class="badge"><p id="editHeight">162</p></span> Height (cm)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge">132kg</span> Weight (kg)
+                            <span class="badge"><p id="editWeight">132</p></span> Weight (kg)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge">46.5</span> (Calculated) BMI
+                            <span class="badge"><p id="editBMI">46.5</p></span> (Calculated) BMI
                         </li>
                         <li class="list-group-item">
-                            <span class="badge">30°C</span> Temperature (C)
+                            <span class="badge"><p id="editTemp">30</p></span> Temperature (°C)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge">218/min</span> Pulse
+                            <span class="badge"><p id="editPulse">218</p></span> Pulse (/min)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge">80/min</span> Respiratory rate
+                            <span class="badge"><p id="editRespiratory">80</p></span> Respiratory Rate (/min)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge">108  /  42</span> Blood Pressure
+                            <span class="badge"><p id="editBPH">108 </p>/<p id="editBPL"> 42</p></span> Blood Pressure
                         </li>
                         <li class="list-group-item">
-                            <span class="badge">100%</span> Blood oxygen saturation
+                            <span class="badge"><p id="editBOS">100</p></span> Blood Oxygen Saturation (%)
                         </li>
 
                     </ul>
                 </div>
             </div>
+
+            
+
             <!-- vital card end -->
             <div class="patient-appoinment m-card" style="clear:both;width:100%;">
                 <div class="title" style="border-bottom: 5px solid #2196F3;margin-bottom:5px;">
@@ -329,6 +426,7 @@ if($patientId){
 
         <!-- right pane -->
         <div style="width:58.5%; margin-left:1.5%; float:left;">
+
 
             <!-- visulization -->
             <div class="patient-visulization m-card" style="float:left;width:100%; ">
@@ -453,6 +551,7 @@ var visitData=<?php echo json_encode($patientVisitData); ?>;
 
   });
 </script>
+
 
 <script>
     $.material.init();
