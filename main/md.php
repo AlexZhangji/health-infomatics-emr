@@ -96,10 +96,18 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
     $nav_area_width = $GLOBALS['gbl_nav_area_width'];
 }
 
+function getYearsOld($DOB){
+  date_default_timezone_set('America/Los_Angeles');
+  $diff = abs(time() - strtotime($DOB));
+  $years = floor($diff / (365*60*60*24));
+
+  return $years;
+}
+
+
+
 function debug_to_console_2( $data ) {
-
-        $output = "<script>console.log( '" . array_values($data)[1] . "' );</script>";
-
+    $output = "<script>console.log( '" . array_values($data)[1] . "' );</script>";
     echo $output;
 }
 
@@ -123,7 +131,11 @@ if($patientId){
 
     debug_to_console_2($patientData);
     debug_to_console($patientData["name"]);
-    $patientName = $patientData["name"];
+
+    $patientYO = getYearsOld($patientData["DOB"]);
+    $patientVisitData = sqlQuery("SELECT * " .
+      "FROM `patient_visit_gb` " .
+      "WHERE `patient_id`=?", array(intval($patientId)) );
 }
 // echo "console.log( patientId : " + $patientId + ")";
 ?>
@@ -220,7 +232,8 @@ if($patientId){
         <div class="patient-basic-info m-card" id='patient-info'>
             <div class="title" style="float:left;">
                 <i class="fa fa-user" aria-hidden="true"></i><?php echo text($patientData["name"]); ?>
-                <span style="margin-left:10px;color:black;font-family: 'Open Sans', sans-serif;font-size:17px;">Male   10 year(s)</span>
+                <span style="margin-left:10px;color:black;font-family: 'Open Sans', sans-serif;font-size:17px;"><?php echo text($patientData["gender"]);?>
+                  <span style="margin-left:5px;"><?php echo text($patientYO);?> year(s) </span></span>
 
             </div>
 
@@ -370,7 +383,7 @@ if($patientId){
 <script src="js/ripples.min.js"></script>
 
 <!-- highcharts data-->
-<script src="js/chart.js"></script>
+<script src="chart.js"></script>
 
 <!-- voice control -->
 <script src="js/voice.js"></script>
@@ -397,11 +410,37 @@ if($patientId){
 </script>
 
 <script>
-  // for toogle patient info
+// make a php var to js objejct, json_encode makes it safe to contain things
+// like quotation marks and other things that can break the echo.
+var visitData=<?php echo json_encode($patientVisitData); ?>;
+
+  function getValuesFromObj(obj, filterList){
+    var resultArr = [];
+    // parse the visit data to array of number
+    Object.keys(obj).forEach(function (key) {
+      // if key is not in filterList
+      if(filterList.indexOf(key) === -1){
+        resultArr.push(obj[key]);
+      }
+    });
+    return resultArr;
+  }
+
   $(function(){
+    var plotNumArr = getValuesFromObj(visitData,['patient_id','visit_id']);
+    // parse visit data to array of numbers inseaad of string.
+    plotNumArr = plotNumArr.map(function(data){
+      return parseInt(data, 10);
+    });
+
+    initSpiderWeb(plotNumArr);
+
+    // for toggle patient info
     $('#expand-patient-info').click(function(){
       $('#more-patient-info').toggleClass('hidden');
     });
+
+
   });
 </script>
 
