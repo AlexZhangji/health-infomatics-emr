@@ -18,6 +18,56 @@ function readCSV($csvFile)
 
 // createDummyPatient(30);
 // importDiseaseDB();
+// createDummyVisit();
+
+function createDummyVisit()
+{
+    $tableName = 'patient_visit_gb';
+
+    if ($result = sqlQuery("SHOW TABLES LIKE '$tableName'")) {
+        echo 'Table exists';
+    } else {
+        echo 'create dummy visit table';
+
+        // create visit database
+        //  Difference between VARCHAR, TEXT, TINYTEXT and etc.
+        //  http://stackoverflow.com/questions/7755629/varchar255-vs-tinytext-tinyblob-and-varchar65535-vs-blob-text
+        sqlQuery("CREATE TABLE $tableName ".
+        '(visit_id BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (visit_id),'.
+        ' p_id BIGINT, date date, weight INT, height INT, bph INT,'.
+        ' bpi INT, temperature INT, pulse INT, respiratory_rate INT,bos INT, note VARCHAR(255) ,'.
+        ' diagnosis VARCHAR(255), CC VARCHAR(255), symptoms VARCHAR(255), Rx VARCHAR(255) '.
+        ');');
+
+        // get the list of patient Ids.
+        $idList = array();
+        $patientIdList = mysql_query('SELECT id FROM patient_data_gb');
+        while ($row = mysql_fetch_array($patientIdList)) {
+            $idList[] = $row['id'];
+        }
+
+        foreach ($idList as $_id) {
+            $numVisit = rand(0, 3);
+
+            for ($i = 0; $i < $numVisit; ++$i) {
+                // generate dummy data
+
+                $_date = getRandDate(strtotime('2012-10-01'), strtotime('2016-10-31'));
+                $_weight = rand(40, 80);
+                $_height = rand(150, 190);
+                $_bpl = rand(60, 85);
+                $_bph = rand(100, 125);
+                $_temp = rand(26, 30);
+                $_pulse = rand(200, 220);
+                $_resRate = rand(70, 90);
+
+                sqlQuery('INSERT INTO patient_visit_gb '.
+            '(p_id, date ,weight,height, bph,bpi, temperature, pulse, respiratory_rate ) '.
+            "VALUES('$_id', '$_date','$_weight', '$_height','$_bph','$_bpl','$_temp', '$_pulse', '$_resRate')");
+            }
+        }
+    }
+}
 
 function importDiseaseDB()
 {
@@ -29,7 +79,7 @@ function importDiseaseDB()
         echo 'create table';
         // create tables;
         sqlQuery("CREATE TABLE $tableName ".
-        '(ensp_id VARCHAR(20), abrev VARCHAR(20), do_id BIGINT, name VARCHAR(20) , sub_name VARCHAR(20), curated_level INT);');
+        '(ensp_id VARCHAR(20), abrev VARCHAR(20), do_id BIGINT, name VARCHAR(255) , sub_name VARCHAR(20), curated_level INT);');
 
         // readin data from files
         $filePath = 'tsv_files/human_disease_knowledge_filtered.tsv';
@@ -50,11 +100,8 @@ function importDiseaseDB()
     }
 }
 
-function getRandDate()
+function getRandDate($start, $end)
 {
-    $start = strtotime('1972-10-01');
-    $end = strtotime('2015-12-31');
-
     $randomDate = date('Y-m-d', rand($start, $end));
 
     return $randomDate;
@@ -93,14 +140,17 @@ function createDummyPatient($numPpl)
 
       $curName = $nameAdjList[array_rand($nameAdjList)].' '.$nameAnimalList[array_rand($nameAnimalList)];
 
-        //  array_rand can pass in second parameter to output more entires
-        $curGender = $genderListDummy[array_rand($genderListDummy)];
+      //  array_rand can pass in second parameter to output more entires
+
+      $curGender = $genderListDummy[array_rand($genderListDummy)];
       $curCity = $cityListDummy[array_rand($cityListDummy)];
-        // Using city's index in cityList to get corresponding state name.
-        // gosh.. why this looks so ugly...
-        $cityIndex = array_search($curCity, $cityListDummy);
+
+      // Using city's index in cityList to get corresponding state name.
+      // gosh.. why this looks so ugly...
+
+      $cityIndex = array_search($curCity, $cityListDummy);
       $curState = array_values($stateListDummy)[$cityIndex];
-      $curDate = getRandDate();
+      $curDate = getRandDate(strtotime('1972-10-01'), strtotime('2015-12-31'));
 
       $addNewPatient = sqlQuery('INSERT INTO patient_data_gb '.
       '(name,gender, DOB ,city_village,state_province) '.

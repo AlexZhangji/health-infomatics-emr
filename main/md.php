@@ -130,14 +130,14 @@ if ($patientId) {
     'FROM `patient_data_gb` '.
     'WHERE `id`=?', array(intval($patientId)));
 
-    debug_to_console_2($patientData);
+    // debug_to_console_2($patientData);
     debug_to_console($patientData['name']);
 
     $patientYO = getYearsOld($patientData['DOB']);
 
     $patientVisitData = sqlQuery('SELECT * '.
       'FROM `patient_visit_gb` '.
-      'WHERE `patient_id`=?', array(intval($patientId)));
+      'WHERE `p_id`=?', array(intval($patientId)));
 }
 // echo "console.log( patientId : " + $patientId + ")";
 ?>
