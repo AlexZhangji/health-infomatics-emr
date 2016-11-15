@@ -271,9 +271,9 @@ ul.tab li a {
         <p class="left"><label>Prescription </label><input id="rx_field" class="" name="rx_field" size="40" type="text" value="" /> </p>
         <p>&nbsp;</p>
 
-        <label>Note</label>
+        <label>Notes</label>
         &nbsp;
-s        <p class="left"> <textarea name="note_area" class="" rows="4" cols="40" type="text" value="" ></textarea> </p>
+        <p class="left"> <textarea name="note_area" class="" rows="4" cols="40" type="text" value="" ></textarea> </p>
         <input type="submit" value="Submit" name = "submit_visit_button">
         </form>
         </div>
