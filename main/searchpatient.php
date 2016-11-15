@@ -259,9 +259,9 @@ else{
 }
 
 if (empty($name)){
-  $query = "SELECT * FROM PatientData";
+  $query = "SELECT * FROM patient_data_gb";
 }else{
-  $query ="SELECT * FROM PatientData WHERE name = '$name'";
+  $query ="SELECT * FROM patient_data_gb WHERE name = '$name'";
 }
 
 
@@ -274,15 +274,15 @@ $comments = mysql_query($query);
 while($row = mysql_fetch_array($comments, MYSQL_ASSOC))
 {
   $name = $row['name'];
-  $dob = $row['DateofBirth'];
-  $village = $row['cityVillage'];
+  $dob = $row['DOB'];
+  $village = $row['city_village'];
 
 
 
   echo "<tr>";
   echo "<td><a href=md.php style='color: #0B0080 '>".$row['name']."</a></td>";
-  echo "<td>{$row['DateofBirth']}</td>";
-  echo "<td>{$row['cityVillage']}</td>";
+  echo "<td>{$row['DOB']}</td>";
+  echo "<td>{$row['city_village']}</td>";
   echo "</tr>";
 }
 

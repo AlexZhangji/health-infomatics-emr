@@ -16,9 +16,31 @@ function readCSV($csvFile)
     return $line_of_text;
 }
 
+function readTxt($filePath)
+{
+    $file_handle = fopen($filePath, 'r');
+    while (!feof($file_handle)) {
+        $line_of_text[] = fgets($file_handle,4096);
+        // $parts = explode('=', $line_of_text);
+    }
+    fclose($file_handle);
+
+    return $line_of_text;
+}
+
+
+$textDB = readTxt('tsv_files/icd10cm_order_2016.txt');
+
+foreach($textDB as $text){
+  $text = preg_split('/\s+/', $text);
+  print_r($text);
+}
+
 // createDummyPatient(30);
 // importDiseaseDB();
 // createDummyVisit();
+
+
 
 function createDummyVisit()
 {

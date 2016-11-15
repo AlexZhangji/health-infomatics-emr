@@ -1,0 +1,121 @@
+00001 A00     0 Cholera                                                      Cholera
+00002 A000    1 Cholera due to Vibrio cholerae 01, biovar cholerae           Cholera due to Vibrio cholerae 01, biovar cholerae
+00003 A001    1 Cholera due to Vibrio cholerae 01, biovar eltor              Cholera due to Vibrio cholerae 01, biovar eltor
+00004 A009    1 Cholera, unspecified                                         Cholera, unspecified
+00005 A01     0 Typhoid and paratyphoid fevers                               Typhoid and paratyphoid fevers
+00006 A010    0 Typhoid fever                                                Typhoid fever
+00007 A0100   1 Typhoid fever, unspecified                                   Typhoid fever, unspecified
+00008 A0101   1 Typhoid meningitis                                           Typhoid meningitis
+00009 A0102   1 Typhoid fever with heart involvement                         Typhoid fever with heart involvement
+00010 A0103   1 Typhoid pneumonia                                            Typhoid pneumonia
+00011 A0104   1 Typhoid arthritis                                            Typhoid arthritis
+00012 A0105   1 Typhoid osteomyelitis                                        Typhoid osteomyelitis
+00013 A0109   1 Typhoid fever with other complications                       Typhoid fever with other complications
+00014 A011    1 Paratyphoid fever A                                          Paratyphoid fever A
+00015 A012    1 Paratyphoid fever B                                          Paratyphoid fever B
+00016 A013    1 Paratyphoid fever C                                          Paratyphoid fever C
+00017 A014    1 Paratyphoid fever, unspecified                               Paratyphoid fever, unspecified
+00018 A02     0 Other salmonella infections                                  Other salmonella infections
+00019 A020    1 Salmonella enteritis                                         Salmonella enteritis
+00020 A021    1 Salmonella sepsis                                            Salmonella sepsis
+00021 A022    0 Localized salmonella infections                              Localized salmonella infections
+00022 A0220   1 Localized salmonella infection, unspecified                  Localized salmonella infection, unspecified
+00023 A0221   1 Salmonella meningitis                                        Salmonella meningitis
+00024 A0222   1 Salmonella pneumonia                                         Salmonella pneumonia
+00025 A0223   1 Salmonella arthritis                                         Salmonella arthritis
+00026 A0224   1 Salmonella osteomyelitis                                     Salmonella osteomyelitis
+00027 A0225   1 Salmonella pyelonephritis                                    Salmonella pyelonephritis
+00028 A0229   1 Salmonella with other localized infection                    Salmonella with other localized infection
+00029 A028    1 Other specified salmonella infections                        Other specified salmonella infections
+00030 A029    1 Salmonella infection, unspecified                            Salmonella infection, unspecified
+00031 A03     0 Shigellosis                                                  Shigellosis
+00032 A030    1 Shigellosis due to Shigella dysenteriae                      Shigellosis due to Shigella dysenteriae
+00033 A031    1 Shigellosis due to Shigella flexneri                         Shigellosis due to Shigella flexneri
+00034 A032    1 Shigellosis due to Shigella boydii                           Shigellosis due to Shigella boydii
+00035 A033    1 Shigellosis due to Shigella sonnei                           Shigellosis due to Shigella sonnei
+00036 A038    1 Other shigellosis                                            Other shigellosis
+00037 A039    1 Shigellosis, unspecified                                     Shigellosis, unspecified
+00038 A04     0 Other bacterial intestinal infections                        Other bacterial intestinal infections
+00039 A040    1 Enteropathogenic Escherichia coli infection                  Enteropathogenic Escherichia coli infection
+00040 A041    1 Enterotoxigenic Escherichia coli infection                   Enterotoxigenic Escherichia coli infection
+00041 A042    1 Enteroinvasive Escherichia coli infection                    Enteroinvasive Escherichia coli infection
+00042 A043    1 Enterohemorrhagic Escherichia coli infection                 Enterohemorrhagic Escherichia coli infection
+00043 A044    1 Other intestinal Escherichia coli infections                 Other intestinal Escherichia coli infections
+00044 A045    1 Campylobacter enteritis                                      Campylobacter enteritis
+00045 A046    1 Enteritis due to Yersinia enterocolitica                     Enteritis due to Yersinia enterocolitica
+00046 A047    1 Enterocolitis due to Clostridium difficile                   Enterocolitis due to Clostridium difficile
+00047 A048    1 Other specified bacterial intestinal infections              Other specified bacterial intestinal infections
+00048 A049    1 Bacterial intestinal infection, unspecified                  Bacterial intestinal infection, unspecified
+00049 A05     0 Oth bacterial foodborne intoxications, NEC                   Other bacterial foodborne intoxications, not elsewhere classified
+00050 A050    1 Foodborne staphylococcal intoxication                        Foodborne staphylococcal intoxication
+00051 A051    1 Botulism food poisoning                                      Botulism food poisoning
+00052 A052    1 Foodborne Clostridium perfringens intoxication               Foodborne Clostridium perfringens [Clostridium welchii] intoxication
+00053 A053    1 Foodborne Vibrio parahaemolyticus intoxication               Foodborne Vibrio parahaemolyticus intoxication
+00054 A054    1 Foodborne Bacillus cereus intoxication                       Foodborne Bacillus cereus intoxication
+00055 A055    1 Foodborne Vibrio vulnificus intoxication                     Foodborne Vibrio vulnificus intoxication
+00056 A058    1 Other specified bacterial foodborne intoxications            Other specified bacterial foodborne intoxications
+00057 A059    1 Bacterial foodborne intoxication, unspecified                Bacterial foodborne intoxication, unspecified
+00058 A06     0 Amebiasis                                                    Amebiasis
+00059 A060    1 Acute amebic dysentery                                       Acute amebic dysentery
+00060 A061    1 Chronic intestinal amebiasis                                 Chronic intestinal amebiasis
+00061 A062    1 Amebic nondysenteric colitis                                 Amebic nondysenteric colitis
+00062 A063    1 Ameboma of intestine                                         Ameboma of intestine
+00063 A064    1 Amebic liver abscess                                         Amebic liver abscess
+00064 A065    1 Amebic lung abscess                                          Amebic lung abscess
+00065 A066    1 Amebic brain abscess                                         Amebic brain abscess
+00066 A067    1 Cutaneous amebiasis                                          Cutaneous amebiasis
+00067 A068    0 Amebic infection of other sites                              Amebic infection of other sites
+00068 A0681   1 Amebic cystitis                                              Amebic cystitis
+00069 A0682   1 Other amebic genitourinary infections                        Other amebic genitourinary infections
+00070 A0689   1 Other amebic infections                                      Other amebic infections
+00071 A069    1 Amebiasis, unspecified                                       Amebiasis, unspecified
+00072 A07     0 Other protozoal intestinal diseases                          Other protozoal intestinal diseases
+00073 A070    1 Balantidiasis                                                Balantidiasis
+00074 A071    1 Giardiasis [lambliasis]                                      Giardiasis [lambliasis]
+00075 A072    1 Cryptosporidiosis                                            Cryptosporidiosis
+00076 A073    1 Isosporiasis                                                 Isosporiasis
+00077 A074    1 Cyclosporiasis                                               Cyclosporiasis
+00078 A078    1 Other specified protozoal intestinal diseases                Other specified protozoal intestinal diseases
+00079 A079    1 Protozoal intestinal disease, unspecified                    Protozoal intestinal disease, unspecified
+00080 A08     0 Viral and other specified intestinal infections              Viral and other specified intestinal infections
+00081 A080    1 Rotaviral enteritis                                          Rotaviral enteritis
+00082 A081    0 Acute gastrent d/t Norwalk agent and oth small round viruses Acute gastroenteropathy due to Norwalk agent and other small round viruses
+00083 A0811   1 Acute gastroenteropathy due to Norwalk agent                 Acute gastroenteropathy due to Norwalk agent
+00084 A0819   1 Acute gastroenteropathy due to other small round viruses     Acute gastroenteropathy due to other small round viruses
+00085 A082    1 Adenoviral enteritis                                         Adenoviral enteritis
+00086 A083    0 Other viral enteritis                                        Other viral enteritis
+00087 A0831   1 Calicivirus enteritis                                        Calicivirus enteritis
+00088 A0832   1 Astrovirus enteritis                                         Astrovirus enteritis
+00089 A0839   1 Other viral enteritis                                        Other viral enteritis
+00090 A084    1 Viral intestinal infection, unspecified                      Viral intestinal infection, unspecified
+00091 A088    1 Other specified intestinal infections                        Other specified intestinal infections
+00092 A09     1 Infectious gastroenteritis and colitis, unspecified          Infectious gastroenteritis and colitis, unspecified
+00093 A15     0 Respiratory tuberculosis                                     Respiratory tuberculosis
+00094 A150    1 Tuberculosis of lung                                         Tuberculosis of lung
+00095 A154    1 Tuberculosis of intrathoracic lymph nodes                    Tuberculosis of intrathoracic lymph nodes
+00096 A155    1 Tuberculosis of larynx, trachea and bronchus                 Tuberculosis of larynx, trachea and bronchus
+00097 A156    1 Tuberculous pleurisy                                         Tuberculous pleurisy
+00098 A157    1 Primary respiratory tuberculosis                             Primary respiratory tuberculosis
+00099 A158    1 Other respiratory tuberculosis                               Other respiratory tuberculosis
+00100 A159    1 Respiratory tuberculosis unspecified                         Respiratory tuberculosis unspecified
+00101 A17     0 Tuberculosis of nervous system                               Tuberculosis of nervous system
+00102 A170    1 Tuberculous meningitis                                       Tuberculous meningitis
+00103 A171    1 Meningeal tuberculoma                                        Meningeal tuberculoma
+00104 A178    0 Other tuberculosis of nervous system                         Other tuberculosis of nervous system
+00105 A1781   1 Tuberculoma of brain and spinal cord                         Tuberculoma of brain and spinal cord
+00106 A1782   1 Tuberculous meningoencephalitis                              Tuberculous meningoencephalitis
+00107 A1783   1 Tuberculous neuritis                                         Tuberculous neuritis
+00108 A1789   1 Other tuberculosis of nervous system                         Other tuberculosis of nervous system
+00109 A179    1 Tuberculosis of nervous system, unspecified                  Tuberculosis of nervous system, unspecified
+00110 A18     0 Tuberculosis of other organs                                 Tuberculosis of other organs
+00111 A180    0 Tuberculosis of bones and joints                             Tuberculosis of bones and joints
+00112 A1801   1 Tuberculosis of spine                                        Tuberculosis of spine
+00113 A1802   1 Tuberculous arthritis of other joints                        Tuberculous arthritis of other joints
+00114 A1803   1 Tuberculosis of other bones                                  Tuberculosis of other bones
+00115 A1809   1 Other musculoskeletal tuberculosis                           Other musculoskeletal tuberculosis
+00116 A181    0 Tuberculosis of genitourinary system                         Tuberculosis of genitourinary system
+00117 A1810   1 Tuberculosis of genitourinary system, unspecified            Tuberculosis of genitourinary system, unspecified
+00118 A1811   1 Tuberculosis of kidney and ureter                            Tuberculosis of kidney and ureter
+00119 A1812   1 Tuberculosis of bladder                                      Tuberculosis of bladder
+00120 A1813   1 Tuberculosis of other urinary organs                         Tuberculosis of other urinary organs
+00121 A1814   1 Tuberculosis of prostate                                     Tuberculosis of prostate
