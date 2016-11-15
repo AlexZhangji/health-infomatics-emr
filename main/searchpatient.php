@@ -280,7 +280,7 @@ while($row = mysql_fetch_array($comments, MYSQL_ASSOC))
 
 
   echo "<tr>";
-  echo "<td><a href=md.php style='color: #0B0080 '>".$row['name']."</a></td>";
+  echo "<td><a href=md.php?patientId=".$row['id']." style='color: #0B0080 '>".$row['name']."</a></td>";
   echo "<td>{$row['DOB']}</td>";
   echo "<td>{$row['city_village']}</td>";
   echo "</tr>";
