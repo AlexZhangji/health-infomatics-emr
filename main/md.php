@@ -131,14 +131,18 @@ if ($patientId) {
         'FROM `patient_data_gb` '.
         'WHERE `id`=?', array(intval($patientId)));
 
-    $visitData = sqlQuery('SELECT * '.
-    'FROM `patient_visit_gb` '.
-    'WHERE `p_id`=?', array(intval($patientId)));
+    $visits_query ="SELECT * FROM patient_visit_gb WHERE p_id = $patientId ";
+    $visits = mysql_query($visits_query);
 
-    //$latestData=$visitData[0];
-    $height = $visitData['height'] / 100;
-    $height = $height * $height;
-    $bmi = round($visitData['weight'] / $height, 2);
+    if (!$visits){
+        echo "invalid patient visits query";
+    }
+
+
+    $visitData= mysql_fetch_array($visits, MYSQL_ASSOC);
+    $height=$visitData['height']/100;
+    $height=$height*$height;
+    $bmi= round($visitData['weight']/$height, 2);
 
     // debug_to_console_2($patientData);
     // debug_to_console($patientData['name']);
@@ -303,38 +307,38 @@ if ($patientId) {
                     Last Vitals: 20.Mar.2015 12:38 PM
                 </div>
 
-                <form class = "edit_visit" id = "edit_visit" action = "editVisit.php" method = "POST">
+                <form class = "edit_visit_form" name="edit_visit_form" id = "edit_visit" action = "editVisit.php" method = "POST">
                 <div class="vitals-stats">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" id="height" value="<?php echo text($visitData['height']); ?>" size="5" ></span> Height (cm)
-                        </li>
-                        <li class="list-group-item">
-                            <span class="badge"><input type="int" id ="weight" value="<?php echo text($visitData['weight']); ?>" size="5" ></span> Weight (kg)
-                        </li>
-                        <li class="list-group-item">
-                            <span class="badge"><input type="int" id="bmi" value="<?php echo text($bmi); ?>" size="5" ></span> (Calculated) BMI
-                        </li>
-                        <li class="list-group-item">
-                            <span class="badge"><input type="int" id="temperature" value="<?php echo text($visitData['temperature']); ?>" size="5" ></p></span> Temperature (°C)
-                        </li>
-                        <li class="list-group-item">
-                            <span class="badge"><input type="int" id="pulse" value="<?php echo text($visitData['pulse']); ?>" size="5" ></span> Pulse (/min)
-                        </li>
-                        <li class="list-group-item">
-                            <span class="badge"><input type="int" id="respiratory_rate" value="<?php echo text($visitData['respiratory_rate']); ?>" size="5" ></p></span> Respiratory Rate (/min)
-                        </li>
-                        <li class="list-group-item">
-                            <span class="badge"><input type="int" id="bph" value="<?php echo text($visitData['bph']); ?>" size="5" >/<input type="int" name="bpl" value="<?php echo text($visitData['bpi']); ?>" size="5" readonly></p></span> Blood Pressure
-                        </li>
 
-                        <!-- <li class="list-group-item">
-                            <span class="badge"><input type="int" id="blood_oxygen" value="Not available" ></p></span> Blood Oxygen Saturation (%)
-                         </li> -->
+                            <span class="badge"><input type="int" name="height" id="height" value="<?php echo text($visitData['height']); ?>" size="5"></span> Height (cm)
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge"><input type="int" name="weight" id ="weight" value="<?php echo text($visitData['weight']); ?>" size="5"></span> Weight (kg)
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge"><input type="int" id="bmi" name="bmi" value="<?php echo text($bmi); ?>" size="5"></span> (Calculated) BMI
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge"><input type="int" id="temperature" name="temperature" value="<?php echo text($visitData['temperature']); ?>" size="5"></p></span> Temperature (°C)
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge"><input type="int" id="pulse" name="pulse" value="<?php echo text($visitData['pulse']); ?>" size="5"></span> Pulse (/min)
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge"><input type="int" id="respiratory_rate" name="respiratory_rate" value="<?php echo text($visitData['respiratory_rate']); ?>" size="5"></p></span> Respiratory Rate (/min)
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge"><input type="int" id="bph" name="bph" value="<?php echo text($visitData['bph']); ?>" size="5">/<input type="int" id="bpl" name="bpl" value="<?php echo text($visitData['bpi']); ?>" size="5" readonly></p></span> Blood Pressure
+                        </li>
+                        <input name ="visit_id" type="hidden" value="<?php echo text($visitData['visit_id']); ?>">
+                        <input name='patient_id' type="hidden" value="<?php echo text($patientId);?>" >
 
                         <li class="list-group-item">
                              <input type="submit" value="Submit" id= "edit_visit_button" class='md-plain-card' style="border:3px;" >
                         </li>
+
 
                     </ul>
                 </div>
@@ -504,6 +508,7 @@ function editClicked(){
       inputList.prop('readonly', true);
       inputList.css('border','none');
       $('#edit_visit_button').css('visibility','hidden');
+
 
     }
   });
