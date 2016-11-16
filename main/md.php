@@ -138,7 +138,7 @@ if ($patientId) {
     //$latestData=$visitData[0];
     $height = $visitData['height'] / 100;
     $height = $height * $height;
-    $bmi = $visitData['weight'] / $height;
+    $bmi = round($visitData['weight'] / $height,2);
 
     // debug_to_console_2($patientData);
     // debug_to_console($patientData['name']);
@@ -308,33 +308,33 @@ if ($patientId) {
                 <div class="vitals-stats">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" id="height" value="<?php echo text($visitData['height']); ?>" size="5" readonly></span> Height (cm)
+                            <span class="badge"><input type="int" id="height" value="<?php echo text($visitData['height']); ?>" size="5" ></span> Height (cm)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" id ="weight" value="<?php echo text($visitData['weight']); ?>" size="5" readonly></span> Weight (kg)
+                            <span class="badge"><input type="int" id ="weight" value="<?php echo text($visitData['weight']); ?>" size="5" ></span> Weight (kg)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" id="bmi" value="<?php echo text($bmi); ?>" size="5" readonly></span> (Calculated) BMI
+                            <span class="badge"><input type="int" id="bmi" value="<?php echo text($bmi); ?>" size="5" ></span> (Calculated) BMI
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" id="temperature" value="<?php echo text($visitData['temperature']); ?>" size="5" readonly></p></span> Temperature (°C)
+                            <span class="badge"><input type="int" id="temperature" value="<?php echo text($visitData['temperature']); ?>" size="5" ></p></span> Temperature (°C)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" id="pulse" value="<?php echo text($visitData['pulse']); ?>" size="5" readonly></span> Pulse (/min)
+                            <span class="badge"><input type="int" id="pulse" value="<?php echo text($visitData['pulse']); ?>" size="5" ></span> Pulse (/min)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" id="respiratory_rate" value="<?php echo text($visitData['respiratory_rate']); ?>" size="5" readonly></p></span> Respiratory Rate (/min)
+                            <span class="badge"><input type="int" id="respiratory_rate" value="<?php echo text($visitData['respiratory_rate']); ?>" size="5" ></p></span> Respiratory Rate (/min)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" id="bph" value="<?php echo text($visitData['bph']); ?>" size="5" readonly>/<input type="int" name="bpl" value="<?php echo text($visitData['bpi']); ?>" size="5" readonly></p></span> Blood Pressure
+                            <span class="badge"><input type="int" id="bph" value="<?php echo text($visitData['bph']); ?>" size="5" >/<input type="int" name="bpl" value="<?php echo text($visitData['bpi']); ?>" size="5" readonly></p></span> Blood Pressure
                         </li>
 
                         <!-- <li class="list-group-item">
-                            <span class="badge"><input type="int" id="blood_oxygen" value="Not available" readonly></p></span> Blood Oxygen Saturation (%)
+                            <span class="badge"><input type="int" id="blood_oxygen" value="Not available" ></p></span> Blood Oxygen Saturation (%)
                          </li> -->
 
                         <li class="list-group-item">
-                            <input type="submit" value="Submit" id= "edit_visit_button">
+                             <input type="submit" value="Submit" id= "edit_visit_button" class='md-plain-card' >
                         </li>
 
                     </ul>
@@ -491,32 +491,23 @@ if ($patientId) {
 
 <script>
 function editClicked(){
+  $(function(){
     var checkbox = document.getElementById("editSwitch");
+    var inputList = $('.badge input');
+
     if (checkbox.checked==true){
+      inputList.prop('readonly', false);
+      inputList.css('border-bottom','solid #2196F3 2px');
+      $('#edit_visit_button').css('visibility','visible');
 
-        document.getElementById("height").readOnly=false;
-        document.getElementById("weight").readOnly=false;
-        document.getElementById("bmi").readOnly=false;
-
-        document.getElementById("temperature").readOnly=false;
-        document.getElementById("pulse").readOnly=false;
-        document.getElementById("respiratory_rate").readOnly=false;
-        document.getElementById("bph").readOnly=false;
-        document.getElementById("bpl").readOnly=false;
-        document.getElementById("blood_oxygen").readOnly=false;
     }
     else{
-        document.getElementById("bmi").readOnly=true;
-       document.getElementById("height").readOnly=true;
-        document.getElementById("weight").readOnly=true;
+      inputList.prop('readonly', true);
+      inputList.css('border','none');
+      $('#edit_visit_button').css('visibility','hidden');
 
-        document.getElementById("temperature").readOnly=true;
-        document.getElementById("pulse").readOnly=true;
-        document.getElementById("respiratory_rate").readOnly=true;
-        document.getElementById("bph").readOnly=true;
-        document.getElementById("bpl").readOnly=true;
-        document.getElementById("blood_oxygen").readOnly=true;
     }
+  });
 }
 </script>
 
