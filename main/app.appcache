@@ -1,11 +1,16 @@
 CACHE MANIFEST
-# 2012-02-21 v1.0.1137
+# 2012-02-21 v1.0.1187
 /openemr-4.2.0/interface/main/registration.php
+/openemr-4.2.0/interface/main/Tasklist.php
+/openemr-4.2.0/interface/main/newTask.php
+/openemr-4.2.0/interface/main/OutputTasks.php
 /openemr-4.2.0/interface/themes/registration.css
 /openemr-4.2.0/interface/pic/sites/images/Global_Brigades_Logo_H.png
 /openemr-4.2.0/library/topdialog.js
+/openemr-4.2.0/interface/themes/tasklist.css 
+/openemr-4.2.0/sites/default/images/Global_Brigades_Logo.png
+/openemr-4.2.0/interface/main/JQueryUI-v1.12.1.js
 http://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js
-https://code.jquery.com/ui/1.12.1/jquery-ui.js
 
 NETWORK:
 

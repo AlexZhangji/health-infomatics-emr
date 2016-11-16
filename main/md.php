@@ -54,7 +54,7 @@ if ($GLOBALS['password_expiration_days'] != 0) {
     }
 
     // Display the password expiration message (starting from 7 days before the password gets expired)
-    $pwd_alert_date = date('Y-m-d', strtotime($pwd_expires_date . '-7 days'));
+    $pwd_alert_date = date('Y-m-d', strtotime($pwd_expires_date.'-7 days'));
 
     if (strtotime($pwd_alert_date) != '' &&
         strtotime($current_date) >= strtotime($pwd_alert_date) &&
@@ -71,13 +71,13 @@ if ($is_expired) {
     $frame1url = 'pwd_expires_alert.php';
 } elseif (!empty($_POST['patientID'])) {
     $patientID = 0 + $_POST['patientID'];
-    $frame1url = '../patient_file/summary/demographics.php?set_pid=' . attr($patientID);
+    $frame1url = '../patient_file/summary/demographics.php?set_pid='.attr($patientID);
 } elseif ($GLOBALS['athletic_team']) {
     $frame1url = '../reports/players_report.php?embed=1';
 } elseif (isset($_GET['mode']) && $_GET['mode'] == 'loadcalendar') {
-    $frame1url = 'calendar/index.php?pid=' . attr($_GET['pid']);
+    $frame1url = 'calendar/index.php?pid='.attr($_GET['pid']);
     if (isset($_GET['date'])) {
-        $frame1url .= '&date=' . attr($_GET['date']);
+        $frame1url .= '&date='.attr($_GET['date']);
     }
 } elseif ($GLOBALS['concurrent_layout']) {
     // new layout
@@ -88,7 +88,7 @@ if ($is_expired) {
     }
 } else {
     // old layout
-    $frame1url = 'main.php?mode=' . attr($_GET['mode']);
+    $frame1url = 'main.php?mode='.attr($_GET['mode']);
 }
 
 $nav_area_width = $GLOBALS['athletic_team'] ? '230' : '130';
@@ -108,16 +108,16 @@ function getYearsOld($DOB)
 
 function debug_to_console_2($data)
 {
-    $output = "<script>console.log( '" . array_values($data)[1] . "' );</script>";
+    $output = "<script>console.log( '".array_values($data)[1]."' );</script>";
     echo $output;
 }
 
 function debug_to_console($data)
 {
     if (is_array($data)) {
-        $output = "<script>console.log( 'Debug Objects: " . implode(',', $data) . "' );</script>";
+        $output = "<script>console.log( 'Debug Objects: ".implode(',', $data)."' );</script>";
     } else {
-        $output = "<script>console.log( 'Debug Objects: " . $data . "' );</script>";
+        $output = "<script>console.log( 'Debug Objects: ".$data."' );</script>";
     }
 
     echo $output;
@@ -127,9 +127,10 @@ function debug_to_console($data)
 // $patientId = trim($_GET['patientId']);
 $patientId = trim($_GET['patientId']);
 if ($patientId) {
-    $patientData = sqlQuery('SELECT * ' .
-        'FROM `patient_data_gb` ' .
+    $patientData = sqlQuery('SELECT * '.
+        'FROM `patient_data_gb` '.
         'WHERE `id`=?', array(intval($patientId)));
+
 
 
     $visits_query ="SELECT * FROM patient_visit_gb WHERE p_id = $patientId ";
@@ -143,15 +144,16 @@ if ($patientId) {
     $visitData= mysql_fetch_array($visits, MYSQL_ASSOC);
     $height=$visitData['height']/100;
     $height=$height*$height;
-    $bmi=$visitData['weight']/$height;
+    $bmi= round($visitData['weight']/$height, 2);
+
 
     // debug_to_console_2($patientData);
     // debug_to_console($patientData['name']);
 
     $patientYO = getYearsOld($patientData['DOB']);
 
-    $patientVisitData = sqlQuery('SELECT * ' .
-        'FROM `patient_visit_gb` ' .
+    $patientVisitData = sqlQuery('SELECT * '.
+        'FROM `patient_visit_gb` '.
         'WHERE `p_id`=?', array(intval($patientId)));
 }
 ?>
@@ -199,7 +201,7 @@ if ($patientId) {
 
     <script language='JavaScript'>
 
-    <?php require $GLOBALS['srcdir'] . '/restoreSession.php'; ?>
+    <?php require $GLOBALS['srcdir'].'/restoreSession.php'; ?>
         // This counts the number of frames that have reported themselves as loaded.
         // Currently only left_nav and Title do this, so the maximum will be 2.
         // This is used to determine when those frames are all loaded.
@@ -240,15 +242,13 @@ if ($patientId) {
         </li>
         <li class="right">User</li>
         <li class="right"><a href="#settings">Settings</a></li>
-
-
     </ul>
     <!-- </br> -->
     <!-- END OF HEADER -->
 
     <!-- container  -->
     <div class="md-plain-card" style="margin-top:20px; ">
-        <div class="patient-basic-info m-card" id='patient-info'>
+        <div class="patient-basic-info m-card" id='patient-info' style='margin-bottom: 15px;'>
             <div class="title" style="float:left;">
                 <i class="fa fa-user" aria-hidden="true"></i><?php echo text($patientData['name']); ?>
                 <span
@@ -315,6 +315,7 @@ if ($patientId) {
                 <div class="vitals-stats">
                     <ul class="list-group">
                         <li class="list-group-item">
+
                             <span class="badge"><input type="int" name="height" id="height" value="<?php echo text($visitData['height']); ?>" size="5" readonly></span> Height (cm)
                         </li>
                         <li class="list-group-item">
@@ -410,12 +411,12 @@ if ($patientId) {
         <!-- right pane -->
 
         <nav class="fab-container">
-            <a href="http://codepen.io/koenigsegg1" target="_blank" tooltip="Kyle Lavery" class="buttons"></a>
-            <a href="#" tooltip="Xavier" class="buttons"></a>
-            <a href="#" tooltip="James" class="buttons"></a>
-            <a href="#" tooltip="Reminders" class="buttons"></a>
-            <a href="#" tooltip="Invite to Inbox" class="buttons"></a>
-            <a href="#" tooltip="Compose" class="buttons"><span><span class="rotate"></span></span></a>
+          <!--  <a href="http://codepen.io/koenigsegg1" target="_blank" tooltip="Kyle Lavery" class="buttons"></a>-->
+          <!--   <a href="#"  tooltip="Xavier" class="buttons"></a> -->
+          <!--   <a href="#" tooltip="James" class="buttons"></a> -->
+            <a href="main_screen.php" tooltip="Main Page" class="buttons"></a>
+            <a href="#" tooltip="Community Chart" class="buttons"></a>
+            <a href=" newVisit.php?patientId=<?php echo $patientId; ?>"  tooltip="New Visit" class="buttons"><span><span class="rotate"></span></span></a>
         </nav>
 
     </div>
@@ -501,36 +502,24 @@ if ($patientId) {
 
 <script>
 function editClicked(){
+  $(function(){
     var checkbox = document.getElementById("editSwitch");
+    var inputList = $('.badge input');
+
     if (checkbox.checked==true){
-
-        document.getElementById("height").readOnly=false;
-        document.getElementById("weight").readOnly=false;
-        document.getElementById("bmi").readOnly=false;
-
-        document.getElementById("temperature").readOnly=false;
-        document.getElementById("pulse").readOnly=false;
-        document.getElementById("respiratory_rate").readOnly=false;
-        document.getElementById("bph").readOnly=false;
-        document.getElementById("bpl").readOnly=false;
-        document.getElementById("blood_oxygen").readOnly=false;
-
-        document.getElementById("edit_visit_button").style.visibility='visible';
+      inputList.prop('readonly', false);
+      inputList.css('border-bottom','solid #2196F3 2px');
+      $('#edit_visit_button').css('visibility','visible');
 
     }
     else{
-        document.getElementById("bmi").readOnly=true;
-       document.getElementById("height").readOnly=true;
-        document.getElementById("weight").readOnly=true;
+      inputList.prop('readonly', true);
+      inputList.css('border','none');
+      $('#edit_visit_button').css('visibility','hidden');
 
-        document.getElementById("temperature").readOnly=true;
-        document.getElementById("pulse").readOnly=true;
-        document.getElementById("respiratory_rate").readOnly=true;
-        document.getElementById("bph").readOnly=true;
-        document.getElementById("bpl").readOnly=true;
-        document.getElementById("blood_oxygen").readOnly=true;
-        document.getElementById("edit_visit_button").style.visibility='hidden';
+
     }
+  });
 }
 </script>
 

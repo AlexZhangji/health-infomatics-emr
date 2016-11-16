@@ -100,14 +100,14 @@ else {
 $nav_area_width = $GLOBALS['athletic_team'] ? '230' : '130';
 if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_area_width'];
 ?>
-<html>
+<html manifest="app.appcache">
   <head>
     <title>
     <?php echo text($openemr_name) ?>
     </title>
     <script type="text/javascript" src="../../library/topdialog.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="JQueryUI-v1.12.1.js"></script>
     <script language='JavaScript'>
       <?php require($GLOBALS['srcdir'] . "/restoreSession.php"); ?>
 
@@ -125,7 +125,106 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
 
       }
    
-    
+      
+      if (localStorage.getItem("Sizeofnewtaskcache") === null){
+        localStorage.setItem("Sizeofnewtaskcache", 0);
+        
+        
+        
+      } 
+      else{
+        if (localStorage.getItem("Sizeofnewtaskcache") == 0){
+          alert("there are no pending tasks");
+        }
+        else{
+          alert("there are pending tasks");
+          alert(localStorage.getItem("Sizeofnewtaskcache"));
+
+          //for (int i = 0; i < parseInt(localStorage.getItem("Sizeofnewpatientcache")); i++){
+            
+           
+           
+           
+          var taskarea;
+          var datenewtask;
+         
+
+           for( var i = parseInt(localStorage.getItem("Sizeofnewtaskcache")) - 1; i >= 0; i--) {
+                    var keyval = "NewTask" + i;
+                    var getdata = JSON.parse(localStorage.getItem(keyval));
+                    //getdata = getdata.split(",");
+
+                  
+                    taskarea = getdata[0];
+                    datenewtask = getdata[1];
+                    
+                    //alert(names+gender+address1);
+                     
+                    
+                     
+                    $.ajax({
+                            type: "POST",
+                            url: "newTask.php",
+                            //dataType: "JSON",
+                            data: {'taskarea': taskarea,
+                                   'datenewtask': datenewtask,
+                                   'keyval':keyval
+                                                     },
+                            success:function(result){
+                              var keyvals = result;
+                              localStorage.removeItem(keyvals);
+                               localStorage["Sizeofnewtaskcache"] = parseInt(localStorage.getItem("Sizeofnewtaskcache")) - 1;
+
+                            },
+                            error: function() {
+                              // Save
+                              alert("failed");
+                              /*var cacheditems = parseInt(localStorage.getItem("Sizeofnewpatientcache"));
+                              var cacheditemarr = [names,gender,address1,address2,date,cityVillage,stateProvince,selectCountry,postalCode,phoneNumber];
+                              
+                              var key = "NewPatient" + cacheditems;
+                             // alert(key);
+                              localStorage.setItem(key, JSON.stringify(cacheditemarr));
+                              localStorage["Sizeofnewpatientcache"] = cacheditems + 1;
+                              //alert(key);
+                              //alert(JSON.parse(localStorage.getItem(key)));*/
+
+                            }
+
+                    });
+                    
+                   
+
+
+
+
+
+                          
+                 
+
+            }
+             
+            //alert(test);
+
+            
+             /* if (test){
+                            for (var y = 0; y < parseInt(localStorage.getItem("Sizeofnewpatientcache")); y++){
+                              var keyvals = "NewPatient" + y;
+                              localStorage.removeItem(keyvals);
+
+                            } 
+                            localStorage["Sizeofnewpatientcache"] = 0;
+                          }
+
+           
+        //  }*/
+
+
+
+        }
+        
+      }
+
   
  
 
@@ -308,7 +407,6 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
 
 
 
-                     <form class = "newtask" id = "newtask" action = "newTask.php" method = "POST">
 
 
 
@@ -328,7 +426,54 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
                       
                       <input class="button large" type="submit" value="New Task" id="NewTaskModalButton" name = "submitbutton" >
                      
-                    </form>
+                    
+
+                     <script>
+    $(document).ready(function(){
+      $("#NewTaskModalButton").click(function(e){
+          
+         var taskarea = $("#taskarea").val();
+         var datenewtask = $("#datenewtask").val();
+         var keyval = "keyval";
+        $.ajax({
+                type: "POST",
+                url: "newTask.php",
+                //dataType: "JSON",
+                data: {'taskarea': taskarea,
+                       'datenewtask': datenewtask
+                       
+                                         },
+                success:function(result){
+                  
+
+                  document.getElementById("taskarea").value = "";
+                  $('#myModal').modal('hide');
+                  location.reload();
+
+                },
+                error: function() {
+                  // Save
+                  
+                  var cacheditems = parseInt(localStorage.getItem("Sizeofnewtaskcache"));
+                  var cacheditemarr = [taskarea,datenewtask];
+                  
+                  var key = "NewTask" + cacheditems;
+                 // alert(key);
+                  localStorage.setItem(key, JSON.stringify(cacheditemarr));
+                  localStorage["Sizeofnewtaskcache"] = cacheditems + 1;
+                  //alert(key);
+                  //alert(JSON.parse(localStorage.getItem(key)));
+
+                }
+
+        });
+        
+        
+      });
+    });
+    </script>
+
+
                 
                 </div>
                 <script>
