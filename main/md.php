@@ -139,7 +139,8 @@ if ($patientId) {
       'FROM `patient_visit_gb` '.
       'WHERE `p_id`=?', array(intval($patientId)));
 }
-// echo "console.log( patientId : " + $patientId + ")";
+
+// echo "console.log( patientId : "   + $patientId + ")";
 ?>
 <html>
 <head>
@@ -345,33 +346,6 @@ input:checked + .slider:before {
                         <input type="checkbox" id="editSwitch" onclick="editClicked()">
                         <div class ="slider round"></div>
                     </label>
-                    <script>
-                    function editClicked(){
-                        var checkbox = document.getElementById("editSwitch");
-                        if (checkbox.checked==true){
-                            document.getElementById("editHeight").contentEditable=true;
-                            document.getElementById("editWeight").contentEditable=true;
-                            document.getElementById("editBMI").contentEditable=true;
-                            document.getElementById("editTemp").contentEditable=true;
-                            document.getElementById("editPulse").contentEditable=true;
-                            document.getElementById("editRespiratory").contentEditable=true;
-                            document.getElementById("editBPH").contentEditable=true;
-                            document.getElementById("editBPL").contentEditable=true;
-                            document.getElementById("editBOS").contentEditable=true;
-                        }
-                        else{
-                           document.getElementById("editHeight").contentEditable=false;
-                            document.getElementById("editWeight").contentEditable=false;
-                            document.getElementById("editBMI").contentEditable=false;
-                            document.getElementById("editTemp").contentEditable=false;
-                            document.getElementById("editPulse").contentEditable=false;
-                            document.getElementById("editRespiratory").contentEditable=false;
-                            document.getElementById("editBPH").contentEditable=false;
-                            document.getElementById("editBPL").contentEditable=false;
-                            document.getElementById("editBOS").contentEditable=false;
-                        }
-                    }
-                    </script>
                 </div>
 
                 <div style="margin-left:3%; font-weight:bold;margin-bottom:4px;">
@@ -462,10 +436,21 @@ input:checked + .slider:before {
         </div>
         <!-- right pane -->
 
-
+        <nav class="fab-container">
+          <a href="http://codepen.io/koenigsegg1" target="_blank" tooltip="Kyle Lavery" class="buttons"></a>
+          <a href="#" tooltip="Xavier" class="buttons"></a>
+          <a href="#" tooltip="James" class="buttons"></a>
+          <a href="#" tooltip="Reminders" class="buttons"></a>
+          <a href="#" tooltip="Invite to Inbox" class="buttons"></a>
+          <a href="#" tooltip="Compose" class="buttons"><span><span class="rotate"></span></span></a>
+        </nav>
 
     </div>
     <!-- end of container -->
+
+
+
+
     <img src="./img/cat.jpg" id="cat_img">
 </div>
 <?php
@@ -485,27 +470,27 @@ input:checked + .slider:before {
 <script src="chart.js"></script>
 
 <!-- voice control -->
-<script src="js/voice.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+// <script src="js/voice.js"></script>
+// <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
 <script>
-    if (annyang) {
-        // Let's define a command.
-        var commands = {
-            'hello': function() {
-                alert('Hello world!');
-            },
-            'show me *tag': showPlots,
-            'test': function() {
-                alert('Working!');
-            },
-        };
-
-        // Add our commands to annyang
-        annyang.addCommands(commands);
-
-        // Start listening.
-        annyang.start();
-    }
+    // if (annyang) {
+    //     // Let's define a command.
+    //     var commands = {
+    //         'hello': function() {
+    //             alert('Hello world!');
+    //         },
+    //         'show me *tag': showPlots,
+    //         'test': function() {
+    //             alert('Working!');
+    //         },
+    //     };
+    //
+    //     // Add our commands to annyang
+    //     annyang.addCommands(commands);
+    //
+    //     // Start listening.
+    //     annyang.start();
+    // }
 </script>
 
 <script type="text/javascript">
@@ -551,10 +536,159 @@ var visitData=<?php echo json_encode($patientVisitData); ?>;
   });
 </script>
 
+<script>
+function editClicked(){
+    var checkbox = document.getElementById("editSwitch");
+    if (checkbox.checked==true){
+        document.getElementById("editHeight").contentEditable=true;
+        document.getElementById("editWeight").contentEditable=true;
+        document.getElementById("editBMI").contentEditable=true;
+        document.getElementById("editTemp").contentEditable=true;
+        document.getElementById("editPulse").contentEditable=true;
+        document.getElementById("editRespiratory").contentEditable=true;
+        document.getElementById("editBPH").contentEditable=true;
+        document.getElementById("editBPL").contentEditable=true;
+        document.getElementById("editBOS").contentEditable=true;
+    }
+    else{
+       document.getElementById("editHeight").contentEditable=false;
+        document.getElementById("editWeight").contentEditable=false;
+        document.getElementById("editBMI").contentEditable=false;
+        document.getElementById("editTemp").contentEditable=false;
+        document.getElementById("editPulse").contentEditable=false;
+        document.getElementById("editRespiratory").contentEditable=false;
+        document.getElementById("editBPH").contentEditable=false;
+        document.getElementById("editBPL").contentEditable=false;
+        document.getElementById("editBOS").contentEditable=false;
+    }
+}
+</script>
 
 <script>
     $.material.init();
 </script>
+
+<style>
+.fab-container{
+  margin: 1em;
+  position: fixed;
+  bottom: 10;
+  right: 10;
+}
+
+.fab-container:hover .buttons:not(:last-of-type) {
+  width: 40px;
+  height: 40px;
+  margin: 15px auto 0;
+  opacity: 1;
+}
+
+.fab-container:hover .rotate {
+  background-image: url("http://goo.gl/0eJslQ");
+  transform: rotate(0deg);
+}
+
+.fab-container .buttons {
+  display: block;
+  width: 35px;
+  height: 35px;
+  margin: 20px auto 0;
+  text-decoration: none;
+  position: relative;
+  border-radius: 50%;
+  box-shadow: 0px 5px 11px -2px rgba(0, 0, 0, 0.18), 0px 4px 12px -7px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transition: .2s;
+}
+
+.fab-container .buttons:nth-last-of-type(2) {
+  transition-delay: 20ms;
+}
+
+.fab-container .buttons:nth-last-of-type(3) {
+  transition-delay: 40ms;
+}
+
+.fab-container .buttons:nth-last-of-type(4) {
+  transition-delay: 60ms;
+}
+
+.fab-container .buttons:nth-last-of-type(5) {
+  transition-delay: 80ms;
+}
+
+.fab-container .buttons:nth-last-of-type(6) {
+  transition-delay: 100ms;
+}
+
+.fab-container .buttons:nth-last-of-type(1) {
+  width: 56px;
+  height: 56px;
+  opacity: 1;
+}
+
+.fab-container .buttons:nth-last-of-type(2) {
+  background: #D2A518 url("http://goo.gl/XVUbvp") center no-repeat;
+}
+
+.fab-container .buttons:nth-last-of-type(3) {
+  background: #3C80F6 url("https://goo.gl/xdZJHE") center no-repeat;
+}
+
+.fab-container .buttons:nth-last-of-type(4) {
+  background-image: url("https://goo.gl/OEKh8Y");
+  background-size: contain;
+}
+
+.fab-container .buttons:nth-last-of-type(5) {
+  background-image: url("https://goo.gl/SrERjY");
+  background-size: contain;
+}
+
+.fab-container .buttons:nth-last-of-type(6) {
+  background-image: url("http://goo.gl/c5kspt");
+  background-size: contain;
+}
+
+.fab-container .buttons:hover {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
+}
+
+.fab-container span {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.fab-container span.rotate {
+  background: #DB4437 url("http://goo.gl/EfgECT") center no-repeat;
+  position: absolute;
+  transform: rotate(90deg);
+  transition: .3s;
+}
+
+ [tooltip]:before {
+  content: attr(tooltip);
+  background: #585858;
+  padding: 5px 7px;
+  margin-right: 10px;
+  border-radius: 2px;
+  color: #FFF;
+  font: 500 12px Roboto;
+  white-space: nowrap;
+  position: absolute;
+  bottom: 20%;
+  right: 100%;
+  visibility: hidden;
+  opacity: 0;
+  transition: .3s;
+}
+
+[tooltip]:hover:before {
+  visibility: visible;
+  opacity: 1;
+}
+</style>
 
 </body>
 
