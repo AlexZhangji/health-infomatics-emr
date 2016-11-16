@@ -54,7 +54,7 @@ if ($GLOBALS['password_expiration_days'] != 0) {
     }
 
     // Display the password expiration message (starting from 7 days before the password gets expired)
-    $pwd_alert_date = date('Y-m-d', strtotime($pwd_expires_date.'-7 days'));
+    $pwd_alert_date = date('Y-m-d', strtotime($pwd_expires_date . '-7 days'));
 
     if (strtotime($pwd_alert_date) != '' &&
         strtotime($current_date) >= strtotime($pwd_alert_date) &&
@@ -71,13 +71,13 @@ if ($is_expired) {
     $frame1url = 'pwd_expires_alert.php';
 } elseif (!empty($_POST['patientID'])) {
     $patientID = 0 + $_POST['patientID'];
-    $frame1url = '../patient_file/summary/demographics.php?set_pid='.attr($patientID);
+    $frame1url = '../patient_file/summary/demographics.php?set_pid=' . attr($patientID);
 } elseif ($GLOBALS['athletic_team']) {
     $frame1url = '../reports/players_report.php?embed=1';
 } elseif (isset($_GET['mode']) && $_GET['mode'] == 'loadcalendar') {
-    $frame1url = 'calendar/index.php?pid='.attr($_GET['pid']);
+    $frame1url = 'calendar/index.php?pid=' . attr($_GET['pid']);
     if (isset($_GET['date'])) {
-        $frame1url .= '&date='.attr($_GET['date']);
+        $frame1url .= '&date=' . attr($_GET['date']);
     }
 } elseif ($GLOBALS['concurrent_layout']) {
     // new layout
@@ -88,7 +88,7 @@ if ($is_expired) {
     }
 } else {
     // old layout
-    $frame1url = 'main.php?mode='.attr($_GET['mode']);
+    $frame1url = 'main.php?mode=' . attr($_GET['mode']);
 }
 
 $nav_area_width = $GLOBALS['athletic_team'] ? '230' : '130';
@@ -108,40 +108,40 @@ function getYearsOld($DOB)
 
 function debug_to_console_2($data)
 {
-    $output = "<script>console.log( '".array_values($data)[1]."' );</script>";
+    $output = "<script>console.log( '" . array_values($data)[1] . "' );</script>";
     echo $output;
 }
 
 function debug_to_console($data)
 {
     if (is_array($data)) {
-        $output = "<script>console.log( 'Debug Objects: ".implode(',', $data)."' );</script>";
+        $output = "<script>console.log( 'Debug Objects: " . implode(',', $data) . "' );</script>";
     } else {
-        $output = "<script>console.log( 'Debug Objects: ".$data."' );</script>";
+        $output = "<script>console.log( 'Debug Objects: " . $data . "' );</script>";
     }
 
     echo $output;
 }
+
 // get patinet id
 // $patientId = trim($_GET['patientId']);
 $patientId = trim($_GET['patientId']);
 if ($patientId) {
-    $patientData = sqlQuery('SELECT * '.
-    'FROM `patient_data_gb` '.
-    'WHERE `id`=?', array(intval($patientId)));
+    $patientData = sqlQuery('SELECT * ' .
+        'FROM `patient_data_gb` ' .
+        'WHERE `id`=?', array(intval($patientId)));
 
     // debug_to_console_2($patientData);
-    debug_to_console($patientData['name']);
+    // debug_to_console($patientData['name']);
 
     $patientYO = getYearsOld($patientData['DOB']);
 
-    $patientVisitData = sqlQuery('SELECT * '.
-      'FROM `patient_visit_gb` '.
-      'WHERE `p_id`=?', array(intval($patientId)));
+    $patientVisitData = sqlQuery('SELECT * ' .
+        'FROM `patient_visit_gb` ' .
+        'WHERE `p_id`=?', array(intval($patientId)));
 }
-
-// echo "console.log( patientId : "   + $patientId + ")";
 ?>
+
 <html>
 <head>
     <title>
@@ -167,10 +167,11 @@ if ($patientId) {
     <link rel="stylesheet" type="text/css" href="css/bootstrap-material-design.css">
     <link rel="stylesheet" type="text/css" href="css/ripples.min.css">
     <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <!-- Customized css -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/md.css">
 
     <!-- Highcharts -->
     <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -179,10 +180,12 @@ if ($patientId) {
 
     <!-- md js  -->
     <!-- <script src="js/main.js"></script> -->
+    <link rel=stylesheet href="../themes/main_screen.css" type="text/css">
+    <!--    <link rel=stylesheet href="../themes/material-style.css" type="text/css">-->
 
     <script language='JavaScript'>
-        <?php require $GLOBALS['srcdir'].'/restoreSession.php'; ?>
 
+    <?php require $GLOBALS['srcdir'] . '/restoreSession.php'; ?>
         // This counts the number of frames that have reported themselves as loaded.
         // Currently only left_nav and Title do this, so the maximum will be 2.
         // This is used to determine when those frames are all loaded.
@@ -194,68 +197,8 @@ if ($patientId) {
 
         }
     </script>
-    <link rel=stylesheet href="../themes/main_screen.css" type="text/css">
-    <!--    <link rel=stylesheet href="../themes/material-style.css" type="text/css">-->
 
 </head>
-
-<style>
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-
-.switch input {display:none;}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-input:checked + .slider {
-  background-color: #2196F3;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
-</style>
 
 <body>
 
@@ -294,45 +237,46 @@ input:checked + .slider:before {
         <div class="patient-basic-info m-card" id='patient-info'>
             <div class="title" style="float:left;">
                 <i class="fa fa-user" aria-hidden="true"></i><?php echo text($patientData['name']); ?>
-                <span style="margin-left:10px;color:black;font-family: 'Open Sans', sans-serif;font-size:17px;"><?php echo text($patientData['gender']); ?>
-                  <span style="margin-left:5px;"><?php echo text($patientYO); ?> year(s) </span></span>
+                <span
+                    style="margin-left:10px;color:black;font-family: 'Open Sans', sans-serif;font-size:17px;"><?php echo text($patientData['gender']); ?>
+                    <span style="margin-left:5px;"><?php echo text($patientYO); ?> year(s) </span></span>
 
 
             </div>
-
 
 
             <div class="patient-info-right" style="margin-top: 7px;">
-                <span style="margin-right: 20px;">PatientID <span class="md-patient-id">000<?php echo text($patientData['id']); ?>V</span></span>
+                <span style="margin-right: 20px;">PatientID <span
+                        class="md-patient-id">000<?php echo text($patientData['id']); ?>V</span></span>
                 <i class="fa fa-arrows-alt" aria-hidden="true" id='expand-patient-info'
-                style="" ></i>
+                   style=""></i>
             </div>
 
 
-            <br style="clear:both;" />
+            <br style="clear:both;"/>
             <!-- END OF DEFAULT INFO -->
 
-            <div id="more-patient-info" class='hidden' >
-              <div style="min-height:6px;;border-bottom: 5px solid #2196F3; margin-bottom: 5px;">
-              </div>
+            <div id="more-patient-info" class='hidden'>
+                <div style="min-height:6px;;border-bottom: 5px solid #2196F3; margin-bottom: 5px;">
+                </div>
 
-              <div class="basic-stats" >
-                  <ul class="list-group" >
-                      <li class="list-group-item">
-                          <span class="badge"><?php echo text($patientData['gender']); ?></span> Gender
-                      </li>
-                      <li class="list-group-item">
-                        <span class="badge"><?php echo text($patientData['DOB']); ?></span> Date of Birth
-                      </li>
-                      <li class="list-group-item">
-                        <span class="badge"><?php echo text($patientData['city_village']); ?></span> City/Village
-                      </li>
-                      <li class="list-group-item">
-                        <span class="badge"><?php echo text($patientData['phone_num']); ?></span> Phone Number
-                      </li>
+                <div class="basic-stats">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <span class="badge"><?php echo text($patientData['gender']); ?></span> Gender
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge"><?php echo text($patientData['DOB']); ?></span> Date of Birth
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge"><?php echo text($patientData['city_village']); ?></span> City/Village
+                        </li>
+                        <li class="list-group-item">
+                            <span class="badge"><?php echo text($patientData['phone_num']); ?></span> Phone Number
+                        </li>
 
-                  </ul>
-              </div>
+                    </ul>
+                </div>
             </div>
 
         </div>
@@ -344,7 +288,7 @@ input:checked + .slider:before {
                     <i class="fa fa-heartbeat" aria-hidden="true"></i> Vitals
                     <label class="switch">
                         <input type="checkbox" id="editSwitch" onclick="editClicked()">
-                        <div class ="slider round"></div>
+                        <div class="slider round"></div>
                     </label>
                 </div>
 
@@ -384,7 +328,6 @@ input:checked + .slider:before {
             </div>
 
 
-
             <!-- vital card end -->
             <div class="patient-appoinment m-card" style="clear:both;width:100%;">
                 <div class="title" style="border-bottom: 5px solid #2196F3;margin-bottom:5px;">
@@ -409,10 +352,14 @@ input:checked + .slider:before {
 
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist" style="background-color:#2196F3;">
-                    <li role="presentation" class="active"><a href="#vital-hex" aria-controls="vital-hex" role="tab" data-toggle="tab">Vitals Plot</a></li>
-                    <li role="presentation"><a href="#bmi-scatter" aria-controls="bmi-scatter" role="tab" data-toggle="tab">BMI Chart</a></li>
-                    <li role="presentation"><a href="#pressure-hist" aria-controls="pressure-hist" role="tab" data-toggle="tab">Pressure History</a></li>
-                    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Option IV</a></li>
+                    <li role="presentation" class="active"><a href="#vital-hex" aria-controls="vital-hex" role="tab"
+                                                              data-toggle="tab">Vitals Plot</a></li>
+                    <li role="presentation"><a href="#bmi-scatter" aria-controls="bmi-scatter" role="tab"
+                                               data-toggle="tab">BMI Chart</a></li>
+                    <li role="presentation"><a href="#pressure-hist" aria-controls="pressure-hist" role="tab"
+                                               data-toggle="tab">Pressure History</a></li>
+                    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Option
+                            IV</a></li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -426,7 +373,7 @@ input:checked + .slider:before {
                     </div>
 
                     <div role="tabpanel" class="tab-pane fade" id="pressure-hist">
-                      <div id="pressure-hist-range"></div>
+                        <div id="pressure-hist-range"></div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="settings">..2.</div>
                 </div>
@@ -437,27 +384,22 @@ input:checked + .slider:before {
         <!-- right pane -->
 
         <nav class="fab-container">
-          <a href="http://codepen.io/koenigsegg1" target="_blank" tooltip="Kyle Lavery" class="buttons"></a>
-          <a href="#" tooltip="Xavier" class="buttons"></a>
-          <a href="#" tooltip="James" class="buttons"></a>
-          <a href="#" tooltip="Reminders" class="buttons"></a>
-          <a href="#" tooltip="Invite to Inbox" class="buttons"></a>
-          <a href="#" tooltip="Compose" class="buttons"><span><span class="rotate"></span></span></a>
+            <a href="http://codepen.io/koenigsegg1" target="_blank" tooltip="Kyle Lavery" class="buttons"></a>
+            <a href="#" tooltip="Xavier" class="buttons"></a>
+            <a href="#" tooltip="James" class="buttons"></a>
+            <a href="#" tooltip="Reminders" class="buttons"></a>
+            <a href="#" tooltip="Invite to Inbox" class="buttons"></a>
+            <a href="#" tooltip="Compose" class="buttons"><span><span class="rotate"></span></span></a>
         </nav>
 
     </div>
     <!-- end of container -->
 
 
-
-
     <img src="./img/cat.jpg" id="cat_img">
 </div>
 <?php
 
-//$x = $_SESSION['authUser'];
-//$y = $_SESSION['authId'];
-//echo "I love $x and $y";
 ?>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -470,8 +412,9 @@ input:checked + .slider:before {
 <script src="chart.js"></script>
 
 <!-- voice control -->
-// <script src="js/voice.js"></script>
-// <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+<!-- <script src="js/voice.js"></script> -->
+
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script> -->
 <script>
     // if (annyang) {
     //     // Let's define a command.
@@ -493,205 +436,74 @@ input:checked + .slider:before {
     // }
 </script>
 
-<script type="text/javascript">
-// make a php var to js objejct, json_encode makes it safe to contain things
-// like quotation marks and other things that can break the echo.
-var something=<?php echo json_encode($patientData); ?>;
-console.log('js obj');
-console.log(something);
+<script>
+    // make a php var to js objejct, json_encode makes it safe to contain things
+    // like quotation marks and other things that can break the echo.
+    // console.log(visitData);
+    var visitData =<?php echo json_encode($patientVisitData); ?>;
+
+    function getValuesFromObj(obj, filterList) {
+        var resultArr = [];
+        Object.keys(obj).forEach(function (key) {
+            if (filterList.indexOf(key) !== -1) {
+                resultArr.push(obj[key]);
+            }
+        });
+        return resultArr;
+    }
+
+    $(function () {
+        var filterList = ['bpi', 'bph', 'respiratory_rate', 'temperature', 'weight'];
+        var plotNumArr = getValuesFromObj(visitData, filterList);
+        // parse visit data to array of numbers inseaad of string.
+        plotNumArr = plotNumArr.map(function (data) {
+            return parseInt(data);
+        });
+        console.log(visitData);
+        console.log(plotNumArr);
+        initSpiderWeb(plotNumArr);
+
+        // for toggle patient info
+        $('#expand-patient-info').click(function () {
+            $('#more-patient-info').toggleClass('hidden');
+        });
+
+
+    });
 </script>
 
-<script>
-// make a php var to js objejct, json_encode makes it safe to contain things
-// like quotation marks and other things that can break the echo.
-var visitData=<?php echo json_encode($patientVisitData); ?>;
-// console.log(visitData);
-
-  function getValuesFromObj(obj, filterList){
-    var resultArr = [];
-    // parse the visit data to array of number
-    Object.keys(obj).forEach(function (key) {
-      // push if key is  in filterList
-      if(filterList.indexOf(key) !== -1){
-        resultArr.push(obj[key]);
-      }
-    });
-    return resultArr;
-  }
-
-  $(function(){
-    var filterList = ['bpi','bph', 'respiratory_rate','temperature','weight'];
-    var plotNumArr = getValuesFromObj(visitData,filterList);
-    // parse visit data to array of numbers inseaad of string.
-    plotNumArr = plotNumArr.map(function(data){
-      return parseInt(data);
-    });
-    console.log(visitData);
-    console.log(plotNumArr);
-    initSpiderWeb(plotNumArr);
-
-    // for toggle patient info
-    $('#expand-patient-info').click(function(){
-      $('#more-patient-info').toggleClass('hidden');
-    });
-
-
-  });
-</script>
 
 <script>
-function editClicked(){
-    var checkbox = document.getElementById("editSwitch");
-    if (checkbox.checked==true){
-        document.getElementById("editHeight").contentEditable=true;
-        document.getElementById("editWeight").contentEditable=true;
-        document.getElementById("editBMI").contentEditable=true;
-        document.getElementById("editTemp").contentEditable=true;
-        document.getElementById("editPulse").contentEditable=true;
-        document.getElementById("editRespiratory").contentEditable=true;
-        document.getElementById("editBPH").contentEditable=true;
-        document.getElementById("editBPL").contentEditable=true;
-        document.getElementById("editBOS").contentEditable=true;
+    function editClicked() {
+        var checkbox = document.getElementById("editSwitch");
+        if (checkbox.checked == true) {
+            document.getElementById("editHeight").contentEditable = true;
+            document.getElementById("editWeight").contentEditable = true;
+            document.getElementById("editBMI").contentEditable = true;
+            document.getElementById("editTemp").contentEditable = true;
+            document.getElementById("editPulse").contentEditable = true;
+            document.getElementById("editRespiratory").contentEditable = true;
+            document.getElementById("editBPH").contentEditable = true;
+            document.getElementById("editBPL").contentEditable = true;
+            document.getElementById("editBOS").contentEditable = true;
+        }
+        else {
+            document.getElementById("editHeight").contentEditable = false;
+            document.getElementById("editWeight").contentEditable = false;
+            document.getElementById("editBMI").contentEditable = false;
+            document.getElementById("editTemp").contentEditable = false;
+            document.getElementById("editPulse").contentEditable = false;
+            document.getElementById("editRespiratory").contentEditable = false;
+            document.getElementById("editBPH").contentEditable = false;
+            document.getElementById("editBPL").contentEditable = false;
+            document.getElementById("editBOS").contentEditable = false;
+        }
     }
-    else{
-       document.getElementById("editHeight").contentEditable=false;
-        document.getElementById("editWeight").contentEditable=false;
-        document.getElementById("editBMI").contentEditable=false;
-        document.getElementById("editTemp").contentEditable=false;
-        document.getElementById("editPulse").contentEditable=false;
-        document.getElementById("editRespiratory").contentEditable=false;
-        document.getElementById("editBPH").contentEditable=false;
-        document.getElementById("editBPL").contentEditable=false;
-        document.getElementById("editBOS").contentEditable=false;
-    }
-}
 </script>
 
 <script>
     $.material.init();
 </script>
-
-<style>
-.fab-container{
-  margin: 1em;
-  position: fixed;
-  bottom: 10;
-  right: 10;
-}
-
-.fab-container:hover .buttons:not(:last-of-type) {
-  width: 40px;
-  height: 40px;
-  margin: 15px auto 0;
-  opacity: 1;
-}
-
-.fab-container:hover .rotate {
-  background-image: url("http://goo.gl/0eJslQ");
-  transform: rotate(0deg);
-}
-
-.fab-container .buttons {
-  display: block;
-  width: 35px;
-  height: 35px;
-  margin: 20px auto 0;
-  text-decoration: none;
-  position: relative;
-  border-radius: 50%;
-  box-shadow: 0px 5px 11px -2px rgba(0, 0, 0, 0.18), 0px 4px 12px -7px rgba(0, 0, 0, 0.15);
-  opacity: 0;
-  transition: .2s;
-}
-
-.fab-container .buttons:nth-last-of-type(2) {
-  transition-delay: 20ms;
-}
-
-.fab-container .buttons:nth-last-of-type(3) {
-  transition-delay: 40ms;
-}
-
-.fab-container .buttons:nth-last-of-type(4) {
-  transition-delay: 60ms;
-}
-
-.fab-container .buttons:nth-last-of-type(5) {
-  transition-delay: 80ms;
-}
-
-.fab-container .buttons:nth-last-of-type(6) {
-  transition-delay: 100ms;
-}
-
-.fab-container .buttons:nth-last-of-type(1) {
-  width: 56px;
-  height: 56px;
-  opacity: 1;
-}
-
-.fab-container .buttons:nth-last-of-type(2) {
-  background: #D2A518 url("http://goo.gl/XVUbvp") center no-repeat;
-}
-
-.fab-container .buttons:nth-last-of-type(3) {
-  background: #3C80F6 url("https://goo.gl/xdZJHE") center no-repeat;
-}
-
-.fab-container .buttons:nth-last-of-type(4) {
-  background-image: url("https://goo.gl/OEKh8Y");
-  background-size: contain;
-}
-
-.fab-container .buttons:nth-last-of-type(5) {
-  background-image: url("https://goo.gl/SrERjY");
-  background-size: contain;
-}
-
-.fab-container .buttons:nth-last-of-type(6) {
-  background-image: url("http://goo.gl/c5kspt");
-  background-size: contain;
-}
-
-.fab-container .buttons:hover {
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
-}
-
-.fab-container span {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-}
-
-.fab-container span.rotate {
-  background: #DB4437 url("http://goo.gl/EfgECT") center no-repeat;
-  position: absolute;
-  transform: rotate(90deg);
-  transition: .3s;
-}
-
- [tooltip]:before {
-  content: attr(tooltip);
-  background: #585858;
-  padding: 5px 7px;
-  margin-right: 10px;
-  border-radius: 2px;
-  color: #FFF;
-  font: 500 12px Roboto;
-  white-space: nowrap;
-  position: absolute;
-  bottom: 20%;
-  right: 100%;
-  visibility: hidden;
-  opacity: 0;
-  transition: .3s;
-}
-
-[tooltip]:hover:before {
-  visibility: visible;
-  opacity: 1;
-}
-</style>
 
 </body>
 

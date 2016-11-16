@@ -264,18 +264,10 @@ if (empty($name)){
 
   $query = "SELECT * FROM `patient_data_gb` " .
   " WHERE `name` LIKE '%$name%' ;";
-
-  // $resList = array();
-  // while ($row = mysql_fetch_array($searchName)) {
-  //     $resList[] = $row;
-  // }
-  //
-  // $query = $resList;
 }
 
 
 $comments = mysql_query($query);
-
 
 // Please remember that  mysql_fetch_array has been deprecated in earlier
 // versions of PHP.  As of PHP 7.0, it has been replaced with mysqli_fetch_array.
