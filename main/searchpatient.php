@@ -261,7 +261,16 @@ else{
 if (empty($name)){
   $query = "SELECT * FROM patient_data_gb";
 }else{
-  $query ="SELECT * FROM patient_data_gb WHERE name = '$name'";
+
+  $query = "SELECT * FROM `patient_data_gb` " .
+  " WHERE `name` LIKE '%$name%' ;";
+
+  // $resList = array();
+  // while ($row = mysql_fetch_array($searchName)) {
+  //     $resList[] = $row;
+  // }
+  //
+  // $query = $resList;
 }
 
 

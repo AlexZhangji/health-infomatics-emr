@@ -54,7 +54,6 @@ function initSpiderWeb(visitData) {
                 pointPlacement: 'on'
             }, {
                 name: ' Local Average',
-
                 data: [83, 120, 90, 28, 73],
                 pointPlacement: 'on'
             }]
