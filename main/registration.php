@@ -107,7 +107,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
 
     <script type="text/javascript" src="../../library/topdialog.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="JQueryUI-v1.12.1.js"></script>
     <script language='JavaScript'>
       <?php require($GLOBALS['srcdir'] . "/restoreSession.php"); ?>
 
@@ -154,7 +154,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
           var phoneNumber;
           var test = false;
 
-           for( var i = 0; i < parseInt(localStorage.getItem("Sizeofnewpatientcache")); i++) {
+           for( var i = parseInt(localStorage.getItem("Sizeofnewpatientcache")) - 1; i >= 0; i--) {
                     var keyval = "NewPatient" + i;
                     var getdata = JSON.parse(localStorage.getItem(keyval));
                     //getdata = getdata.split(",");
@@ -185,17 +185,19 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
                                'stateProvince': stateProvince,
                                'selectCountry': selectCountry,
                                'postalCode': postalCode,
-                               'phoneNumber': phoneNumber
+                               'phoneNumber': phoneNumber,
+                               'keyval':keyval
                                                  },
                         success:function(result){
-                          //alert(result);
-                          //alert("hello");
-                          test = true;
+                         var keyvals = result;
+                              localStorage.removeItem(keyvals);
+                               localStorage["Sizeofnewpatientcache"] = parseInt(localStorage.getItem("Sizeofnewpatientcache")) - 1;
+                               
 
                         },
                         error: function() {
                           // Save
-                            i = parseInt(localStorage.getItem("Sizeofnewpatientcache"));
+                            
 
                         }
 
@@ -205,10 +207,10 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
                  
 
             }
-            alert(test);
+            //alert(test);
 
             
-              if (test){
+             /* if (test){
                             for (var y = 0; y < parseInt(localStorage.getItem("Sizeofnewpatientcache")); y++){
                               var keyvals = "NewPatient" + y;
                               localStorage.removeItem(keyvals);
@@ -218,7 +220,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
                           }
 
            
-        //  }
+        //  }*/
 
 
 
@@ -305,7 +307,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
           alert(postalCode);
           alert(phoneNumber);
           var numberofcachedfiles = localStorage.getItem("Sizeofnewpatientcache");
-                  
+          alert(names); 
         $.ajax({
                 type: "POST",
                 url: "createpatient.php",
@@ -326,6 +328,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
                 },
                 error: function() {
                   // Save
+                  alert("failed");
                   var cacheditems = parseInt(localStorage.getItem("Sizeofnewpatientcache"));
                   var cacheditemarr = [names,gender,address1,address2,date,cityVillage,stateProvince,selectCountry,postalCode,phoneNumber];
                   
