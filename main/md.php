@@ -138,7 +138,7 @@ if ($patientId) {
     //$latestData=$visitData[0];
     $height = $visitData['height'] / 100;
     $height = $height * $height;
-    $bmi = round($visitData['weight'] / $height,2);
+    $bmi = round($visitData['weight'] / $height, 2);
 
     // debug_to_console_2($patientData);
     // debug_to_console($patientData['name']);
@@ -293,11 +293,10 @@ if ($patientId) {
             <div class="patient-vitals m-card">
                 <div class="title" style="border-bottom: 5px solid #2196F3;margin-bottom:5px;">
                     <i class="fa fa-heartbeat" aria-hidden="true"></i> Vitals
-                    <label class="switch">
-                        <input type="checkbox" id="editSwitch" onclick="editClicked()">
-                        <div class="slider round"></div>
-                    </label>
-
+                    <div class="material-switch pull-right">
+                      <input id="editSwitch" name="someSwitchOption001" onclick="editClicked()" type="checkbox"/>
+                      <label for="editSwitch" class="label-primary"></label>
+                    </div>
                 </div>
 
                 <div style="margin-left:3%; font-weight:bold;margin-bottom:4px;">
@@ -334,7 +333,7 @@ if ($patientId) {
                          </li> -->
 
                         <li class="list-group-item">
-                             <input type="submit" value="Submit" id= "edit_visit_button" class='md-plain-card' >
+                             <input type="submit" value="Submit" id= "edit_visit_button" class='md-plain-card' style="border:3px;" >
                         </li>
 
                     </ul>
