@@ -131,11 +131,16 @@ if ($patientId) {
         'FROM `patient_data_gb` ' .
         'WHERE `id`=?', array(intval($patientId)));
 
-    $visitData = sqlQuery('SELECT * '.
-    'FROM `patient_visit_gb` '.
-    'WHERE `p_id`=?', array(intval($patientId)));
 
-    //$latestData=$visitData[0];
+    $visits_query ="SELECT * FROM patient_visit_gb WHERE p_id = $patientId ";
+    $visits = mysql_query($visits_query);
+    
+    if (!$visits){
+        echo "invalid patient visits query";
+    }
+
+
+    $visitData= mysql_fetch_array($visits, MYSQL_ASSOC);
     $height=$visitData['height']/100;
     $height=$height*$height;
     $bmi=$visitData['weight']/$height;
@@ -306,36 +311,41 @@ if ($patientId) {
                     Last Vitals: 20.Mar.2015 12:38 PM
                 </div>
 
-                <form class = "edit_visit" id = "edit_visit" action = "editVisit.php" method = "POST">
+                <form class = "edit_visit_form" name="edit_visit_form" id = "edit_visit" action = "editVisit.php" method = "POST">
                 <div class="vitals-stats">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" id="height" value="<?php echo text($visitData['height']); ?>" size="5" readonly></span> Height (cm)
+                            <span class="badge"><input type="int" name="height" id="height" value="<?php echo text($visitData['height']); ?>" size="5" readonly></span> Height (cm)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" id ="weight" value="<?php echo text($visitData['weight']); ?>" size="5" readonly></span> Weight (kg)
+                            <span class="badge"><input type="int" name="weight" id ="weight" value="<?php echo text($visitData['weight']); ?>" size="5" readonly></span> Weight (kg)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" id="bmi" value="<?php echo text($bmi); ?>" size="5" readonly></span> (Calculated) BMI
+                            <span class="badge"><input type="int" id="bmi" name="bmi" value="<?php echo text($bmi); ?>" size="5" readonly></span> (Calculated) BMI
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" id="temperature" value="<?php echo text($visitData['temperature']); ?>" size="5" readonly></p></span> Temperature (°C)
+                            <span class="badge"><input type="int" id="temperature" name="temperature" value="<?php echo text($visitData['temperature']); ?>" size="5" readonly></p></span> Temperature (°C)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" id="pulse" value="<?php echo text($visitData['pulse']); ?>" size="5" readonly></span> Pulse (/min)
+                            <span class="badge"><input type="int" id="pulse" name="pulse" value="<?php echo text($visitData['pulse']); ?>" size="5" readonly></span> Pulse (/min)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" id="respiratory_rate" value="<?php echo text($visitData['respiratory_rate']); ?>" size="5" readonly></p></span> Respiratory Rate (/min)
+                            <span class="badge"><input type="int" id="respiratory_rate" name="respiratory_rate" value="<?php echo text($visitData['respiratory_rate']); ?>" size="5" readonly></p></span> Respiratory Rate (/min)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" id="bph" value="<?php echo text($visitData['bph']); ?>" size="5" readonly>/<input type="int" name="bpl" value="<?php echo text($visitData['bpi']); ?>" size="5" readonly></p></span> Blood Pressure
+                            <span class="badge"><input type="int" id="bph" name="bph" value="<?php echo text($visitData['bph']); ?>" size="5" readonly>/<input type="int" id="bpl" name="bpl" value="<?php echo text($visitData['bpi']); ?>" size="5" readonly></p></span> Blood Pressure
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" id="blood_oxygen" value="Not available" readonly></p></span> Blood Oxygen Saturation (%)
+                            <span class="badge"><input type="int" id="blood_oxygen" name="blood_oxygen" value="Not available" readonly></p></span> Blood Oxygen Saturation (%)
                         </li>
+
+                        <input name ="visit_id" type="hidden" value="<?php echo text($visitData['visit_id']); ?>">
+                        <input name='patient_id' type="hidden" value="<?php echo text($patientId);?>" >
+
                         <li class="list-group-item">
-                            <input type="submit" value="Submit" id= "edit_visit_button">
+                            <input type="submit" value="Submit" id="edit_visit_button" name= "edit_visit_button" style="visibility: hidden; ">
                         </li>
+
 
                     </ul>
                 </div>
@@ -504,6 +514,9 @@ function editClicked(){
         document.getElementById("bph").readOnly=false;
         document.getElementById("bpl").readOnly=false;
         document.getElementById("blood_oxygen").readOnly=false;
+
+        document.getElementById("edit_visit_button").style.visibility='visible';
+
     }
     else{
         document.getElementById("bmi").readOnly=true;
@@ -516,6 +529,7 @@ function editClicked(){
         document.getElementById("bph").readOnly=true;
         document.getElementById("bpl").readOnly=true;
         document.getElementById("blood_oxygen").readOnly=true;
+        document.getElementById("edit_visit_button").style.visibility='hidden';
     }
 }
 </script>
