@@ -135,10 +135,10 @@
 .slider {
     position: absolute;
     cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 17px;
+    left: 248px;
+    right: -239px;
+    bottom: -8px;
     background-color: #ccc;
     -webkit-transition: .4s;
     transition: .4s;
@@ -147,8 +147,8 @@
 .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
+    height: 17px;
+    width: 17px;
     left: 4px;
     bottom: 4px;
     background-color: white;
@@ -180,3 +180,5 @@ input:checked+.slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
+
+/* for input */

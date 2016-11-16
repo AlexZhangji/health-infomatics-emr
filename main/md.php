@@ -241,7 +241,7 @@ if ($patientId) {
 
     <!-- container  -->
     <div class="md-plain-card" style="margin-top:20px; ">
-        <div class="patient-basic-info m-card" id='patient-info'>
+        <div class="patient-basic-info m-card" id='patient-info' style='margin-bottom: 15px;'>
             <div class="title" style="float:left;">
                 <i class="fa fa-user" aria-hidden="true"></i><?php echo text($patientData['name']); ?>
                 <span
