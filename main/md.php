@@ -131,6 +131,15 @@ if ($patientId) {
         'FROM `patient_data_gb` ' .
         'WHERE `id`=?', array(intval($patientId)));
 
+    $visitData = sqlQuery('SELECT * '.
+    'FROM `patient_visit_gb` '.
+    'WHERE `p_id`=?', array(intval($patientId)));
+
+    //$latestData=$visitData[0];
+    $height=$visitData['height']/100;
+    $height=$height*$height;
+    $bmi=$visitData['weight']/$height;
+
     // debug_to_console_2($patientData);
     // debug_to_console($patientData['name']);
 
@@ -290,42 +299,49 @@ if ($patientId) {
                         <input type="checkbox" id="editSwitch" onclick="editClicked()">
                         <div class="slider round"></div>
                     </label>
+
                 </div>
 
                 <div style="margin-left:3%; font-weight:bold;margin-bottom:4px;">
                     Last Vitals: 20.Mar.2015 12:38 PM
                 </div>
 
+                <form class = "edit_visit" id = "edit_visit" action = "editVisit.php" method = "POST">
                 <div class="vitals-stats">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <span class="badge"><p id="editHeight">162</p></span> Height (cm)
+                            <span class="badge"><input type="int" id="height" value="<?php echo text($visitData['height']); ?>" size="5" readonly></span> Height (cm)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><p id="editWeight">132</p></span> Weight (kg)
+                            <span class="badge"><input type="int" id ="weight" value="<?php echo text($visitData['weight']); ?>" size="5" readonly></span> Weight (kg)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><p id="editBMI">46.5</p></span> (Calculated) BMI
+                            <span class="badge"><input type="int" id="bmi" value="<?php echo text($bmi); ?>" size="5" readonly></span> (Calculated) BMI
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><p id="editTemp">30</p></span> Temperature (°C)
+                            <span class="badge"><input type="int" id="temperature" value="<?php echo text($visitData['temperature']); ?>" size="5" readonly></p></span> Temperature (°C)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><p id="editPulse">218</p></span> Pulse (/min)
+                            <span class="badge"><input type="int" id="pulse" value="<?php echo text($visitData['pulse']); ?>" size="5" readonly></span> Pulse (/min)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><p id="editRespiratory">80</p></span> Respiratory Rate (/min)
+                            <span class="badge"><input type="int" id="respiratory_rate" value="<?php echo text($visitData['respiratory_rate']); ?>" size="5" readonly></p></span> Respiratory Rate (/min)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><p id="editBPH">108 </p>/<p id="editBPL"> 42</p></span> Blood Pressure
+                            <span class="badge"><input type="int" id="bph" value="<?php echo text($visitData['bph']); ?>" size="5" readonly>/<input type="int" name="bpl" value="<?php echo text($visitData['bpi']); ?>" size="5" readonly></p></span> Blood Pressure
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><p id="editBOS">100</p></span> Blood Oxygen Saturation (%)
+                            <span class="badge"><input type="int" id="blood_oxygen" value="Not available" readonly></p></span> Blood Oxygen Saturation (%)
+                        </li>
+                        <li class="list-group-item">
+                            <input type="submit" value="Submit" id= "edit_visit_button">
                         </li>
 
                     </ul>
                 </div>
             </div>
+
+            </form>
 
 
             <!-- vital card end -->
@@ -474,31 +490,34 @@ if ($patientId) {
 
 
 <script>
-    function editClicked() {
-        var checkbox = document.getElementById("editSwitch");
-        if (checkbox.checked == true) {
-            document.getElementById("editHeight").contentEditable = true;
-            document.getElementById("editWeight").contentEditable = true;
-            document.getElementById("editBMI").contentEditable = true;
-            document.getElementById("editTemp").contentEditable = true;
-            document.getElementById("editPulse").contentEditable = true;
-            document.getElementById("editRespiratory").contentEditable = true;
-            document.getElementById("editBPH").contentEditable = true;
-            document.getElementById("editBPL").contentEditable = true;
-            document.getElementById("editBOS").contentEditable = true;
-        }
-        else {
-            document.getElementById("editHeight").contentEditable = false;
-            document.getElementById("editWeight").contentEditable = false;
-            document.getElementById("editBMI").contentEditable = false;
-            document.getElementById("editTemp").contentEditable = false;
-            document.getElementById("editPulse").contentEditable = false;
-            document.getElementById("editRespiratory").contentEditable = false;
-            document.getElementById("editBPH").contentEditable = false;
-            document.getElementById("editBPL").contentEditable = false;
-            document.getElementById("editBOS").contentEditable = false;
-        }
+function editClicked(){
+    var checkbox = document.getElementById("editSwitch");
+    if (checkbox.checked==true){
+
+        document.getElementById("height").readOnly=false;
+        document.getElementById("weight").readOnly=false;
+        document.getElementById("bmi").readOnly=false;
+
+        document.getElementById("temperature").readOnly=false;
+        document.getElementById("pulse").readOnly=false;
+        document.getElementById("respiratory_rate").readOnly=false;
+        document.getElementById("bph").readOnly=false;
+        document.getElementById("bpl").readOnly=false;
+        document.getElementById("blood_oxygen").readOnly=false;
     }
+    else{
+        document.getElementById("bmi").readOnly=true;
+       document.getElementById("height").readOnly=true;
+        document.getElementById("weight").readOnly=true;
+
+        document.getElementById("temperature").readOnly=true;
+        document.getElementById("pulse").readOnly=true;
+        document.getElementById("respiratory_rate").readOnly=true;
+        document.getElementById("bph").readOnly=true;
+        document.getElementById("bpl").readOnly=true;
+        document.getElementById("blood_oxygen").readOnly=true;
+    }
+}
 </script>
 
 <script>
