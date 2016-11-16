@@ -54,7 +54,7 @@ if ($GLOBALS['password_expiration_days'] != 0) {
     }
 
     // Display the password expiration message (starting from 7 days before the password gets expired)
-    $pwd_alert_date = date('Y-m-d', strtotime($pwd_expires_date . '-7 days'));
+    $pwd_alert_date = date('Y-m-d', strtotime($pwd_expires_date.'-7 days'));
 
     if (strtotime($pwd_alert_date) != '' &&
         strtotime($current_date) >= strtotime($pwd_alert_date) &&
@@ -71,13 +71,13 @@ if ($is_expired) {
     $frame1url = 'pwd_expires_alert.php';
 } elseif (!empty($_POST['patientID'])) {
     $patientID = 0 + $_POST['patientID'];
-    $frame1url = '../patient_file/summary/demographics.php?set_pid=' . attr($patientID);
+    $frame1url = '../patient_file/summary/demographics.php?set_pid='.attr($patientID);
 } elseif ($GLOBALS['athletic_team']) {
     $frame1url = '../reports/players_report.php?embed=1';
 } elseif (isset($_GET['mode']) && $_GET['mode'] == 'loadcalendar') {
-    $frame1url = 'calendar/index.php?pid=' . attr($_GET['pid']);
+    $frame1url = 'calendar/index.php?pid='.attr($_GET['pid']);
     if (isset($_GET['date'])) {
-        $frame1url .= '&date=' . attr($_GET['date']);
+        $frame1url .= '&date='.attr($_GET['date']);
     }
 } elseif ($GLOBALS['concurrent_layout']) {
     // new layout
@@ -88,7 +88,7 @@ if ($is_expired) {
     }
 } else {
     // old layout
-    $frame1url = 'main.php?mode=' . attr($_GET['mode']);
+    $frame1url = 'main.php?mode='.attr($_GET['mode']);
 }
 
 $nav_area_width = $GLOBALS['athletic_team'] ? '230' : '130';
@@ -108,16 +108,16 @@ function getYearsOld($DOB)
 
 function debug_to_console_2($data)
 {
-    $output = "<script>console.log( '" . array_values($data)[1] . "' );</script>";
+    $output = "<script>console.log( '".array_values($data)[1]."' );</script>";
     echo $output;
 }
 
 function debug_to_console($data)
 {
     if (is_array($data)) {
-        $output = "<script>console.log( 'Debug Objects: " . implode(',', $data) . "' );</script>";
+        $output = "<script>console.log( 'Debug Objects: ".implode(',', $data)."' );</script>";
     } else {
-        $output = "<script>console.log( 'Debug Objects: " . $data . "' );</script>";
+        $output = "<script>console.log( 'Debug Objects: ".$data."' );</script>";
     }
 
     echo $output;
@@ -127,8 +127,8 @@ function debug_to_console($data)
 // $patientId = trim($_GET['patientId']);
 $patientId = trim($_GET['patientId']);
 if ($patientId) {
-    $patientData = sqlQuery('SELECT * ' .
-        'FROM `patient_data_gb` ' .
+    $patientData = sqlQuery('SELECT * '.
+        'FROM `patient_data_gb` '.
         'WHERE `id`=?', array(intval($patientId)));
 
     $visitData = sqlQuery('SELECT * '.
@@ -136,17 +136,17 @@ if ($patientId) {
     'WHERE `p_id`=?', array(intval($patientId)));
 
     //$latestData=$visitData[0];
-    $height=$visitData['height']/100;
-    $height=$height*$height;
-    $bmi=$visitData['weight']/$height;
+    $height = $visitData['height'] / 100;
+    $height = $height * $height;
+    $bmi = $visitData['weight'] / $height;
 
     // debug_to_console_2($patientData);
     // debug_to_console($patientData['name']);
 
     $patientYO = getYearsOld($patientData['DOB']);
 
-    $patientVisitData = sqlQuery('SELECT * ' .
-        'FROM `patient_visit_gb` ' .
+    $patientVisitData = sqlQuery('SELECT * '.
+        'FROM `patient_visit_gb` '.
         'WHERE `p_id`=?', array(intval($patientId)));
 }
 ?>
@@ -194,7 +194,7 @@ if ($patientId) {
 
     <script language='JavaScript'>
 
-    <?php require $GLOBALS['srcdir'] . '/restoreSession.php'; ?>
+    <?php require $GLOBALS['srcdir'].'/restoreSession.php'; ?>
         // This counts the number of frames that have reported themselves as loaded.
         // Currently only left_nav and Title do this, so the maximum will be 2.
         // This is used to determine when those frames are all loaded.
@@ -235,8 +235,6 @@ if ($patientId) {
         </li>
         <li class="right">User</li>
         <li class="right"><a href="#settings">Settings</a></li>
-
-
     </ul>
     <!-- </br> -->
     <!-- END OF HEADER -->
@@ -330,9 +328,11 @@ if ($patientId) {
                         <li class="list-group-item">
                             <span class="badge"><input type="int" id="bph" value="<?php echo text($visitData['bph']); ?>" size="5" readonly>/<input type="int" name="bpl" value="<?php echo text($visitData['bpi']); ?>" size="5" readonly></p></span> Blood Pressure
                         </li>
-                        <li class="list-group-item">
+
+                        <!-- <li class="list-group-item">
                             <span class="badge"><input type="int" id="blood_oxygen" value="Not available" readonly></p></span> Blood Oxygen Saturation (%)
-                        </li>
+                         </li> -->
+
                         <li class="list-group-item">
                             <input type="submit" value="Submit" id= "edit_visit_button">
                         </li>
@@ -405,7 +405,7 @@ if ($patientId) {
           <!--   <a href="#" tooltip="James" class="buttons"></a> -->
             <a href="main_screen.php" tooltip="Main Page" class="buttons"></a>
             <a href="#" tooltip="Community Chart" class="buttons"></a>
-            <a href=" newVisit.php?patientId=<?php echo $patientId;?>"  tooltip="New Visit" class="buttons"><span><span class="rotate"></span></span></a>
+            <a href=" newVisit.php?patientId=<?php echo $patientId; ?>"  tooltip="New Visit" class="buttons"><span><span class="rotate"></span></span></a>
         </nav>
 
     </div>
