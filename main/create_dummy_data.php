@@ -136,10 +136,10 @@ function createDummyPatient($numPpl)
 
       echo 'create patient table';
       // create tables;
-      sqlQuery("CREATE TABLE $tableName ".
-      '(id BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id),'.
-      'name VARCHAR(255), gender VARCHAR(255), DOB date, city_village VARCHAR(255),'.
-      'state_province VARCHAR(255), address_1 VARCHAR(255), address_2 VARCHAR(255), postal_num BIGINT, phone_num BIGINT;');
+      sqlQuery("CREATE TABLE $tableName " .
+      '(id BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id) , '.
+      'name VARCHAR(255), gender VARCHAR(255), DOB date, city_village VARCHAR(255), '.
+      'state_province VARCHAR(255), address_1 VARCHAR(255), address_2 VARCHAR(255), postal_num BIGINT, phone_num BIGINT);');
 
         // templist
       $genderListDummy = array('male', 'female');
