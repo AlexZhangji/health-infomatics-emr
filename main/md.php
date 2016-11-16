@@ -505,13 +505,14 @@ console.log(something);
 // make a php var to js objejct, json_encode makes it safe to contain things
 // like quotation marks and other things that can break the echo.
 var visitData=<?php echo json_encode($patientVisitData); ?>;
+// console.log(visitData);
 
   function getValuesFromObj(obj, filterList){
     var resultArr = [];
     // parse the visit data to array of number
     Object.keys(obj).forEach(function (key) {
-      // if key is not in filterList
-      if(filterList.indexOf(key) === -1){
+      // push if key is  in filterList
+      if(filterList.indexOf(key) !== -1){
         resultArr.push(obj[key]);
       }
     });
@@ -519,12 +520,14 @@ var visitData=<?php echo json_encode($patientVisitData); ?>;
   }
 
   $(function(){
-    var plotNumArr = getValuesFromObj(visitData,['patient_id','visit_id']);
+    var filterList = ['bpi','bph', 'respiratory_rate','temperature','weight'];
+    var plotNumArr = getValuesFromObj(visitData,filterList);
     // parse visit data to array of numbers inseaad of string.
     plotNumArr = plotNumArr.map(function(data){
-      return parseInt(data, 10);
+      return parseInt(data);
     });
-
+    console.log(visitData);
+    console.log(plotNumArr);
     initSpiderWeb(plotNumArr);
 
     // for toggle patient info

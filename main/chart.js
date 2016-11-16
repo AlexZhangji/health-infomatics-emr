@@ -23,9 +23,9 @@ function initSpiderWeb(visitData) {
             },
 
             xAxis: {
-                categories: ['Blood Pressure', 'Breath', 'Heart Rate', 'Cholesterol',
-                    'BMI', 'Blood Glucose Level'
-                ],
+              categories: ['Weight', 'Blood Pressure High', 'Blood Pressure Low',
+                  'Temperature', 'Respiratory Rate',
+              ],
                 tickmarkPlacement: 'on',
                 lineWidth: 0
             },
@@ -54,7 +54,8 @@ function initSpiderWeb(visitData) {
                 pointPlacement: 'on'
             }, {
                 name: ' Local Average',
-                data: [50, 39, 42, 31, 26, 14],
+
+                data: [83, 120, 90, 28, 73],
                 pointPlacement: 'on'
             }]
 
@@ -647,8 +648,8 @@ function initScatterPlot() {
 
 }
 
-function initPressureHist(){
-  var ranges = [
+function initPressureHist() {
+    var ranges = [
 
             [1248134400000, 12.2, 15.5],
             [1248220800000, 12.0, 16.8],
@@ -699,8 +700,7 @@ function initPressureHist(){
             valueSuffix: ''
         },
 
-        legend: {
-        },
+        legend: {},
 
         series: [{
             name: 'Blood Pressure',
