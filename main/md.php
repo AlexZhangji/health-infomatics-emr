@@ -400,12 +400,12 @@ if ($patientId) {
         <!-- right pane -->
 
         <nav class="fab-container">
-            <a href="http://codepen.io/koenigsegg1" target="_blank" tooltip="Kyle Lavery" class="buttons"></a>
-            <a href="#" tooltip="Xavier" class="buttons"></a>
-            <a href="#" tooltip="James" class="buttons"></a>
-            <a href="#" tooltip="Reminders" class="buttons"></a>
-            <a href="#" tooltip="Invite to Inbox" class="buttons"></a>
-            <a href="#" tooltip="Compose" class="buttons"><span><span class="rotate"></span></span></a>
+          <!--  <a href="http://codepen.io/koenigsegg1" target="_blank" tooltip="Kyle Lavery" class="buttons"></a>-->
+          <!--   <a href="#"  tooltip="Xavier" class="buttons"></a> -->
+          <!--   <a href="#" tooltip="James" class="buttons"></a> -->
+            <a href="main_screen.php" tooltip="Main Page" class="buttons"></a>
+            <a href="#" tooltip="Community Chart" class="buttons"></a>
+            <a href=" newVisit.php?patientId=<?php echo $patientId;?>"  tooltip="New Visit" class="buttons"><span><span class="rotate"></span></span></a>
         </nav>
 
     </div>
