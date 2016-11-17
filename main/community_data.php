@@ -102,16 +102,11 @@ $rawVillageInfo = mysql_query(
   'GROUP BY city_village ' .
   'ORDER BY COUNT(city_village) DESC ;');
 
-// while($villageInfo = mysql_fetch_array($rawVillageInfo)) {
-//     //will output all data on each loop.
-//     print_r($villageInfo);
-//   }
-
   //  handle search results
-  if (isset($_POST['location'])){
-    $searchLoc = $_POST['location'];
-  }
-  else{
+  $searchLoc = trim($_GET['location']);
+  if($searchLoc){
+    print_r($searchLoc . ' is set!');
+  }else{
     $searchLoc=null;
   }
 
@@ -119,11 +114,11 @@ $rawVillageInfo = mysql_query(
     $resQuery = $rawVillageInfo;
   }else{
 
-    $resQuery = 'SELECT city_village , COUNT(city_village) AS num_patient ' .
+    $resQuery = mysql_query('SELECT city_village , COUNT(city_village) AS num_patient ' .
     'FROM `patient_data_gb` ' .
     "WHERE `city_village` LIKE '%$searchLoc%' ".
     'GROUP BY city_village ' .
-    'ORDER BY COUNT(city_village) DESC ;';
+    'ORDER BY COUNT(city_village) DESC ;');
   }
 
 
@@ -233,7 +228,7 @@ $rawVillageInfo = mysql_query(
       $numPatient = $villageInfo['num_patient'];
 
       echo "<tr>";
-      echo "<td><a href=community.php?location=".$village." style='color: #0B0080 '>".$village."</a></td>";
+      echo "<td><a href=community_data.php?location=".urlencode($village)." style='color: #0B0080 '>".$village."</a></td>";
       echo "<td>$numPatient</td>";
       echo "</tr>";
     }
