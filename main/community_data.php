@@ -103,9 +103,9 @@ $rawVillageInfo = mysql_query(
   'ORDER BY COUNT(city_village) DESC ;');
 
   //  handle search results
-  $searchLoc = trim($_GET['location']);
-  if($searchLoc){
-    print_r($searchLoc . ' is set!');
+  if(!empty($_GET['location'])){
+    $searchLoc = trim($_GET['location']);
+    // print_r($searchLoc . ' is set!');
   }else{
     $searchLoc=null;
   }
@@ -216,7 +216,18 @@ $rawVillageInfo = mysql_query(
     <!-- container  -->
     <div class="md-plain-card" style="margin-top:20px; ">
 
-    <table>
+    <div class="form-group form-group-lg is-empty ">
+        <label class="control-label" for="village-search" style='color:#2196F3; font-size:20px;'>Input the Community:</label>
+        <input class="form-control" type="text" id="village-search">
+        <a class="btn btn-raised active" style='margin-left:30vw; width:20vw;'
+         id="comm-search-btn" onclick='searchComm();'>
+          Search
+        </a>
+    </div>
+
+    <br />
+
+    <table class='table table-striped table-hover m-card'>
         <tr>
             <th>Village Name</th>
             <th>Number of Patient</th>
@@ -276,6 +287,13 @@ $rawVillageInfo = mysql_query(
     //     // Start listening.
     //     annyang.start();
     // }
+</script>
+
+<script>
+  function searchComm(){
+    var _village = document.querySelector('#village-search').value;
+    window.location.href = "community_data.php?location=" + encodeURIComponent(_village);
+  }
 </script>
 
 <script>
