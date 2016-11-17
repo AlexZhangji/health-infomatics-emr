@@ -95,6 +95,19 @@ $nav_area_width = $GLOBALS['athletic_team'] ? '230' : '130';
 if (!empty($GLOBALS['gbl_nav_area_width'])) {
     $nav_area_width = $GLOBALS['gbl_nav_area_width'];
 }
+
+$rawVillageInfo = mysql_query(
+  'SELECT city_village , COUNT(city_village) AS num_patient '.
+  'FROM patient_data_gb ' .
+  'GROUP BY city_village ' .
+  'ORDER BY COUNT(city_village) DESC ;');
+
+while($villageInfo = mysql_fetch_array($rawVillageInfo)) {
+    //will output all data on each loop.
+    print_r($villageInfo);
+  }
+
+
 ?>
 
 <html>
@@ -191,6 +204,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
 
     </div>
     <!-- end of container -->
+
 
 
 </div>
