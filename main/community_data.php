@@ -102,10 +102,30 @@ $rawVillageInfo = mysql_query(
   'GROUP BY city_village ' .
   'ORDER BY COUNT(city_village) DESC ;');
 
-while($villageInfo = mysql_fetch_array($rawVillageInfo)) {
-    //will output all data on each loop.
-    print_r($villageInfo);
+// while($villageInfo = mysql_fetch_array($rawVillageInfo)) {
+//     //will output all data on each loop.
+//     print_r($villageInfo);
+//   }
+
+  //  handle search results
+  if (isset($_POST['location'])){
+    $searchLoc = $_POST['location'];
   }
+  else{
+    $searchLoc=null;
+  }
+
+  if (empty($searchLoc)){
+    $resQuery = $rawVillageInfo;
+  }else{
+
+    $resQuery = 'SELECT city_village , COUNT(city_village) AS num_patient ' .
+    'FROM `patient_data_gb` ' .
+    "WHERE `city_village` LIKE '%$searchLoc%' ".
+    'GROUP BY city_village ' .
+    'ORDER BY COUNT(city_village) DESC ;';
+  }
+
 
 
 ?>
@@ -200,6 +220,26 @@ while($villageInfo = mysql_fetch_array($rawVillageInfo)) {
 
     <!-- container  -->
     <div class="md-plain-card" style="margin-top:20px; ">
+
+    <table>
+        <tr>
+            <th>Village Name</th>
+            <th>Number of Patient</th>
+        </tr>
+
+    <?php
+    while($villageInfo = mysql_fetch_array($resQuery)) {
+      $village = $villageInfo['city_village'];
+      $numPatient = $villageInfo['num_patient'];
+
+      echo "<tr>";
+      echo "<td><a href=community.php?location=".$village." style='color: #0B0080 '>".$village."</a></td>";
+      echo "<td>$numPatient</td>";
+      echo "</tr>";
+    }
+
+    ?>
+    </table>
 
 
     </div>
