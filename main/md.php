@@ -249,7 +249,7 @@ if ($patientId) {
 
 
             <br style="clear:both;"/>
-            <!-- END OF DEFAULT INFO -->
+            <!-- END OF DEFAULT INFO --> 
 
             <div id="more-patient-info" class='hidden'>
                 <div style="min-height:6px;;border-bottom: 5px solid #2196F3; margin-bottom: 5px;">
