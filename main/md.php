@@ -19,11 +19,9 @@
  */
 $fake_register_globals = false;
 $sanitize_all_escapes = true;
-
 /* Include our required headers */
 require_once '../globals.php';
 require_once "$srcdir/formdata.inc.php";
-
 // Creates a new session id when load this outer frame
 // (allows creations of separate OpenEMR frames to view patients concurrently
 //  on different browser frame/windows)
@@ -38,9 +36,7 @@ if (isset($_POST['new_login_session_management'])) {
     // This is not a new login, so create a new session id and do NOT remove the old session
     session_regenerate_id(false);
 }
-
 $_SESSION['encounter'] = '';
-
 // Fetch the password expiration date
 $is_expired = false;
 if ($GLOBALS['password_expiration_days'] != 0) {
@@ -52,10 +48,8 @@ if ($GLOBALS['password_expiration_days'] != 0) {
     if ($row = sqlFetchArray($result)) {
         $pwd_expires_date = $row['pwd_expiration_date'];
     }
-
     // Display the password expiration message (starting from 7 days before the password gets expired)
     $pwd_alert_date = date('Y-m-d', strtotime($pwd_expires_date.'-7 days'));
-
     if (strtotime($pwd_alert_date) != '' &&
         strtotime($current_date) >= strtotime($pwd_alert_date) &&
         (!isset($_SESSION['expiration_msg'])
@@ -65,7 +59,6 @@ if ($GLOBALS['password_expiration_days'] != 0) {
         $_SESSION['expiration_msg'] = 1; // only show the expired message once
     }
 }
-
 if ($is_expired) {
     //display the php file containing the password expiration message.
     $frame1url = 'pwd_expires_alert.php';
@@ -90,28 +83,23 @@ if ($is_expired) {
     // old layout
     $frame1url = 'main.php?mode='.attr($_GET['mode']);
 }
-
 $nav_area_width = $GLOBALS['athletic_team'] ? '230' : '130';
 if (!empty($GLOBALS['gbl_nav_area_width'])) {
     $nav_area_width = $GLOBALS['gbl_nav_area_width'];
 }
-
 function getYearsOld($DOB)
 {
     date_default_timezone_set('America/Los_Angeles');
-
     $diff = abs(time() - strtotime($DOB));
     $years = floor($diff / (365 * 60 * 60 * 24));
 
     return $years;
 }
-
 function debug_to_console_2($data)
 {
     $output = "<script>console.log( '".array_values($data)[1]."' );</script>";
     echo $output;
 }
-
 function debug_to_console($data)
 {
     if (is_array($data)) {
@@ -119,10 +107,8 @@ function debug_to_console($data)
     } else {
         $output = "<script>console.log( 'Debug Objects: ".$data."' );</script>";
     }
-
     echo $output;
 }
-
 // get patinet id
 // $patientId = trim($_GET['patientId']);
 $patientId = trim($_GET['patientId']);
@@ -130,36 +116,26 @@ if ($patientId) {
     $patientData = sqlQuery('SELECT * '.
         'FROM `patient_data_gb` '.
         'WHERE `id`=?', array(intval($patientId)));
-
-    $visits_query ="SELECT * FROM patient_visit_gb WHERE p_id = $patientId ";
-
+    $visits_query = "SELECT * FROM patient_visit_gb WHERE p_id = $patientId ";
     $visits_query_results = mysql_query($visits_query);
-    
+
     $visits = array();
-    if (!$visits_query_results){
-        echo "invalid patient visits query";
-    }
-    else{
-        while ($row = mysql_fetch_assoc($visits_query_results)){
+    if (!$visits_query_results) {
+        echo 'invalid patient visits query';
+    } else {
+        while ($row = mysql_fetch_assoc($visits_query_results)) {
             $visits[] = $row;
         }
     }
-
     $visits_size = count($visits);
     $visitData = $visits[0];
     //$visitData= mysql_fetch_array($visits, MYSQL_ASSOC);
-    $height=$visitData['height']/100;
-    $height=$height*$height;
-    $bmi= round($visitData['weight']/$height, 2);
-    $bmi=$visitData['weight']/$height;
-
-
+    $height = $visitData['height'] / 100;
+    $height = $height * $height;
+    $bmi = round($visitData['weight'] / $height, 2);
     // debug_to_console_2($patientData);
     // debug_to_console($patientData['name']);
-
-
     $patientYO = getYearsOld($patientData['DOB']);
-
     $patientVisitData = sqlQuery('SELECT * '.
         'FROM `patient_visit_gb` '.
         'WHERE `p_id`=?', array(intval($patientId)));
@@ -208,17 +184,14 @@ if ($patientId) {
     <!--    <link rel=stylesheet href="../themes/material-style.css" type="text/css">-->
 
     <script language='JavaScript'>
-
     <?php require $GLOBALS['srcdir'].'/restoreSession.php'; ?>
         // This counts the number of frames that have reported themselves as loaded.
         // Currently only left_nav and Title do this, so the maximum will be 2.
         // This is used to determine when those frames are all loaded.
         var loadedFrameCount = 0;
-
         function allFramesLoaded() {
             // Change this number if more frames participate in reporting.
             return loadedFrameCount >= 2;
-
         }
     </script>
 
@@ -309,17 +282,17 @@ if ($patientId) {
                 <div class="title" style="border-bottom: 5px solid #2196F3;margin-bottom:5px;">
                     <i class="fa fa-heartbeat" aria-hidden="true"></i> Vitals
                     <div class="material-switch pull-right">
-                      <input id="editSwitch" name="someSwitchOption001" onclick="editClicked()" type="checkbox"/>
+                      <input id="editSwitch" name="someSwitchOption001" onclick="editClicked();" type="checkbox"/>
                       <label for="editSwitch" class="label-primary"></label>
                     </div>
                 </div>
 
                 <div style="margin-left:3%; font-weight:bold;margin-bottom:4px;">
                     Visit Date
-                    <select name="visits_dropdown" id="visits_dropdown" onchange="selectDropDown()"> 
+                    <select name="visits_dropdown" id="visits_dropdown" onchange="selectDropDown()">
                         <?php
-                        for ($i=0; $i<$visits_size; $i++){
-                            echo "<option value=".$i.">".$visits[$i]['date']." </option>";
+                        for ($i = 0; $i < $visits_size; ++$i) {
+                            echo '<option value='.$i.'>'.$visits[$i]['date'].' </option>';
                         }
                         ?>
                     </select>
@@ -351,7 +324,7 @@ if ($patientId) {
                             <span class="badge"><input type="int" id="bph" name="bph" value="<?php echo text($visitData['bph']); ?>" size="5">/<input type="int" id="bpl" name="bpl" value="<?php echo text($visitData['bpi']); ?>" size="5" readonly></p></span> Blood Pressure
                         </li>
                         <input name ="visit_id" type="hidden" value="<?php echo text($visitData['visit_id']); ?>">
-                        <input name='patient_id' type="hidden" value="<?php echo text($patientId);?>" >
+                        <input name='patient_id' type="hidden" value="<?php echo text($patientId); ?>" >
 
                         <li class="list-group-item">
                              <input type="submit" value="Submit" id= "edit_visit_button" name="edit_visit_button" class='md-plain-card' style="border:3px;" >
@@ -432,12 +405,8 @@ if ($patientId) {
     </div>
     <!-- end of container -->
 
-
-    <img src="./img/cat.jpg" id="cat_img">
+    <img src="./img/cat.jpg" id="cat_img" />
 </div>
-<?php
-
-?>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
@@ -478,7 +447,6 @@ if ($patientId) {
     // like quotation marks and other things that can break the echo.
     // console.log(visitData);
     var visitData =<?php echo json_encode($patientVisitData); ?>;
-
     function getValuesFromObj(obj, filterList) {
         var resultArr = [];
         Object.keys(obj).forEach(function (key) {
@@ -489,11 +457,32 @@ if ($patientId) {
         return resultArr;
     }
 
+    // for edit
+
+    function editClicked(){
+      $(function(){
+        var checkbox = document.getElementById("editSwitch");
+        console.log('clicked');
+
+        var inputList = $('.badge input');
+        if (checkbox.checked==true){
+          inputList.prop('readonly', false);
+          inputList.css('border-bottom','solid #2196F3 2px');
+          $('#edit_visit_button').css('visibility','visible');
+        }
+        else{
+          inputList.prop('readonly', true);
+          inputList.css('border','none');
+          $('#edit_visit_button').css('visibility','hidden');
+        }
+      });
+    }
+
+
     //  for lols
       function whoLetTheCatOut(){
         var meow = new Audio('sound/meow.mp3');
         meow.play();
-
         $('#cat_img').animate({
             bottom: '-30px'
         });
@@ -504,7 +493,6 @@ if ($patientId) {
             });
         }, 3500);
       }
-
     $(function () {
         var filterList = ['bpi', 'bph', 'respiratory_rate', 'temperature', 'weight'];
         var plotNumArr = getValuesFromObj(visitData, filterList);
@@ -515,60 +503,37 @@ if ($patientId) {
         console.log(visitData);
         console.log(plotNumArr);
         initSpiderWeb(plotNumArr);
-
         // for toggle patient info
         $('#expand-patient-info').click(function () {
             $('#more-patient-info').toggleClass('hidden');
         });
-
-
     });
 </script>
 
 
 <script>
-function editClicked(){
-  $(function(){
-    var checkbox = document.getElementById("editSwitch");
-    var inputList = $('.badge input');
 
-    if (checkbox.checked==true){
-      inputList.prop('readonly', false);
-      inputList.css('border-bottom','solid #2196F3 2px');
-      $('#edit_visit_button').css('visibility','visible');
-
-    }
-    else{
-      inputList.prop('readonly', true);
-      inputList.css('border','none');
-      $('#edit_visit_button').css('visibility','hidden');
-
-
-    }
-  });
-}
 
 function selectDropDown(){
     var dropdown = document.getElementById("visits_dropdown");
     var n = dropdown.options[dropdown.selectedIndex].value;
-
-    // <?php $countVal=0; ?>
+    // <?php $countVal = 0; ?>
     // for (var i=0; i<n; i++){
     //     <?php
     //     $countVal = $countVal+1;
-    //     ?>
+    ?>
     // }
-    
+
     // <?php
     // $visitData = $visits[$countVal];
-    // ?>
+    ?>
     // var height = document.getElementById("height");
     // height.value="<//?php echo $visitData['height']; ?>";
     if (n==0){
-        <?php $visitData=$visits[0]; ?>
+        <?php $visitData = $visits[0]; ?>
         document.getElementById("height").value="<?php echo $visitData['height']; ?>";
         document.getElementById("weight").value = "<?php echo $visitData['weight']; ?>";
-        document.getElementById("bmi").value = "<?php echo round(($visitData['weight']/$visitData['height']*100),2); ?>";
+        document.getElementById("bmi").value = "<?php echo round(($visitData['weight'] / $visitData['height'] * 100), 2); ?>";
         document.getElementById("temperature").value="<?php echo $visitData['temperature']; ?>"
         document.getElementById("pulse").value="<?php echo $visitData['pulse']; ?>"
         document.getElementById("respiratory_rate").value="<?php echo $visitData['respiratory_rate']; ?>"
@@ -576,10 +541,10 @@ function selectDropDown(){
         document.getElementById("bpl").value="<?php echo $visitData['bpi']; ?>"
     }
     else if (n==1){
-        <?php $visitData=$visits[1]; ?>
+        <?php $visitData = $visits[1]; ?>
         document.getElementById("height").value="<?php echo $visitData['height']; ?>";
         document.getElementById("weight").value = "<?php echo $visitData['weight']; ?>";
-        document.getElementById("bmi").value = "<?php echo round(($visitData['weight']/$visitData['height']*100),2); ?>";
+        document.getElementById("bmi").value = "<?php echo round(($visitData['weight'] / $visitData['height'] * 100), 2); ?>";
         document.getElementById("temperature").value="<?php echo $visitData['temperature']; ?>"
         document.getElementById("pulse").value="<?php echo $visitData['pulse']; ?>"
         document.getElementById("respiratory_rate").value="<?php echo $visitData['respiratory_rate']; ?>"
@@ -587,10 +552,10 @@ function selectDropDown(){
         document.getElementById("bpl").value="<?php echo $visitData['bpi']; ?>"
     }
     else if (n==2){
-        <?php $visitData=$visits[2]; ?>
+        <?php $visitData = $visits[2]; ?>
         document.getElementById("height").value="<?php echo $visitData['height']; ?>";
         document.getElementById("weight").value = "<?php echo $visitData['weight']; ?>";
-        document.getElementById("bmi").value = "<?php echo round(($visitData['weight']/$visitData['height']*100),2); ?>";
+        document.getElementById("bmi").value = "<?php echo round(($visitData['weight'] / $visitData['height'] * 100), 2); ?>";
         document.getElementById("temperature").value="<?php echo $visitData['temperature']; ?>"
         document.getElementById("pulse").value="<?php echo $visitData['pulse']; ?>"
         document.getElementById("respiratory_rate").value="<?php echo $visitData['respiratory_rate']; ?>"
@@ -598,10 +563,6 @@ function selectDropDown(){
         document.getElementById("bpl").value="<?php echo $visitData['bpi']; ?>"
     }
 }
-
-
-
-
 </script>
 
 <script>
