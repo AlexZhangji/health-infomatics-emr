@@ -159,7 +159,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
 
                         },
                         error: function() {
-                          alert("Not able to sync data");
+                          //alert("Not able to sync data");
                             
 
                         }
@@ -194,7 +194,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
                 },
                 error: function() {
                   // Save
-                  alert("failed");
+                  //alert("failed");
                    db.transaction(function (tx){
 
                                     
@@ -310,7 +310,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
                 },
                 error: function() {
                   // Save
-                  alert("failed");
+                  //alert("failed");
                   
                   //alert(key);
                   //alert(JSON.parse(localStorage.getItem(key)));

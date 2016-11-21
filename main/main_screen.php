@@ -145,13 +145,14 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
                                               //Do something
                                              // alert("passed insert");
                                         }
-                                        alert(json[1][1]);
+                               
+
                                         db.transaction(function (tx){
 
                                     
                                         tx.executeSql('SELECT * FROM patient_data_gb', [], function (tx, results) {
                                           var len = results;
-                                          alert(len);
+                                       
                                     
                                         });
 
@@ -168,7 +169,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
 
                         },
                         error: function() {
-                          alert("Not able to sync data");
+                          //alert("Not able to sync data");
                             
 
                         }
