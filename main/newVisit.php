@@ -97,6 +97,13 @@ else {
 
 $nav_area_width = $GLOBALS['athletic_team'] ? '230' : '130';
 if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_area_width'];
+
+
+$patientId = trim($_GET['patientId']);
+if ($patientId){
+  echo $patientId;
+}
+
 ?>
 <html>
   <head>
@@ -222,6 +229,8 @@ ul.tab li a {
     transition: 0.3s;
     font-size: 17px;
 }
+
+
 </style>
 
 
@@ -274,6 +283,8 @@ ul.tab li a {
         <label>Notes</label>
         &nbsp;
         <p class="left"> <textarea name="note_area" class="" rows="4" cols="40" type="text" value="" ></textarea> </p>
+
+        <input name='patient_id' type="hidden" value="<?php echo text($patientId);?>" >
         <input type="submit" value="Submit" name = "submit_visit_button">
         </form>
         </div>
