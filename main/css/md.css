@@ -273,5 +273,13 @@ input:checked+.slider:before {
 #comm-search-btn{
   background-color: #2196F3;
   color: white;
-  font-weight: bold;
+  /*font-weight: bold;*/
+}
+
+.md-heading-text{
+  text-align:center;
+  font-size:26px;
+  font-family: 'Roboto Slab', serif;
+  /*font-weight: bold;*/
+  color: #2196F3;
 }
