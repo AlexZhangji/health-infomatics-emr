@@ -16,22 +16,23 @@ include_once("$srcdir/sql.inc");
 
 
                     $cc = $_POST['cc_field'];
-                    $symptons = $_POST['symptons_field'];
+                    $p_id=$_POST['patient_id'];
+                    $symptons = $_POST['symptoms_field'];
                     $diagnosis = $_POST['diagnosis_field'];
                     $rx = $_POST['rx_field'];
                     $note = $_POST['note_area'];
 
-                    $query = "insert into Visits (date,weight,height,temperature,bph,bpl,pulse,respiratory_rate,bos,CC,symptoms,diagnosis,Rx,note) values
-                    ('$visit_date','$weight','$height','$temp','$bph','$bpl','$pulse','$respiratory_rate','$bos','$cc','$symptons','$diagnosis','$rx','$note')";
+                    $query = "insert into patient_visit_gb (p_id,date,weight,height,temperature,bph,bpi,pulse,respiratory_rate,bos,CC,symptoms,diagnosis,Rx,note) values
+                    ('$p_id','$visit_date','$weight','$height','$temp','$bph','$bpl','$pulse','$respiratory_rate','$bos','$cc','$symptons','$diagnosis','$rx','$note')";
                      echo $query;
 
 
                     // echo '$task';
 
-                     sqlStatement("insert into Visits (date,weight,height,temperature,bph,bpl,pulse,respiratory_rate,bos,CC,symptoms,diagnosis,Rx,note) values
-                    ('$visit_date','$weight','$height','$temp','$bph','$bpl','$pulse','$respiratory_rate','$bos','$cc','$symptons','$diagnosis','$rx','$note')");
+                     sqlStatement("insert into patient_visit_gb (p_id,date,weight,height,temperature,bph,bpi,pulse,respiratory_rate,bos,CC,symptoms,diagnosis,Rx,note) values
+                    ('$p_id','$visit_date','$weight','$height','$temp','$bph','$bpl','$pulse','$respiratory_rate','$bos','$cc','$symptons','$diagnosis','$rx','$note')");
 
-                 header("Location: md.php");
+                 header("Location: md.php?patientId=".$p_id."");
 
 }
 

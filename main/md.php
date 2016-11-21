@@ -132,20 +132,31 @@ if ($patientId) {
         'WHERE `id`=?', array(intval($patientId)));
 
     $visits_query ="SELECT * FROM patient_visit_gb WHERE p_id = $patientId ";
-    $visits = mysql_query($visits_query);
 
-    if (!$visits){
+    $visits_query_results = mysql_query($visits_query);
+    
+    $visits = array();
+    if (!$visits_query_results){
         echo "invalid patient visits query";
     }
+    else{
+        while ($row = mysql_fetch_assoc($visits_query_results)){
+            $visits[] = $row;
+        }
+    }
 
-
-    $visitData= mysql_fetch_array($visits, MYSQL_ASSOC);
+    $visits_size = count($visits);
+    $visitData = $visits[0];
+    //$visitData= mysql_fetch_array($visits, MYSQL_ASSOC);
     $height=$visitData['height']/100;
     $height=$height*$height;
     $bmi= round($visitData['weight']/$height, 2);
+    $bmi=$visitData['weight']/$height;
+
 
     // debug_to_console_2($patientData);
     // debug_to_console($patientData['name']);
+
 
     $patientYO = getYearsOld($patientData['DOB']);
 
@@ -304,7 +315,14 @@ if ($patientId) {
                 </div>
 
                 <div style="margin-left:3%; font-weight:bold;margin-bottom:4px;">
-                    Last Vitals: 20.Mar.2015 12:38 PM
+                    Visit Date
+                    <select name="visits_dropdown" id="visits_dropdown" onchange="selectDropDown()"> 
+                        <?php
+                        for ($i=0; $i<$visits_size; $i++){
+                            echo "<option value=".$i.">".$visits[$i]['date']." </option>";
+                        }
+                        ?>
+                    </select>
                 </div>
 
                 <form class = "edit_visit_form" name="edit_visit_form" id = "edit_visit" action = "editVisit.php" method = "POST">
@@ -336,7 +354,7 @@ if ($patientId) {
                         <input name='patient_id' type="hidden" value="<?php echo text($patientId);?>" >
 
                         <li class="list-group-item">
-                             <input type="submit" value="Submit" id= "edit_visit_button" class='md-plain-card' style="border:3px;" >
+                             <input type="submit" value="Submit" id= "edit_visit_button" name="edit_visit_button" class='md-plain-card' style="border:3px;" >
                         </li>
 
 
@@ -529,6 +547,61 @@ function editClicked(){
     }
   });
 }
+
+function selectDropDown(){
+    var dropdown = document.getElementById("visits_dropdown");
+    var n = dropdown.options[dropdown.selectedIndex].value;
+
+    // <?php $countVal=0; ?>
+    // for (var i=0; i<n; i++){
+    //     <?php
+    //     $countVal = $countVal+1;
+    //     ?>
+    // }
+    
+    // <?php
+    // $visitData = $visits[$countVal];
+    // ?>
+    // var height = document.getElementById("height");
+    // height.value="<//?php echo $visitData['height']; ?>";
+    if (n==0){
+        <?php $visitData=$visits[0]; ?>
+        document.getElementById("height").value="<?php echo $visitData['height']; ?>";
+        document.getElementById("weight").value = "<?php echo $visitData['weight']; ?>";
+        document.getElementById("bmi").value = "<?php echo round(($visitData['weight']/$visitData['height']*100),2); ?>";
+        document.getElementById("temperature").value="<?php echo $visitData['temperature']; ?>"
+        document.getElementById("pulse").value="<?php echo $visitData['pulse']; ?>"
+        document.getElementById("respiratory_rate").value="<?php echo $visitData['respiratory_rate']; ?>"
+        document.getElementById("bph").value="<?php echo $visitData['bph']; ?>"
+        document.getElementById("bpl").value="<?php echo $visitData['bpi']; ?>"
+    }
+    else if (n==1){
+        <?php $visitData=$visits[1]; ?>
+        document.getElementById("height").value="<?php echo $visitData['height']; ?>";
+        document.getElementById("weight").value = "<?php echo $visitData['weight']; ?>";
+        document.getElementById("bmi").value = "<?php echo round(($visitData['weight']/$visitData['height']*100),2); ?>";
+        document.getElementById("temperature").value="<?php echo $visitData['temperature']; ?>"
+        document.getElementById("pulse").value="<?php echo $visitData['pulse']; ?>"
+        document.getElementById("respiratory_rate").value="<?php echo $visitData['respiratory_rate']; ?>"
+        document.getElementById("bph").value="<?php echo $visitData['bph']; ?>"
+        document.getElementById("bpl").value="<?php echo $visitData['bpi']; ?>"
+    }
+    else if (n==2){
+        <?php $visitData=$visits[2]; ?>
+        document.getElementById("height").value="<?php echo $visitData['height']; ?>";
+        document.getElementById("weight").value = "<?php echo $visitData['weight']; ?>";
+        document.getElementById("bmi").value = "<?php echo round(($visitData['weight']/$visitData['height']*100),2); ?>";
+        document.getElementById("temperature").value="<?php echo $visitData['temperature']; ?>"
+        document.getElementById("pulse").value="<?php echo $visitData['pulse']; ?>"
+        document.getElementById("respiratory_rate").value="<?php echo $visitData['respiratory_rate']; ?>"
+        document.getElementById("bph").value="<?php echo $visitData['bph']; ?>"
+        document.getElementById("bpl").value="<?php echo $visitData['bpi']; ?>"
+    }
+}
+
+
+
+
 </script>
 
 <script>

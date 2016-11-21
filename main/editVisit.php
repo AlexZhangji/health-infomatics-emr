@@ -15,15 +15,13 @@ include_once("$srcdir/sql.inc");
 		$patient_id = $_POST['patient_id'];
 
 		$query = "UPDATE patient_visit_gb SET height='$height', weight='$weight', temperature='$temp', pulse='$pulse', respiratory_rate='$respiratory_rate', bph='$bph', bpi='$bpi' WHERE visit_id=$visit_id";
-		//echo $query;
 		
 		sqlStatement($query);
-		//echo "patient id";
-		//echo $patient_id;
+		
 		header("Location: md.php?patientId=".$patient_id."");
 	}
 
 
-	//echo "here";
+	echo "here";
 
 ?>
