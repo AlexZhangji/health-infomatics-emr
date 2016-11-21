@@ -219,8 +219,8 @@ $rawVillageInfo = mysql_query(
     <div class="form-group form-group-lg is-empty ">
         <label class="control-label" for="village-search" style='color:#2196F3; font-size:20px;'>Input the Community:</label>
         <input class="form-control" type="text" id="village-search">
-        <a class="btn btn-raised active" style='margin-left:30vw; width:20vw;'
-         id="comm-search-btn" onclick='searchComm();'>
+        <a class="btn btn-raised active " style='margin-left:30vw; width:20vw;' id='comm-search-btn'
+          onclick='searchComm();'>
           Search
         </a>
     </div>

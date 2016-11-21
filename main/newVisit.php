@@ -113,25 +113,17 @@ $diseasesql = "SELECT name FROM disease_data_gb";
         $disease_list[] = $row['name'];
     }
 
-
 ?>
-
-
-
 
 <html>
   <head>
 
-  <!-- load jquery ui css-->
-<link href="path/to/jquery-ui.min.css" rel="stylesheet" type="text/css" />
-<!-- load jquery library -->
-<script src="path/to/jquery-1.10.2.js"></script>
-<!-- load jquery ui js file -->
-<script src="path/to/jquery-ui.min.js"></script>
 
 
-    <title>
-    <?php echo text($openemr_name) ?>
+
+
+
+    
     </title>
     <script type="text/javascript" src="../../library/topdialog.js"></script>
 
@@ -142,11 +134,6 @@ $diseasesql = "SELECT name FROM disease_data_gb";
       // Currently only left_nav and Title do this, so the maximum will be 2.
       // This is used to determine when those frames are all loaded.
       var loadedFrameCount = 0;
-
-    $("#diagnosis_field").autocomplete({
-        source: $disease_list,
-        autoFocus:true
-    });
 
 
       function allFramesLoaded() {
@@ -159,6 +146,8 @@ $diseasesql = "SELECT name FROM disease_data_gb";
   </head>
 
    <body  >
+
+
       <h id = "heading">
 
         <p id = "heading">
@@ -263,7 +252,11 @@ ul.tab li a {
 </style>
 
 
-   
+      <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+  
 
         <div class="container">
         <form action="md.php" method="get">
@@ -317,7 +310,18 @@ ul.tab li a {
         <input type="submit" value="Submit" name = "submit_visit_button">
         </form>
         </div>
-   
+
+    <script>
+
+    $(function() {
+      var availableTags =  <?php echo json_encode($disease_list); ?>;
+      $( "#diagnosis_field" ).autocomplete({
+      source: availableTags
+
+      });
+    });
+
+</script>
 
   
     </body>
