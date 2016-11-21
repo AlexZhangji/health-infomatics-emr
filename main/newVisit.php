@@ -237,10 +237,10 @@ ul.tab li a {
    
 
         <div class="container">
-        <form action="md.php" method="get">
-                      <input type="submit" value="Back" 
-                               name="create_new_patient" id="backbutton" onclick="top.restoreSession()"  />
-        </form>
+        
+                      <button value="Back" 
+                               onclick="<?php header("Location: md.php?patientId=".$patientId.""); ?>" > </button>
+        
         </br>
         </br>
         <form class = "new_visit" id = "new_visit" action = "createVisit.php" method = "POST">
