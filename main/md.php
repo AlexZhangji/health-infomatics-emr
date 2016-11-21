@@ -228,9 +228,9 @@ if ($patientId) {
     </h>
     <ul class="header card-shadow">
         <li class="left"><a href="main_screen.php">Home</a></li>
-        <li class="left"><a href="#news">News</a></li>
-        <li class="left"><a href="#contact">Contact</a></li>
-        <li class="left"><a href="#tutorial">Tutorial</a></li>
+        <li class="left"><a href="Tasklist.php">To Dos</a></li>
+        <li class="left"><a href="#Dictionary">Dictionary</a></li>
+        <li class="left"><a href="community_data.php">Communities</a></li>
 
         <li class="right">
             <a href="../logout.php" target="_top" class="css_button_small" id="logout_link"
@@ -405,7 +405,7 @@ if ($patientId) {
         <nav class="fab-container">
           <!--  <a href="http://codepen.io/koenigsegg1" target="_blank" tooltip="Kyle Lavery" class="buttons"></a>-->
           <!--   <a href="#"  tooltip="Xavier" class="buttons"></a> -->
-          <!--   <a href="#" tooltip="James" class="buttons"></a> -->
+            <a href="#" tooltip="Meow" class="buttons" onclick="whoLetTheCatOut();" ></a>
             <a href="main_screen.php" tooltip="Main Page" class="buttons"></a>
             <a href="#" tooltip="Community Chart" class="buttons"></a>
             <a href=" newVisit.php?patientId=<?php echo $patientId; ?>"  tooltip="New Visit" class="buttons"><span><span class="rotate"></span></span></a>
@@ -470,6 +470,22 @@ if ($patientId) {
         });
         return resultArr;
     }
+
+    //  for lols
+      function whoLetTheCatOut(){
+        var meow = new Audio('sound/meow.mp3');
+        meow.play();
+
+        $('#cat_img').animate({
+            bottom: '-30px'
+        });
+        // send cat back
+        setTimeout(function() {
+            $('#cat_img').animate({
+                bottom: '-500px'
+            });
+        }, 3500);
+      }
 
     $(function () {
         var filterList = ['bpi', 'bph', 'respiratory_rate', 'temperature', 'weight'];

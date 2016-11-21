@@ -54,7 +54,7 @@ if ($GLOBALS['password_expiration_days'] != 0) {
     }
 
     // Display the password expiration message (starting from 7 days before the password gets expired)
-    $pwd_alert_date = date('Y-m-d', strtotime($pwd_expires_date . '-7 days'));
+    $pwd_alert_date = date('Y-m-d', strtotime($pwd_expires_date.'-7 days'));
 
     if (strtotime($pwd_alert_date) != '' &&
         strtotime($current_date) >= strtotime($pwd_alert_date) &&
@@ -71,13 +71,13 @@ if ($is_expired) {
     $frame1url = 'pwd_expires_alert.php';
 } elseif (!empty($_POST['patientID'])) {
     $patientID = 0 + $_POST['patientID'];
-    $frame1url = '../patient_file/summary/demographics.php?set_pid=' . attr($patientID);
+    $frame1url = '../patient_file/summary/demographics.php?set_pid='.attr($patientID);
 } elseif ($GLOBALS['athletic_team']) {
     $frame1url = '../reports/players_report.php?embed=1';
 } elseif (isset($_GET['mode']) && $_GET['mode'] == 'loadcalendar') {
-    $frame1url = 'calendar/index.php?pid=' . attr($_GET['pid']);
+    $frame1url = 'calendar/index.php?pid='.attr($_GET['pid']);
     if (isset($_GET['date'])) {
-        $frame1url .= '&date=' . attr($_GET['date']);
+        $frame1url .= '&date='.attr($_GET['date']);
     }
 } elseif ($GLOBALS['concurrent_layout']) {
     // new layout
@@ -88,14 +88,43 @@ if ($is_expired) {
     }
 } else {
     // old layout
-    $frame1url = 'main.php?mode=' . attr($_GET['mode']);
+    $frame1url = 'main.php?mode='.attr($_GET['mode']);
 }
 
 $nav_area_width = $GLOBALS['athletic_team'] ? '230' : '130';
 if (!empty($GLOBALS['gbl_nav_area_width'])) {
     $nav_area_width = $GLOBALS['gbl_nav_area_width'];
 }
+
+$rawVillageInfo = mysql_query(
+  'SELECT city_village , COUNT(city_village) AS num_patient '.
+  'FROM patient_data_gb ' .
+  'GROUP BY city_village ' .
+  'ORDER BY COUNT(city_village) DESC ;');
+
+  //  handle search results
+  if(!empty($_GET['location'])){
+    $searchLoc = trim($_GET['location']);
+    // print_r($searchLoc . ' is set!');
+  }else{
+    $searchLoc=null;
+  }
+
+  if (empty($searchLoc)){
+    $resQuery = $rawVillageInfo;
+  }else{
+
+    $resQuery = mysql_query('SELECT city_village , COUNT(city_village) AS num_patient ' .
+    'FROM `patient_data_gb` ' .
+    "WHERE `city_village` LIKE '%$searchLoc%' ".
+    'GROUP BY city_village ' .
+    'ORDER BY COUNT(city_village) DESC ;');
+  }
+
+
+
 ?>
+
 <html>
 <head>
     <title>
@@ -108,10 +137,38 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <!-- end of fonts import -->
+    <script src="js/vendor/jquery-2.1.4.min.js"></script>
+
+    <!-- Material Design fonts -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- Bootstrap Material Design -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-material-design.css">
+    <link rel="stylesheet" type="text/css" href="css/ripples.min.css">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <!-- Customized css -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/md.css">
+
+    <!-- Highcharts -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+
+
+    <!-- md js  -->
+    <!-- <script src="js/main.js"></script> -->
+    <link rel=stylesheet href="../themes/main_screen.css" type="text/css">
+    <!--    <link rel=stylesheet href="../themes/material-style.css" type="text/css">-->
 
     <script language='JavaScript'>
-        <?php require $GLOBALS['srcdir'] . '/restoreSession.php'; ?>
 
+    <?php require $GLOBALS['srcdir'].'/restoreSession.php'; ?>
         // This counts the number of frames that have reported themselves as loaded.
         // Currently only left_nav and Title do this, so the maximum will be 2.
         // This is used to determine when those frames are all loaded.
@@ -123,8 +180,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
 
         }
     </script>
-    <link rel=stylesheet href="../themes/main_screen.css" type="text/css">
-    <!--    <link rel=stylesheet href="../themes/material-style.css" type="text/css">-->
+
 </head>
 
 <body>
@@ -141,10 +197,10 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
 
     </h>
     <ul class="header card-shadow">
-        <li class="left"><a href="main_screen.php">Home</a></li>
-        <li class="left"><a href="Tasklist.php">To Dos</a></li>
-        <li class="left"><a href="#Dictionary">Dictionary</a></li>
-        <li class="left"><a href="community_data.php">Communities</a></li>
+      <li class="left"><a href="main_screen.php">Home</a></li>
+      <li class="left"><a href="Tasklist.php">To Dos</a></li>
+      <li class="left"><a href="#Dictionary">Dictionary</a></li>
+      <li class="left"><a href="community_data.php">Communities</a></li>
 
         <li class="right">
             <a href="../logout.php" target="_top" class="css_button_small" id="logout_link"
@@ -153,70 +209,97 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
         </li>
         <li class="right">User</li>
         <li class="right"><a href="#settings">Settings</a></li>
-
-
     </ul>
-    </br>
+    <!-- </br> -->
+    <!-- END OF HEADER -->
 
-    <div class="container">
+    <!-- container  -->
+    <div class="md-plain-card" style="margin-top:20px; ">
 
-        <div class="card-shadow main-option">
-
-            <i class="fa fa-check-square-o" aria-hidden="true"></i><br>
-            <form action="Tasklist.php" method="get">
-
-                <input type="submit" value="To Do List"
-                       name="Messages" id="messages_link" onclick="top.restoreSession()"/>
-            </form>
-        </div>
-
-        <div class="card-shadow main-option">
-            <i class="fa fa-heartbeat" aria-hidden="true"></i><br>
-            <form action="searchpatient.php" method="get">
-                <input type="submit" value="Patient Records" id="Patients"/>
-            </form>
-        </div>
-        <div class="card-shadow main-option">
-            <i class="fa fa-comments-o" aria-hidden="true"></i><br>
-            <form action="message.php" method="get">
-                <input type="submit" value="Messages"
-                       name="Messages" id="messages_link" onclick="top.restoreSession()"/>
-            </form>
-        </div>
-        <div class="card-shadow main-option">
-            <i class="fa fa-book" aria-hidden="true"></i><br>
-
-            <form action="dictionary.php" method="get">
-                <input type="submit" value="Dictionary" id="dictionary">
-
-            </form>
-        </div>
-        <div class="card-shadow main-option">
-            <i class="fa fa-bar-chart" aria-hidden="true"></i><br>
-
-            <form action="community_data.php" method="get">
-                <input type="submit" value="Community Data" id="Community Data">
-            </form>
-        </div>
-
-        <div class="card-shadow main-option">
-            <i class="fa fa-cogs" aria-hidden="true"></i><br>
-
-            <form action="place_holder.php" method="get">
-                <input type="submit" value="System Setting" id="system">
-            </form>
-        </div>
-
-
-        <br style="clear:both;">
+    <div class="form-group form-group-lg is-empty ">
+        <label class="control-label" for="village-search" style='color:#2196F3; font-size:20px;'>Input the Community:</label>
+        <input class="form-control" type="text" id="village-search">
+        <a class="btn btn-raised active" style='margin-left:30vw; width:20vw;'
+         id="comm-search-btn" onclick='searchComm();'>
+          Search
+        </a>
     </div>
+
+    <br />
+
+    <table class='table table-striped table-hover m-card'>
+        <tr>
+            <th>Village Name</th>
+            <th>Number of Patient</th>
+        </tr>
+
+    <?php
+    while($villageInfo = mysql_fetch_array($resQuery)) {
+      $village = $villageInfo['city_village'];
+      $numPatient = $villageInfo['num_patient'];
+
+      echo "<tr>";
+      echo "<td><a href=community_data.php?location=".urlencode($village)." style='color: #0B0080 '>".$village."</a></td>";
+      echo "<td>$numPatient</td>";
+      echo "</tr>";
+    }
+
+    ?>
+    </table>
+
+
+    </div>
+    <!-- end of container -->
+
+
+
 </div>
-<?php
-//
-//$x = $_SESSION['authUser'];
-//$y = $_SESSION['authId'];
-//echo "I love $x and $y";
-//?>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Material Design for Bootstrap -->
+<script src="js/material.js"></script>
+<script src="js/ripples.min.js"></script>
+
+<!-- highcharts data-->
+<script src="chart.js"></script>
+
+<!-- voice control -->
+<!-- <script src="js/voice.js"></script> -->
+
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script> -->
+<script>
+    // if (annyang) {
+    //     // Let's define a command.
+    //     var commands = {
+    //         'hello': function() {
+    //             alert('Hello world!');
+    //         },
+    //         'show me *tag': showPlots,
+    //         'test': function() {
+    //             alert('Working!');
+    //         },
+    //     };
+    //
+    //     // Add our commands to annyang
+    //     annyang.addCommands(commands);
+    //
+    //     // Start listening.
+    //     annyang.start();
+    // }
+</script>
+
+<script>
+  function searchComm(){
+    var _village = document.querySelector('#village-search').value;
+    window.location.href = "community_data.php?location=" + encodeURIComponent(_village);
+  }
+</script>
+
+<script>
+    $.material.init();
+</script>
+
 </body>
 
 
