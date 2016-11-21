@@ -103,13 +103,13 @@ else {
 $nav_area_width = $GLOBALS['athletic_team'] ? '230' : '130';
 if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_area_width'];
 ?>
-<html>
+<html manifest="app.appcache">
   <head>
     <title>
     <?php echo text($openemr_name) ?>
     </title>
     <script type="text/javascript" src="../../library/topdialog.js"></script>
-
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script language='JavaScript'>
       <?php require($GLOBALS['srcdir'] . "/restoreSession.php"); ?>
 
@@ -123,6 +123,108 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
        return loadedFrameCount >= 2;
 
       }
+
+      var db = openDatabase('openemr', '1.0', 'Open EMR Client DB', 2 * 1024 * 1024);
+         var msg;
+            
+         db.transaction(function (tx) {
+            var numrows;
+            tx.executeSql('CREATE TABLE IF NOT EXISTS patient_data_gb (id BIGINT, name VARCHAR(255), gender VARCHAR(255), DOB date, city_village VARCHAR(255), state_province VARCHAR(255), address_1 VARCHAR(255), address_2 VARCHAR(255), country VARCHAR(255), postal_num BIGINT, phone_num BIGINT);');
+             $.ajax({
+                        type: "POST",
+                        url: "patientdatatablerow.php",
+                        dataType: "JSON",
+                       
+                        success:function(json){
+                                    db.transaction(function (tx){
+                                        var arrayLength = json.length;
+                                        for (var i = 0; i < arrayLength; i++) {
+                                            tx.executeSql('INSERT INTO patient_data_gb (id, name, gender, DOB, city_village, state_province, address_1, address_2, country, postal_num, phone_num) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [json[i][0], json[i][1],json[i][2],json[i][3],json[i][4],json[i][5],json[i][7],json[i][8],json[i][6],json[i][9],json[i][10]]);
+                                              //Do something
+                                             // alert("passed insert");
+                                        }
+                                        
+                                        db.transaction(function (tx){
+
+                                    
+                                          tx.executeSql('SELECT * FROM patient_data_gb', [], function (tx, results) {
+                                            var len = results;
+                                           
+                                      
+                                          });
+
+
+                                
+                                      }); 
+                              
+                                    });
+                                   
+                                  
+                          
+
+                               
+
+                        },
+                        error: function() {
+                          alert("Not able to sync data");
+                            
+
+                        }
+
+                 
+             
+           
+            });
+        });
+
+          var names = $("#namefield").val();
+
+         
+        $.ajax({
+                type: "POST",
+                url: "patientsearchdb.php",
+                dataType: "JSON",
+                data: {'namefield': names
+                                         },
+                success:function(json){
+
+                  var arrayLength = json.length;
+               
+                                      for (var i = 0; i < arrayLength; i++) {
+                                        $("#patienttable").append("<tr><td><a href=md.php?patientId=" + json[i][0] +  "style='color: #0B0080 '>'" + json[i][1] + "</a></td><td>" + json[i][2] + "</td><td>"+ json[i][3]+ "</td></tr>");
+                                          
+
+ 
+                                          //Do something
+                                      }
+                                      
+                },
+                error: function() {
+                  // Save
+                  alert("failed");
+                   db.transaction(function (tx){
+
+                                    
+                                          tx.executeSql('SELECT * FROM patient_data_gb', [], function (tx, results) {
+                                           $.each(results.rows, function(rowIndex){
+                                              var row = results.rows.item(rowIndex);
+                                              $("#patienttable").append("<tr><td><a href=md.php?patientId=" + row.id +  "style='color: #0B0080 '>'" + row.name + "</a></td><td>" + row.DOB + "</td><td>"+ row.city_village+ "</td></tr>");
+                                            });
+                                           
+                                      
+                                          });
+
+
+                                
+                                      }); 
+                  
+                  //alert(key);
+                  //alert(JSON.parse(localStorage.getItem(key)));
+
+                }
+
+        });
+
     </script>
     <link rel=stylesheet href="../themes/registration.css" type="text/css">
   </head>
@@ -229,65 +331,67 @@ table, th, td {
 
  <div class="container">
 
-<form class = "" method = "POST">
+
  <div class="panel panel-default" id="search_module">
 
  <p> <input type="text" placeholder="Name" name='namefield' id='namefield'>
-<button name="search_button">Search</button>
+<button name="search_button" id = "search_button">Search</button>
 </p>
 </div>
-</form>
+
+ <script>
+    $(document).ready(function(){
+      $("#search_button").click(function(e){
+          
+         var names = $("#namefield").val();
+
+         
+        $.ajax({
+                type: "POST",
+                url: "patientsearchdb.php",
+                dataType: "JSON",
+                data: {'namefield': names
+                                         },
+                success:function(json){
+
+                  var arrayLength = json.length;
+                 $("#patienttable").empty();
+                                      for (var i = 0; i < arrayLength; i++) {
+                                        $("#patienttable").append("<tr><td><a href=md.php?patientId=" + json[i][0] +  "style='color: #0B0080 '>'" + json[i][1] + "</a></td><td>" + json[i][2] + "</td><td>"+ json[i][3]+ "</td></tr>");
+                                          
+
+ 
+                                          //Do something
+                                      }
+                                      
+                },
+                error: function() {
+                  // Save
+                  alert("failed");
+                  
+                  //alert(key);
+                  //alert(JSON.parse(localStorage.getItem(key)));
+
+                }
+
+        });
+
+      });
+    });
+    </script>
 
 <div class="panel-heading">Patient List</div>
 
-<table>
+<table >
     <tr>
         <th>Name</th>
         <th>Date of Birth</th>
         <th>Village</th>
     </tr>
-
-<?php
-
-
-//$name = $_POST['namefield'];
-if (isset($_POST['namefield'])){
-  $name = $_POST['namefield'];
-}
-else{
-  $name=null;
-}
-
-if (empty($name)){
-  $query = "SELECT * FROM patient_data_gb";
-}else{
-
-  $query = "SELECT * FROM `patient_data_gb` " .
-  " WHERE `name` LIKE '%$name%' ;";
-}
+    <tbody id = "patienttable">
+    </tbody>
 
 
-$comments = mysql_query($query);
-
-// Please remember that  mysql_fetch_array has been deprecated in earlier
-// versions of PHP.  As of PHP 7.0, it has been replaced with mysqli_fetch_array.
-
-while($row = mysql_fetch_array($comments, MYSQL_ASSOC))
-{
-  $name = $row['name'];
-  $dob = $row['DOB'];
-  $village = $row['city_village'];
-
-
-
-  echo "<tr>";
-  echo "<td><a href=md.php?patientId=".$row['id']." style='color: #0B0080 '>".$row['name']."</a></td>";
-  echo "<td>{$row['DOB']}</td>";
-  echo "<td>{$row['city_village']}</td>";
-  echo "</tr>";
-}
-
-?>
 </table>
 
 
