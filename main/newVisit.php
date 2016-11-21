@@ -100,9 +100,9 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
 
 
 $patientId = trim($_GET['patientId']);
-// if ($patientId){
-//   echo $patientId;
-// }
+if ($patientId){
+  echo $patientId;
+}
 
 ?>
 <html>
