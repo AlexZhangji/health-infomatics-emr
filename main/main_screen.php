@@ -102,6 +102,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
         <?php echo text($openemr_name) ?>
     </title>
     <script type="text/javascript" src="../../library/topdialog.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
     <!--  fonts import  -->
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,500" rel="stylesheet">
@@ -122,6 +123,73 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
             return loadedFrameCount >= 2;
 
         }
+
+        
+        
+         var db = openDatabase('openemr', '1.0', 'Open EMR Client DB', 2 * 1024 * 1024);
+         var msg;
+            
+         db.transaction(function (tx) {
+            var numrows;
+            tx.executeSql('CREATE TABLE IF NOT EXISTS patient_data_gb (id BIGINT, name VARCHAR(255), gender VARCHAR(255), DOB date, city_village VARCHAR(255), state_province VARCHAR(255), address_1 VARCHAR(255), address_2 VARCHAR(255), country VARCHAR(255), postal_num BIGINT, phone_num BIGINT);');
+             $.ajax({
+                        type: "POST",
+                        url: "patientdatatablerow.php",
+                        dataType: "JSON",
+                       
+                        success:function(json){
+                                    db.transaction(function (tx){
+                                        var arrayLength = json.length;
+                                        for (var i = 0; i < arrayLength; i++) {
+                                            tx.executeSql('INSERT INTO patient_data_gb (id, name, gender, DOB, city_village, state_province, address_1, address_2, country, postal_num, phone_num) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [json[i][0], json[i][1],json[i][2],json[i][3],json[i][4],json[i][5],json[i][7],json[i][8],json[i][6],json[i][9],json[i][10]]);
+                                              //Do something
+                                             // alert("passed insert");
+                                        }
+                                        alert(json[1][1]);
+                                        db.transaction(function (tx){
+
+                                    
+                                        tx.executeSql('SELECT * FROM patient_data_gb', [], function (tx, results) {
+                                          var len = results;
+                                          alert(len);
+                                    
+                                        });
+
+
+                              
+                                    }); 
+                              
+                                    });
+                                   
+                                  
+                          
+
+                               
+
+                        },
+                        error: function() {
+                          alert("Not able to sync data");
+                            
+
+                        }
+
+                 
+             
+           
+            });
+        });
+
+        
+            
+    
+
+
+
+
+
+
+
+
     </script>
     <link rel=stylesheet href="../themes/main_screen.css" type="text/css">
     <!--    <link rel=stylesheet href="../themes/material-style.css" type="text/css">-->
