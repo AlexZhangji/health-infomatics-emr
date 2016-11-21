@@ -35,9 +35,15 @@ function readTxt($filePath)
 //     print_r($text);
 // }
 
+<<<<<<< Updated upstream
 //createDummyPatient(30);
 //importDiseaseDB();
 //createDummyVisit();
+=======
+// createDummyPatient(30);
+//importDiseaseDB();
+// createDummyVisit();
+>>>>>>> Stashed changes
 
 function createDummyVisit()
 {

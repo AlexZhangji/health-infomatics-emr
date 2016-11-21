@@ -150,7 +150,12 @@ if ($patientId) {
     //$visitData= mysql_fetch_array($visits, MYSQL_ASSOC);
     $height=$visitData['height']/100;
     $height=$height*$height;
+<<<<<<< Updated upstream
     $bmi= round($visitData['weight']/$height, 2);
+=======
+    $bmi=$visitData['weight']/$height;
+
+>>>>>>> Stashed changes
 
     // debug_to_console_2($patientData);
     // debug_to_console($patientData['name']);
