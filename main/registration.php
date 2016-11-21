@@ -121,14 +121,14 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
        return loadedFrameCount >= 2;
 
       }
-      
-      
+
+
       if (localStorage.getItem("Sizeofnewpatientcache") === null){
         localStorage.setItem("Sizeofnewpatientcache", 0);
-        
-        
-        
-      } 
+
+
+
+      }
       else{
         if (localStorage.getItem("Sizeofnewpatientcache") == 0){
           alert("there are no pending registrations");
@@ -138,10 +138,10 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
           alert(localStorage.getItem("Sizeofnewpatientcache"));
 
           //for (int i = 0; i < parseInt(localStorage.getItem("Sizeofnewpatientcache")); i++){
-            
-           
-           
-           
+
+
+
+
           var names;
           var gender;
           var address1;
@@ -159,19 +159,19 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
                     var getdata = JSON.parse(localStorage.getItem(keyval));
                     //getdata = getdata.split(",");
 
-                  
+
                     names = getdata[0];
                     gender = getdata[1];
                     address1= getdata[2];
                     address2= getdata[3];
                     date= getdata[4];
                     cityVillage= getdata[5];
-                    stateProvince= getdata[6];                                    
-                    selectCountry= getdata[7];                               
-                    postalCode= getdata[8];              
+                    stateProvince= getdata[6];
+                    selectCountry= getdata[7];
+                    postalCode= getdata[8];
                     phoneNumber= getdata[9];
                     //alert(names+gender+address1);
-                  
+
                   $.ajax({
                         type: "POST",
                         url: "createpatient.php",
@@ -192,49 +192,77 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
                          var keyvals = result;
                               localStorage.removeItem(keyvals);
                                localStorage["Sizeofnewpatientcache"] = parseInt(localStorage.getItem("Sizeofnewpatientcache")) - 1;
-                               
+
 
                         },
                         error: function() {
                           // Save
-                            
+
 
                         }
 
                   });
                  //
-                          
-                 
+
+
 
             }
             //alert(test);
 
-            
+
              /* if (test){
                             for (var y = 0; y < parseInt(localStorage.getItem("Sizeofnewpatientcache")); y++){
                               var keyvals = "NewPatient" + y;
                               localStorage.removeItem(keyvals);
 
-                            } 
+                            }
                             localStorage["Sizeofnewpatientcache"] = 0;
                           }
 
-           
+
         //  }*/
 
 
 
         }
-        
+
       }
 
 
     </script>
     <link rel=stylesheet href="../themes/registration.css" type="text/css">
+    <!--  fonts import  -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <!-- end of fonts import -->
+    <script src="js/vendor/jquery-2.1.4.min.js"></script>
+
+    <!-- Material Design fonts -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- Bootstrap Material Design -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-material-design.css">
+    <link rel="stylesheet" type="text/css" href="css/ripples.min.css">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <!-- Customized css -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/md.css">
+
+    <link rel=stylesheet href="../themes/main_screen.css" type="text/css">
+
+
   </head>
 
+
    <body  >
-    
+
     </br>
 
 
@@ -269,19 +297,19 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
     </br>
      <div class="container">
         <form action="searchpatient.php" method="get">
-                      <input type="submit" value="Back" 
+                      <input type="submit" value="Back"
                                name="create_new_patient" id="backbutton" onclick="top.restoreSession()"  />
         </form>
-      
-  
+
+
 
         </br>
         </br>
-        
+
             <script>
     $(document).ready(function(){
       $("#submitbutton").click(function(e){
-          
+
          var names = $("#namefield").val();
 
          var genderarray = document.getElementsByName("gender");
@@ -307,7 +335,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
           alert(postalCode);
           alert(phoneNumber);
           var numberofcachedfiles = localStorage.getItem("Sizeofnewpatientcache");
-          alert(names); 
+          alert(names);
         $.ajax({
                 type: "POST",
                 url: "createpatient.php",
@@ -331,7 +359,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
                   alert("failed");
                   var cacheditems = parseInt(localStorage.getItem("Sizeofnewpatientcache"));
                   var cacheditemarr = [names,gender,address1,address2,date,cityVillage,stateProvince,selectCountry,postalCode,phoneNumber];
-                  
+
                   var key = "NewPatient" + cacheditems;
                  // alert(key);
                   localStorage.setItem(key, JSON.stringify(cacheditemarr));
@@ -360,7 +388,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
         <p class="left"><label> Address 2 </label> <input id="address2" class="" name="address2" size="40" type="text" value="" /> <span id="fr197" class="field-error" style="display: none;"> </span></p>
         <p class="clear">&nbsp;<label>City/Village </label>
         <input id="cityVillage" class="" name="cityVillage" size="10" type="text" value="" />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
-        <label>State/Province </label> 
+        <label>State/Province </label>
         <input id="stateProvince" class="" name="stateProvince" size="10" type="text" value="" /></p>
         <p class="left"><label> Country </label><select name = "selectCountry" id = "selectCountry">
             <option value="AF">Afghanistan</option>
@@ -618,9 +646,9 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
         <p class="left"><label> Phone Number &nbsp;</label> <input id="phoneNumber" class="" name="phoneNumber" size="40" type="text" value="" /></p>
         <p class="left">&nbsp;</p>
         <input type="submit" value="Submit" name = "submitbutton" id = "submitbutton">
-        
+
         </div>
-   
+
 
 
 </div>
@@ -630,7 +658,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
 
 
 
-  
+
 
 <tr>
 
@@ -672,14 +700,14 @@ ul.tab li a {
 </style>
 
 
-   
 
-       
-  
+
+
+
     </body>
 
-  
 
-  
+
+
 
 </html>
