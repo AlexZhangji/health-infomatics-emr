@@ -104,9 +104,32 @@ if ($patientId){
   echo $patientId;
 }
 
+$diseasesql = "SELECT name FROM disease_data_gb";
+    $diseaseresult = mysql_query($diseasesql);
+
+    $disease_list = array();
+    while($row = mysql_fetch_array($diseaseresult))
+    {
+        $disease_list[] = $row['name'];
+    }
+
+
 ?>
+
+
+
+
 <html>
   <head>
+
+  <!-- load jquery ui css-->
+<link href="path/to/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+<!-- load jquery library -->
+<script src="path/to/jquery-1.10.2.js"></script>
+<!-- load jquery ui js file -->
+<script src="path/to/jquery-ui.min.js"></script>
+
+
     <title>
     <?php echo text($openemr_name) ?>
     </title>
@@ -119,6 +142,12 @@ if ($patientId){
       // Currently only left_nav and Title do this, so the maximum will be 2.
       // This is used to determine when those frames are all loaded.
       var loadedFrameCount = 0;
+
+    $("#diagnosis_field").autocomplete({
+        source: $disease_list,
+        autoFocus:true
+    });
+
 
       function allFramesLoaded() {
        // Change this number if more frames participate in reporting.

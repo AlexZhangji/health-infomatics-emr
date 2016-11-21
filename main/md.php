@@ -123,6 +123,7 @@ function debug_to_console($data)
     echo $output;
 }
 
+
 // get patinet id
 // $patientId = trim($_GET['patientId']);
 $patientId = trim($_GET['patientId']);
