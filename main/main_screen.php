@@ -210,9 +210,9 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
     </h>
     <ul class="header card-shadow">
         <li class="left"><a href="main_screen.php">Home</a></li>
-        <li class="left"><a href="#news">News</a></li>
-        <li class="left"><a href="#contact">Contact</a></li>
-        <li class="left"><a href="#tutorial">Tutorial</a></li>
+        <li class="left"><a href="Tasklist.php">To Dos</a></li>
+        <li class="left"><a href="#Dictionary">Dictionary</a></li>
+        <li class="left"><a href="community_data.php">Communities</a></li>
 
         <li class="right">
             <a href="../logout.php" target="_top" class="css_button_small" id="logout_link"
@@ -262,8 +262,8 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
         <div class="card-shadow main-option">
             <i class="fa fa-bar-chart" aria-hidden="true"></i><br>
 
-            <form action="uploademr.php" method="get">
-                <input type="submit" value="Upload Record" id="Upload Record">
+            <form action="community_data.php" method="get">
+                <input type="submit" value="Community Data" id="Community Data">
             </form>
         </div>
 

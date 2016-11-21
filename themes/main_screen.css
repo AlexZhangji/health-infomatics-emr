@@ -84,10 +84,9 @@ li.left {
         -ms-transition: color 0.3s ease-out;
         -o-transition: color 0.3s ease-out;
         transition: color 0.3s ease-out;
-
 }
 
-a:hover{
+.header a:hover{
 
     background-color: #326dbb;
 }

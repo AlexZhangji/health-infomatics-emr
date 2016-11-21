@@ -131,24 +131,32 @@ if ($patientId) {
         'FROM `patient_data_gb` '.
         'WHERE `id`=?', array(intval($patientId)));
 
-
-
     $visits_query ="SELECT * FROM patient_visit_gb WHERE p_id = $patientId ";
-    $visits = mysql_query($visits_query);
+
+    $visits_query_results = mysql_query($visits_query);
     
-    if (!$visits){
+    $visits = array();
+    if (!$visits_query_results){
         echo "invalid patient visits query";
     }
+    else{
+        while ($row = mysql_fetch_assoc($visits_query_results)){
+            $visits[] = $row;
+        }
+    }
 
-
-    $visitData= mysql_fetch_array($visits, MYSQL_ASSOC);
+    $visits_size = count($visits);
+    $visitData = $visits[0];
+    //$visitData= mysql_fetch_array($visits, MYSQL_ASSOC);
     $height=$visitData['height']/100;
     $height=$height*$height;
     $bmi= round($visitData['weight']/$height, 2);
+    $bmi=$visitData['weight']/$height;
 
 
     // debug_to_console_2($patientData);
     // debug_to_console($patientData['name']);
+
 
     $patientYO = getYearsOld($patientData['DOB']);
 
@@ -231,9 +239,9 @@ if ($patientId) {
     </h>
     <ul class="header card-shadow">
         <li class="left"><a href="main_screen.php">Home</a></li>
-        <li class="left"><a href="#news">News</a></li>
-        <li class="left"><a href="#contact">Contact</a></li>
-        <li class="left"><a href="#tutorial">Tutorial</a></li>
+        <li class="left"><a href="Tasklist.php">To Dos</a></li>
+        <li class="left"><a href="#Dictionary">Dictionary</a></li>
+        <li class="left"><a href="community_data.php">Communities</a></li>
 
         <li class="right">
             <a href="../logout.php" target="_top" class="css_button_small" id="logout_link"
@@ -300,15 +308,21 @@ if ($patientId) {
             <div class="patient-vitals m-card">
                 <div class="title" style="border-bottom: 5px solid #2196F3;margin-bottom:5px;">
                     <i class="fa fa-heartbeat" aria-hidden="true"></i> Vitals
-                    <label class="switch">
-                        <input type="checkbox" id="editSwitch" onclick="editClicked()">
-                        <div class="slider round"></div>
-                    </label>
-
+                    <div class="material-switch pull-right">
+                      <input id="editSwitch" name="someSwitchOption001" onclick="editClicked()" type="checkbox"/>
+                      <label for="editSwitch" class="label-primary"></label>
+                    </div>
                 </div>
 
                 <div style="margin-left:3%; font-weight:bold;margin-bottom:4px;">
-                    Last Vitals: 20.Mar.2015 12:38 PM
+                    Visit Date
+                    <select name="visits_dropdown" id="visits_dropdown" onchange="selectDropDown()"> 
+                        <?php
+                        for ($i=0; $i<$visits_size; $i++){
+                            echo "<option value=".$i.">".$visits[$i]['date']." </option>";
+                        }
+                        ?>
+                    </select>
                 </div>
 
                 <form class = "edit_visit_form" name="edit_visit_form" id = "edit_visit" action = "editVisit.php" method = "POST">
@@ -316,35 +330,31 @@ if ($patientId) {
                     <ul class="list-group">
                         <li class="list-group-item">
 
-                            <span class="badge"><input type="int" name="height" id="height" value="<?php echo text($visitData['height']); ?>" size="5" readonly></span> Height (cm)
+                            <span class="badge"><input type="int" name="height" id="height" value="<?php echo text($visitData['height']); ?>" size="5"></span> Height (cm)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" name="weight" id ="weight" value="<?php echo text($visitData['weight']); ?>" size="5" readonly></span> Weight (kg)
+                            <span class="badge"><input type="int" name="weight" id ="weight" value="<?php echo text($visitData['weight']); ?>" size="5"></span> Weight (kg)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" id="bmi" name="bmi" value="<?php echo text($bmi); ?>" size="5" readonly></span> (Calculated) BMI
+                            <span class="badge"><input type="int" id="bmi" name="bmi" value="<?php echo text($bmi); ?>" size="5"></span> (Calculated) BMI
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" id="temperature" name="temperature" value="<?php echo text($visitData['temperature']); ?>" size="5" readonly></p></span> Temperature (°C)
+                            <span class="badge"><input type="int" id="temperature" name="temperature" value="<?php echo text($visitData['temperature']); ?>" size="5"></p></span> Temperature (°C)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" id="pulse" name="pulse" value="<?php echo text($visitData['pulse']); ?>" size="5" readonly></span> Pulse (/min)
+                            <span class="badge"><input type="int" id="pulse" name="pulse" value="<?php echo text($visitData['pulse']); ?>" size="5"></span> Pulse (/min)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" id="respiratory_rate" name="respiratory_rate" value="<?php echo text($visitData['respiratory_rate']); ?>" size="5" readonly></p></span> Respiratory Rate (/min)
+                            <span class="badge"><input type="int" id="respiratory_rate" name="respiratory_rate" value="<?php echo text($visitData['respiratory_rate']); ?>" size="5"></p></span> Respiratory Rate (/min)
                         </li>
                         <li class="list-group-item">
-                            <span class="badge"><input type="int" id="bph" name="bph" value="<?php echo text($visitData['bph']); ?>" size="5" readonly>/<input type="int" id="bpl" name="bpl" value="<?php echo text($visitData['bpi']); ?>" size="5" readonly></p></span> Blood Pressure
+                            <span class="badge"><input type="int" id="bph" name="bph" value="<?php echo text($visitData['bph']); ?>" size="5">/<input type="int" id="bpl" name="bpl" value="<?php echo text($visitData['bpi']); ?>" size="5" readonly></p></span> Blood Pressure
                         </li>
-                        <li class="list-group-item">
-                            <span class="badge"><input type="int" id="blood_oxygen" name="blood_oxygen" value="Not available" readonly></p></span> Blood Oxygen Saturation (%)
-                        </li>
-
                         <input name ="visit_id" type="hidden" value="<?php echo text($visitData['visit_id']); ?>">
                         <input name='patient_id' type="hidden" value="<?php echo text($patientId);?>" >
 
                         <li class="list-group-item">
-                            <input type="submit" value="Submit" id="edit_visit_button" name= "edit_visit_button" style="visibility: hidden; ">
+                             <input type="submit" value="Submit" id= "edit_visit_button" name="edit_visit_button" class='md-plain-card' style="border:3px;" >
                         </li>
 
 
@@ -413,7 +423,7 @@ if ($patientId) {
         <nav class="fab-container">
           <!--  <a href="http://codepen.io/koenigsegg1" target="_blank" tooltip="Kyle Lavery" class="buttons"></a>-->
           <!--   <a href="#"  tooltip="Xavier" class="buttons"></a> -->
-          <!--   <a href="#" tooltip="James" class="buttons"></a> -->
+            <a href="#" tooltip="Meow" class="buttons" onclick="whoLetTheCatOut();" ></a>
             <a href="main_screen.php" tooltip="Main Page" class="buttons"></a>
             <a href="#" tooltip="Community Chart" class="buttons"></a>
             <a href=" newVisit.php?patientId=<?php echo $patientId; ?>"  tooltip="New Visit" class="buttons"><span><span class="rotate"></span></span></a>
@@ -479,6 +489,22 @@ if ($patientId) {
         return resultArr;
     }
 
+    //  for lols
+      function whoLetTheCatOut(){
+        var meow = new Audio('sound/meow.mp3');
+        meow.play();
+
+        $('#cat_img').animate({
+            bottom: '-30px'
+        });
+        // send cat back
+        setTimeout(function() {
+            $('#cat_img').animate({
+                bottom: '-500px'
+            });
+        }, 3500);
+      }
+
     $(function () {
         var filterList = ['bpi', 'bph', 'respiratory_rate', 'temperature', 'weight'];
         var plotNumArr = getValuesFromObj(visitData, filterList);
@@ -521,6 +547,61 @@ function editClicked(){
     }
   });
 }
+
+function selectDropDown(){
+    var dropdown = document.getElementById("visits_dropdown");
+    var n = dropdown.options[dropdown.selectedIndex].value;
+
+    // <?php $countVal=0; ?>
+    // for (var i=0; i<n; i++){
+    //     <?php
+    //     $countVal = $countVal+1;
+    //     ?>
+    // }
+    
+    // <?php
+    // $visitData = $visits[$countVal];
+    // ?>
+    // var height = document.getElementById("height");
+    // height.value="<//?php echo $visitData['height']; ?>";
+    if (n==0){
+        <?php $visitData=$visits[0]; ?>
+        document.getElementById("height").value="<?php echo $visitData['height']; ?>";
+        document.getElementById("weight").value = "<?php echo $visitData['weight']; ?>";
+        document.getElementById("bmi").value = "<?php echo round(($visitData['weight']/$visitData['height']*100),2); ?>";
+        document.getElementById("temperature").value="<?php echo $visitData['temperature']; ?>"
+        document.getElementById("pulse").value="<?php echo $visitData['pulse']; ?>"
+        document.getElementById("respiratory_rate").value="<?php echo $visitData['respiratory_rate']; ?>"
+        document.getElementById("bph").value="<?php echo $visitData['bph']; ?>"
+        document.getElementById("bpl").value="<?php echo $visitData['bpi']; ?>"
+    }
+    else if (n==1){
+        <?php $visitData=$visits[1]; ?>
+        document.getElementById("height").value="<?php echo $visitData['height']; ?>";
+        document.getElementById("weight").value = "<?php echo $visitData['weight']; ?>";
+        document.getElementById("bmi").value = "<?php echo round(($visitData['weight']/$visitData['height']*100),2); ?>";
+        document.getElementById("temperature").value="<?php echo $visitData['temperature']; ?>"
+        document.getElementById("pulse").value="<?php echo $visitData['pulse']; ?>"
+        document.getElementById("respiratory_rate").value="<?php echo $visitData['respiratory_rate']; ?>"
+        document.getElementById("bph").value="<?php echo $visitData['bph']; ?>"
+        document.getElementById("bpl").value="<?php echo $visitData['bpi']; ?>"
+    }
+    else if (n==2){
+        <?php $visitData=$visits[2]; ?>
+        document.getElementById("height").value="<?php echo $visitData['height']; ?>";
+        document.getElementById("weight").value = "<?php echo $visitData['weight']; ?>";
+        document.getElementById("bmi").value = "<?php echo round(($visitData['weight']/$visitData['height']*100),2); ?>";
+        document.getElementById("temperature").value="<?php echo $visitData['temperature']; ?>"
+        document.getElementById("pulse").value="<?php echo $visitData['pulse']; ?>"
+        document.getElementById("respiratory_rate").value="<?php echo $visitData['respiratory_rate']; ?>"
+        document.getElementById("bph").value="<?php echo $visitData['bph']; ?>"
+        document.getElementById("bpl").value="<?php echo $visitData['bpi']; ?>"
+    }
+}
+
+
+
+
 </script>
 
 <script>

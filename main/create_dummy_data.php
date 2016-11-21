@@ -35,9 +35,12 @@ function readTxt($filePath)
 //     print_r($text);
 // }
 
-createDummyPatient(30);
-importDiseaseDB();
-createDummyVisit();
+//createDummyPatient(30);
+//importDiseaseDB();
+//createDummyVisit();
+// createDummyPatient(30);
+//importDiseaseDB();
+// createDummyVisit();
 
 function createDummyVisit()
 {
