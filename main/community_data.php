@@ -266,35 +266,15 @@ $rawVillageInfo = mysql_query(
 
 
 <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script> -->
-<script>
-    // if (annyang) {
-    //     // Let's define a command.
-    //     var commands = {
-    //         'hello': function() {
-    //             alert('Hello world!');
-    //         },
-    //         'show me *tag': showPlots,
-    //         'test': function() {
-    //             alert('Working!');
-    //         },
-    //     };
-    //
-    //     // Add our commands to annyang
-    //     annyang.addCommands(commands);
-    //
-    //     // Start listening.
-    //     annyang.start();
-    // }
-</script>
 
 <script>
   function searchComm(){
     var _village = document.querySelector('#village-search').value;
     window.location.href = "community_data.php?location=" + encodeURIComponent(_village);
   }
-</script>
 
-<script>
+
+    // init bootstrap-material 
     $.material.init();
 </script>
 
