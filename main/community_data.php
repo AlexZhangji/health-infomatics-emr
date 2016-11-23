@@ -262,9 +262,17 @@ $chartVisibility = 'hidden';
         <!--  end of table  -->
 
         <!--   show chart if selected certain location  -->
-        <div class="m-card" id="chart-panel" style="display: <?php echo $chartVisibility ?> ;">
-            <div id="scatter-plot"></div>
-            <div id="pressure-hist-range"></div>
+        <div class="" id="chart-panel" style="display: <?php echo $chartVisibility ?> ;
+            width:100%; margin-top: 20px;" >
+
+            <div class="m-card" id="column-plot" style="float:left; width:49%;"></div>
+            <div class="m-card" id="pie-plot" style="float: left; width:49%;margin-left: 2%; " ></div>
+
+            <br style="clear:both;">
+
+            <div class="m-card" id="scatter-plot" style="width: 100%;"></div>
+
+            <div class="m-card" id="pressure-hist-range" style="width: 100%;"></div>
 
 
         </div>
@@ -294,6 +302,8 @@ $chartVisibility = 'hidden';
     $(function () {
         initScatterPlot();
         initPressureHist();
+        initPieChart();
+        initColChart();
     });
 
 
