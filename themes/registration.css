@@ -77,7 +77,7 @@ li.left {
 
 li:hover {
         /* original color #2196F3*/
-        background-color: #326dbb;
+        /*background-color: #326dbb;*/
         -webkit-transition: color 0.3s ease-out;
         -moz-transition: color 0.3s ease-out;
         -ms-transition: color 0.3s ease-out;
@@ -88,7 +88,7 @@ li:hover {
 
 a:hover{
     
-    background-color: #326dbb;
+    /*background-color: #326dbb;*/
 }
 
 a:link {

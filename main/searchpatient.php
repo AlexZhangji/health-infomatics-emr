@@ -218,7 +218,7 @@ while ($row = mysql_fetch_array($comments, MYSQL_ASSOC)) {
     $village = $row['city_village'];
 
     echo '<tr>';
-    echo '<td><a href=md.php?patientId='.$row['id']." style='color: #0B0080 '>".$row['name'].'</a></td>';
+    echo '<td><a href=md.php?patientId='.$row['id']." >".$row['name'].'</a></td>';
     echo "<td>{$row['DOB']}</td>";
     echo "<td>{$row['city_village']}</td>";
     echo '</tr>';
@@ -237,26 +237,8 @@ while ($row = mysql_fetch_array($comments, MYSQL_ASSOC)) {
 </div>
 </div>
 
-
-<p></p>
-<p></p>
 </center>
 
-<script>
-// test ajax functions
-function postDataToMD(){
-  console.log('post to md excuted');
-  // $.ajax({
-  //   type: 'POST',
-  //   url: 'md.php',
-  //   data: { patientId: '777' },
-  //   success: function(response) {
-  //       content.html(response);
-  //   }
-  // });
-  window.location.href = 'md.php?patientId=' + '1';
-}
-</script>
 
 <script>
     $.material.init();
