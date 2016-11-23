@@ -1,9 +1,5 @@
 // initSpiderWeb();
 
-initScatterPlot();
-initPressureHist();
-
-
 function initSpiderWeb(visitData) {
 
     $(function() {

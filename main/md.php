@@ -511,6 +511,8 @@ if ($patientId) {
         console.log(visitData);
         console.log(plotNumArr);
         initSpiderWeb(plotNumArr);
+        initScatterPlot();
+        initPressureHist();
         // for toggle patient info
         $('#expand-patient-info').click(function () {
             $('#more-patient-info').toggleClass('hidden');

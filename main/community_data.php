@@ -264,8 +264,6 @@ $rawVillageInfo = mysql_query(
 <!-- highcharts data-->
 <script src="chart.js"></script>
 
-<!-- voice control -->
-<!-- <script src="js/voice.js"></script> -->
 
 <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script> -->
 <script>
