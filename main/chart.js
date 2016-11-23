@@ -2,7 +2,7 @@
 
 function initSpiderWeb(visitData) {
 
-    $(function() {
+    $(function () {
         $('#spider-web').highcharts({
             chart: {
                 polar: true,
@@ -19,9 +19,9 @@ function initSpiderWeb(visitData) {
             },
 
             xAxis: {
-              categories: ['Weight', 'Blood Pressure High', 'Blood Pressure Low',
-                  'Temperature', 'Respiratory Rate',
-              ],
+                categories: ['Weight', 'Blood Pressure High', 'Blood Pressure Low',
+                    'Temperature', 'Respiratory Rate',
+                ],
                 tickmarkPlacement: 'on',
                 lineWidth: 0
             },
@@ -59,7 +59,7 @@ function initSpiderWeb(visitData) {
 }
 
 function initScatterPlot() {
-    $(function() {
+    $(function () {
         $('#scatter-plot').highcharts({
             chart: {
                 type: 'scatter',

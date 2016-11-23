@@ -54,7 +54,7 @@ if ($GLOBALS['password_expiration_days'] != 0) {
     }
 
     // Display the password expiration message (starting from 7 days before the password gets expired)
-    $pwd_alert_date = date('Y-m-d', strtotime($pwd_expires_date.'-7 days'));
+    $pwd_alert_date = date('Y-m-d', strtotime($pwd_expires_date . '-7 days'));
 
     if (strtotime($pwd_alert_date) != '' &&
         strtotime($current_date) >= strtotime($pwd_alert_date) &&
@@ -71,13 +71,13 @@ if ($is_expired) {
     $frame1url = 'pwd_expires_alert.php';
 } elseif (!empty($_POST['patientID'])) {
     $patientID = 0 + $_POST['patientID'];
-    $frame1url = '../patient_file/summary/demographics.php?set_pid='.attr($patientID);
+    $frame1url = '../patient_file/summary/demographics.php?set_pid=' . attr($patientID);
 } elseif ($GLOBALS['athletic_team']) {
     $frame1url = '../reports/players_report.php?embed=1';
 } elseif (isset($_GET['mode']) && $_GET['mode'] == 'loadcalendar') {
-    $frame1url = 'calendar/index.php?pid='.attr($_GET['pid']);
+    $frame1url = 'calendar/index.php?pid=' . attr($_GET['pid']);
     if (isset($_GET['date'])) {
-        $frame1url .= '&date='.attr($_GET['date']);
+        $frame1url .= '&date=' . attr($_GET['date']);
     }
 } elseif ($GLOBALS['concurrent_layout']) {
     // new layout
@@ -88,7 +88,7 @@ if ($is_expired) {
     }
 } else {
     // old layout
-    $frame1url = 'main.php?mode='.attr($_GET['mode']);
+    $frame1url = 'main.php?mode=' . attr($_GET['mode']);
 }
 
 $nav_area_width = $GLOBALS['athletic_team'] ? '230' : '130';
@@ -97,31 +97,34 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
 }
 
 $rawVillageInfo = mysql_query(
-  'SELECT city_village , COUNT(city_village) AS num_patient '.
-  'FROM patient_data_gb ' .
-  'GROUP BY city_village ' .
-  'ORDER BY COUNT(city_village) DESC ;');
-
-  //  handle search results
-  if(!empty($_GET['location'])){
-    $searchLoc = trim($_GET['location']);
-    // print_r($searchLoc . ' is set!');
-  }else{
-    $searchLoc=null;
-  }
-
-  if (empty($searchLoc)){
-    $resQuery = $rawVillageInfo;
-  }else{
-
-    $resQuery = mysql_query('SELECT city_village , COUNT(city_village) AS num_patient ' .
-    'FROM `patient_data_gb` ' .
-    "WHERE `city_village` LIKE '%$searchLoc%' ".
+    'SELECT city_village , COUNT(city_village) AS num_patient ' .
+    'FROM patient_data_gb ' .
     'GROUP BY city_village ' .
     'ORDER BY COUNT(city_village) DESC ;');
-  }
 
+//  handle search results
+if (!empty($_GET['location'])) {
+    $searchLoc = trim($_GET['location']);
+    // print_r($searchLoc . ' is set!');
+} else {
+    $searchLoc = null;
+}
 
+if (empty($searchLoc)) {
+    $resQuery = $rawVillageInfo;
+
+} else {
+
+    $resQuery = mysql_query('SELECT city_village , COUNT(city_village) AS num_patient ' .
+        'FROM `patient_data_gb` ' .
+        "WHERE `city_village` LIKE '%$searchLoc%' " .
+        'GROUP BY city_village ' .
+        'ORDER BY COUNT(city_village) DESC ;');
+
+}
+
+// init visibility as hidden
+$chartVisibility = 'hidden';
 
 ?>
 
@@ -168,7 +171,7 @@ $rawVillageInfo = mysql_query(
 
     <script language='JavaScript'>
 
-    <?php require $GLOBALS['srcdir'].'/restoreSession.php'; ?>
+        <?php require $GLOBALS['srcdir'] . '/restoreSession.php'; ?>
         // This counts the number of frames that have reported themselves as loaded.
         // Currently only left_nav and Title do this, so the maximum will be 2.
         // This is used to determine when those frames are all loaded.
@@ -197,10 +200,10 @@ $rawVillageInfo = mysql_query(
 
     </h>
     <ul class="header card-shadow">
-      <li class="left"><a href="main_screen.php">Home</a></li>
-      <li class="left"><a href="Tasklist.php">To Dos</a></li>
-      <li class="left"><a href="#Dictionary">Dictionary</a></li>
-      <li class="left"><a href="community_data.php">Communities</a></li>
+        <li class="left"><a href="main_screen.php">Home</a></li>
+        <li class="left"><a href="Tasklist.php">To Dos</a></li>
+        <li class="left"><a href="#Dictionary">Dictionary</a></li>
+        <li class="left"><a href="community_data.php">Communities</a></li>
 
         <li class="right">
             <a href="../logout.php" target="_top" class="css_button_small" id="logout_link"
@@ -216,41 +219,58 @@ $rawVillageInfo = mysql_query(
     <!-- container  -->
     <div class="md-plain-card" style="margin-top:20px; ">
 
-    <div class="form-group form-group-lg is-empty ">
-        <label class="control-label" for="village-search" style='color:#2196F3; font-size:20px;'>Input the Community:</label>
-        <input class="form-control" type="text" id="village-search">
-        <a class="btn btn-raised active " style='margin-left:30vw; width:20vw;' id='comm-search-btn'
-          onclick='searchComm();'>
-          Search
-        </a>
-    </div>
+        <div class="form-group form-group-lg is-empty ">
+            <label class="control-label" for="village-search" style='color:#2196F3; font-size:20px;'>Input the
+                Community:</label>
+            <input class="form-control" type="text" id="village-search">
+            <a class="btn btn-raised active " style='margin-left:30vw; width:20vw;' id='comm-search-btn'
+               onclick='searchComm();'>
+                Search
+            </a>
+        </div>
 
-    <br />
+        <br/>
 
-    <table class='table table-striped table-hover m-card'>
-        <tr>
-            <th>Village Name</th>
-            <th>Number of Patient</th>
-        </tr>
+        <table class='table table-striped table-hover m-card'>
+            <tr>
+                <th>Village Name</th>
+                <th>Number of Patient</th>
+            </tr>
 
-    <?php
-    while($villageInfo = mysql_fetch_array($resQuery)) {
-      $village = $villageInfo['city_village'];
-      $numPatient = $villageInfo['num_patient'];
+            <?php
 
-      echo "<tr>";
-      echo "<td><a href=community_data.php?location=".urlencode($village)." style='color: #0B0080 '>".$village."</a></td>";
-      echo "<td>$numPatient</td>";
-      echo "</tr>";
-    }
+            $resCount = 0;
+            while ($villageInfo = mysql_fetch_array($resQuery)) {
+                $village = $villageInfo['city_village'];
+                $numPatient = $villageInfo['num_patient'];
+                $resCount++;
 
-    ?>
-    </table>
+                echo "<tr>";
+                echo "<td><a href=community_data.php?location=" . urlencode($village) . " style='color: #0B0080 '>" . $village . "</a></td>";
+                echo "<td>$numPatient</td>";
+                echo "</tr>";
+            }
 
+            if ($resCount == 1) {
+                $chartVisibility = 'block';
+            } else {
+                $chartVisibility = 'none';
+            }
+
+            ?>
+        </table>
+        <!--  end of table  -->
+
+        <!--   show chart if selected certain location  -->
+        <div class="m-card" id="chart-panel" style="display: <?php echo $chartVisibility ?> ;">
+            <div id="scatter-plot"></div>
+            <div id="pressure-hist-range"></div>
+
+
+        </div>
 
     </div>
     <!-- end of container -->
-
 
 
 </div>
@@ -265,13 +285,16 @@ $rawVillageInfo = mysql_query(
 <script src="chart.js"></script>
 
 
-<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script> -->
-
 <script>
-  function searchComm(){
-    var _village = document.querySelector('#village-search').value;
-    window.location.href = "community_data.php?location=" + encodeURIComponent(_village);
-  }
+    function searchComm() {
+        var _village = document.querySelector('#village-search').value;
+        window.location.href = "community_data.php?location=" + encodeURIComponent(_village);
+    }
+
+    $(function () {
+        initScatterPlot();
+        initPressureHist();
+    });
 
 
     // init bootstrap-material 
