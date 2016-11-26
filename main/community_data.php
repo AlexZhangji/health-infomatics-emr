@@ -307,7 +307,7 @@ $chartVisibility = 'hidden';
     });
 
 
-    // init bootstrap-material 
+    // init bootstrap-material
     $.material.init();
 </script>
 
