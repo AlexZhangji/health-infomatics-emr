@@ -22,6 +22,7 @@ $sanitize_all_escapes = true;
 
 /* Include our required headers */
 require_once '../globals.php';
+require_once 'community_data_helper.php';
 require_once "$srcdir/formdata.inc.php";
 
 // Creates a new session id when load this outer frame
@@ -251,10 +252,13 @@ $chartVisibility = 'hidden';
                 echo "</tr>";
             }
 
+            // find exactly one location
             if ($resCount == 1) {
                 $chartVisibility = 'block';
+                $patientRawInfo = getPatientRawInfo($searchLoc);
             } else {
                 $chartVisibility = 'none';
+                $patientRawInfo = '';
             }
 
             ?>
@@ -293,18 +297,25 @@ $chartVisibility = 'hidden';
 <script src="chart.js"></script>
 
 
+
 <script>
+    $(function(){
+      var patientDOBList =<?php echo json_encode($patientRawInfo); ?>;
+      if(patientDOBList != ''){
+        var ageGroupList = parseDOB(patientDOBList);
+        initPieChart(ageGroupList);
+      }
+
+      initScatterPlot();
+      initPressureHist();
+      initColChart();
+    });
+
+
     function searchComm() {
         var _village = document.querySelector('#village-search').value;
         window.location.href = "community_data.php?location=" + encodeURIComponent(_village);
     }
-
-    $(function () {
-        initScatterPlot();
-        initPressureHist();
-        initPieChart();
-        initColChart();
-    });
 
 
     // init bootstrap-material

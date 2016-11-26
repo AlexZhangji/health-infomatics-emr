@@ -70,9 +70,40 @@ function initColChart(){
     });
 }
 
+function parseDOB(dobList){
+  var curYear = new Date().getFullYear();
 
-function initPieChart(){
+  var ageGroup = [];
+  // 0 ~ 18, 19~ 49, 50 ~64, 64+
+  ageGroup['children'] = [];
+  ageGroup['growUp'] = [];
+  ageGroup['middleAge'] = [];
+  ageGroup['elders'] = [];
+
+  dobList.forEach(function(dob){
+    var bornYear = parseInt(dob.split('-')[0]);
+    var age = curYear - bornYear;
+
+    if(age >= 64){
+      ageGroup['elders'].push(age);
+    }else if (age >=50) {
+      ageGroup['middleAge'].push(age);
+    }else if (age >= 19){
+      ageGroup['growUp'].push(age);
+    }else{
+      ageGroup['children'].push(age);
+    }
+  });
+  // console.log(ageGroup);
+  return ageGroup;
+}
+
+// ageGroupList is an object with three array,
+// with names 'children', 'middleAge', 'growUp', and 'elders'.
+function initPieChart(ageGroupList){
     $(function () {
+
+
         $('#pie-plot').highcharts({
             chart: {
                 plotBackgroundColor: null,
@@ -81,7 +112,7 @@ function initPieChart(){
                 type: 'pie'
             },
             title: {
-                text: 'Browser market shares January, 2015 to May, 2015'
+                text: 'Different Age Groups of Patients'
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -100,29 +131,23 @@ function initPieChart(){
                 }
             },
             series: [{
-                name: 'Brands',
+                name: 'Age Group',
                 colorByPoint: true,
                 data: [{
-                    name: 'Microsoft Internet Explorer',
-                    y: 56.33
+                    name: 'Children and Teenagers <br> (0~18)<br>',
+                    y: ageGroupList['children'].length,
                 }, {
-                    name: 'Chrome',
-                    y: 24.03,
+                    name: 'Young and Middle Age Adults<br>(19 ~ 49)<br>',
+                    y: ageGroupList['growUp'].length,
                     sliced: true,
                     selected: true
                 }, {
-                    name: 'Firefox',
-                    y: 10.38
+                    name: '50 ~ 64 Years Old<br>',
+                    y:  ageGroupList['middleAge'].length,
                 }, {
-                    name: 'Safari',
-                    y: 4.77
-                }, {
-                    name: 'Opera',
-                    y: 0.91
-                }, {
-                    name: 'Proprietary or Undetectable',
-                    y: 0.2
-                }]
+                    name:  'Elders <br> (64+)<br>',
+                    y: ageGroupList['elders'].length,
+                },]
             }]
         });
     });
