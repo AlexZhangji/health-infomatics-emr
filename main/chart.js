@@ -94,7 +94,6 @@ function parseDOB(dobList){
       ageGroup['children'].push(age);
     }
   });
-  // console.log(ageGroup);
   return ageGroup;
 }
 
@@ -187,13 +186,6 @@ function parseMonthlyVisits(visitData){
 }
 
 function initMonthlyVisit(visitData){
-  // var newVisits = [];
-  // var allVisits = [];
-  // console.log(visitData.allVisits);
-  // var newVisits = visitData.allVisits.map(function(visit){
-  //   return visit;
-  // });
-
   $(function () {
     Highcharts.chart('monthly-visit-plot', {
         chart: {

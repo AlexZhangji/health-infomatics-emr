@@ -309,13 +309,13 @@ $chartVisibility = 'hidden';
         var ageGroupList = parseDOB(patientDOBList);
         initPieChart(ageGroupList);
       }
-
-      console.log(parseMonthlyVisits(localVisitList));
+      if(localVisitList !== null){
+        initMonthlyVisit(parseMonthlyVisits(localVisitList));
+      }
 
       initScatterPlot();
       // initPressureHist();
       initColChart();
-      initMonthlyVisit(parseMonthlyVisits(localVisitList));
     });
 
 
