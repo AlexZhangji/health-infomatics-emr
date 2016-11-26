@@ -255,6 +255,7 @@ $chartVisibility = 'hidden';
             // find exactly one location
             if ($resCount == 1) {
                 $chartVisibility = 'block';
+                
                 $patientRawInfo = getPatientRawInfo($searchLoc);
             } else {
                 $chartVisibility = 'none';
@@ -276,7 +277,7 @@ $chartVisibility = 'hidden';
 
             <div class="m-card" id="scatter-plot" style="width: 100%;"></div>
 
-            <div class="m-card" id="pressure-hist-range" style="width: 100%;"></div>
+            <div class="m-card" id="monthly-visit-plot" style="width: 100%;"></div>
 
 
         </div>
@@ -307,8 +308,9 @@ $chartVisibility = 'hidden';
       }
 
       initScatterPlot();
-      initPressureHist();
+      // initPressureHist();
       initColChart();
+      initMonthlyVisit();
     });
 
 
