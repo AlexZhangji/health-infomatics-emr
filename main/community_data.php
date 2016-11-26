@@ -255,8 +255,9 @@ $chartVisibility = 'hidden';
             // find exactly one location
             if ($resCount == 1) {
                 $chartVisibility = 'block';
-                
+
                 $patientRawInfo = getPatientRawInfo($searchLoc);
+                $localVisitList = getLocalVisitList($searchLoc);
             } else {
                 $chartVisibility = 'none';
                 $patientRawInfo = '';
@@ -267,8 +268,7 @@ $chartVisibility = 'hidden';
         <!--  end of table  -->
 
         <!--   show chart if selected certain location  -->
-        <div class="" id="chart-panel" style="display: <?php echo $chartVisibility ?> ;
-            width:100%; margin-top: 20px;" >
+        <div class="" id="chart-panel" style="display: <?php echo $chartVisibility ?> ; width:100%; margin-top: 20px;" >
 
             <div class="m-card" id="column-plot" style="float:left; width:49%;"></div>
             <div class="m-card" id="pie-plot" style="float: left; width:49%;margin-left: 2%; " ></div>
@@ -302,15 +302,20 @@ $chartVisibility = 'hidden';
 <script>
     $(function(){
       var patientDOBList =<?php echo json_encode($patientRawInfo); ?>;
+      var localVisitList =<?php echo json_encode($localVisitList); ?>;
+
+
       if(patientDOBList != ''){
         var ageGroupList = parseDOB(patientDOBList);
         initPieChart(ageGroupList);
       }
 
+      console.log(parseMonthlyVisits(localVisitList));
+
       initScatterPlot();
       // initPressureHist();
       initColChart();
-      initMonthlyVisit();
+      initMonthlyVisit(parseMonthlyVisits(localVisitList));
     });
 
 

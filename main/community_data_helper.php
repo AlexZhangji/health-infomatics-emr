@@ -15,7 +15,21 @@ function getLocalPatientIdList($loc){
   return $patientIdList;
 }
 
+function getLocalVisitList($loc){
+ $patientIdList = getLocalPatientIdList($loc);
+ $localVisitList = [];
 
+ $rawVisitList = mysql_query('SELECT * ' .
+       'FROM `patient_visit_gb` ' .
+       'WHERE `p_id` IN (' . implode(' , ', $patientIdList) . ') '.
+       "ORDER BY `date`; ");
+
+   while($patientInfo = mysql_fetch_array($rawVisitList)) {
+    array_push($localVisitList,$patientInfo);
+   }
+
+ return $localVisitList;
+}
 
 function getPatientRawInfo($loc){
   $rawPatientInfo = mysql_query('SELECT gender, DOB, id ' .

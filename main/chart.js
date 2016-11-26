@@ -153,8 +153,46 @@ function initPieChart(ageGroupList){
     });
 }
 
-function initMonthlyVisit(visitData){
 
+function parseMonthlyVisits(visitData){
+  var allVisits = [];
+  var newVisits = [];
+  var patientIdSet =  new Set();
+
+  // init vists and newVisits
+  for(var i = 0; i < 12; i++){
+    allVisits[i] = 0;
+    newVisits[i] = 0;
+  }
+
+  visitData.forEach(function(visit){
+    var visitYear = parseInt(visit['date'].split('-')[0]);
+    if(visitYear == new Date().getFullYear()){
+      var visitMonth = parseInt(visit['date'].split('-')[1]);
+      var curPatientId = visit['p_id'];
+
+      if(!patientIdSet.has(curPatientId)){
+        patientIdSet.add(curPatientId);
+        newVisits[visitMonth+1] += 1;
+     }
+
+      allVisits[visitMonth+1] += 1;
+    }
+  });
+
+  return {
+    allVisits: allVisits,
+    newVisits: newVisits
+    };
+}
+
+function initMonthlyVisit(visitData){
+  // var newVisits = [];
+  // var allVisits = [];
+  // console.log(visitData.allVisits);
+  // var newVisits = visitData.allVisits.map(function(visit){
+  //   return visit;
+  // });
 
   $(function () {
     Highcharts.chart('monthly-visit-plot', {
@@ -162,17 +200,17 @@ function initMonthlyVisit(visitData){
             type: 'line'
         },
         title: {
-            text: 'Monthly Average Temperature'
+            text: 'Monthly Patient Visits'
         },
         subtitle: {
-            text: 'Source: WorldClimate.com'
+            text: ''
         },
         xAxis: {
             categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
         },
         yAxis: {
             title: {
-                text: 'Temperature (°C)'
+                text: 'Number of Patients'
             }
         },
         plotOptions: {
@@ -184,11 +222,11 @@ function initMonthlyVisit(visitData){
             }
         },
         series: [{
-            name: 'Tokyo',
-            data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+            name: 'All Visits',
+            data: visitData.allVisits
         }, {
-            name: 'London',
-            data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+            name: 'New Visits',
+            data: visitData.newVisits
         }]
     });
 });
