@@ -108,6 +108,12 @@ function debug_to_console($data)
     }
     echo $output;
 }
+
+
+
+
+
+
 // get patinet id
 // $patientId = trim($_GET['patientId']);
 $patientId = trim($_GET['patientId']);
@@ -117,6 +123,9 @@ if ($patientId) {
         'WHERE `id`=?', array(intval($patientId)));
     $visits_query = "SELECT * FROM patient_visit_gb WHERE p_id = $patientId ";
     $visits_query_results = mysql_query($visits_query);
+
+
+
     $visits = array();
     if (!$visits_query_results) {
         echo 'invalid patient visits query';
@@ -125,7 +134,8 @@ if ($patientId) {
             $visits[] = $row;
         }
     }
-    
+
+
     $visits_size = count($visits);
     $visitData = $visits[0];
     //$visitData= mysql_fetch_array($visits, MYSQL_ASSOC);
@@ -289,6 +299,7 @@ if ($patientId) {
                 <div style="margin-left:3%; font-weight:bold;margin-bottom:4px;">
                     Visit Date
                     <select name="visits_dropdown" id="visits_dropdown" onchange="selectDropDown();">
+
                         <?php
                         for ($i = 0; $i < $visits_size; ++$i) {
                             echo '<option value='.$i.'>'.$visits[$i]['date'].' </option>';
@@ -503,6 +514,32 @@ if ($patientId) {
     });
     }
 
+    // //  default uneditable
+    $(function(){
+      $('.badge input').prop('readonly', true);
+    });
+
+    // for edit
+    function editClicked(){
+      $(function(){
+        var checkbox = document.getElementById("editSwitch");
+        console.log('clicked');
+
+        var inputList = $('.badge input');
+        if (checkbox.checked==true){
+          inputList.prop('readonly', false);
+          inputList.css('border-bottom','solid #2196F3 2px');
+          $('#edit_visit_button').css('visibility','visible');
+        }
+        else{
+          inputList.prop('readonly', true);
+          inputList.css('border','none');
+          $('#edit_visit_button').css('visibility','hidden');
+        }
+      });
+    }
+
+
     //  for lols
       function whoLetTheCatOut(){
         var meow = new Audio('sound/meow.mp3');
@@ -538,7 +575,9 @@ if ($patientId) {
 
 
 
+
 </script>
+
 
 
 

@@ -1,12 +1,161 @@
 // initSpiderWeb();
 
-initScatterPlot();
-initPressureHist();
+function initColChart(){
+    $(function () {
+        $('#column-plot').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Monthly Average Rainfall'
+            },
+            subtitle: {
+                text: 'Source: WorldClimate.com'
+            },
+            xAxis: {
+                categories: [
+                    'Jan',
+                    'Feb',
+                    'Mar',
+                    'Apr',
+                    'May',
+                    'Jun',
+                    'Jul',
+                    'Aug',
+                    'Sep',
+                    'Oct',
+                    'Nov',
+                    'Dec'
+                ],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Rainfall (mm)'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Tokyo',
+                data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
 
+            }, {
+                name: 'New York',
+                data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
+
+            }, {
+                name: 'London',
+                data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
+
+            }, {
+                name: 'Berlin',
+                data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
+
+            }]
+        });
+    });
+}
+
+function parseDOB(dobList){
+  var curYear = new Date().getFullYear();
+
+  var ageGroup = [];
+  // 0 ~ 18, 19~ 49, 50 ~64, 64+
+  ageGroup['children'] = [];
+  ageGroup['growUp'] = [];
+  ageGroup['middleAge'] = [];
+  ageGroup['elders'] = [];
+
+  dobList.forEach(function(dob){
+    var bornYear = parseInt(dob.split('-')[0]);
+    var age = curYear - bornYear;
+
+    if(age >= 64){
+      ageGroup['elders'].push(age);
+    }else if (age >=50) {
+      ageGroup['middleAge'].push(age);
+    }else if (age >= 19){
+      ageGroup['growUp'].push(age);
+    }else{
+      ageGroup['children'].push(age);
+    }
+  });
+  // console.log(ageGroup);
+  return ageGroup;
+}
+
+// ageGroupList is an object with three array,
+// with names 'children', 'middleAge', 'growUp', and 'elders'.
+function initPieChart(ageGroupList){
+    $(function () {
+
+
+        $('#pie-plot').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Different Age Groups of Patients'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Age Group',
+                colorByPoint: true,
+                data: [{
+                    name: 'Children and Teenagers <br> (0~18)<br>',
+                    y: ageGroupList['children'].length,
+                }, {
+                    name: 'Young and Middle Age Adults<br>(19 ~ 49)<br>',
+                    y: ageGroupList['growUp'].length,
+                    sliced: true,
+                    selected: true
+                }, {
+                    name: '50 ~ 64 Years Old<br>',
+                    y:  ageGroupList['middleAge'].length,
+                }, {
+                    name:  'Elders <br> (64+)<br>',
+                    y: ageGroupList['elders'].length,
+                },]
+            }]
+        });
+    });
+}
 
 function initSpiderWeb(visitData) {
 
-    $(function() {
+    $(function () {
         $('#spider-web').highcharts({
             chart: {
                 polar: true,
@@ -23,9 +172,9 @@ function initSpiderWeb(visitData) {
             },
 
             xAxis: {
-              categories: ['Weight', 'Blood Pressure High', 'Blood Pressure Low',
-                  'Temperature', 'Respiratory Rate',
-              ],
+                categories: ['Weight', 'Blood Pressure High', 'Blood Pressure Low',
+                    'Temperature', 'Respiratory Rate',
+                ],
                 tickmarkPlacement: 'on',
                 lineWidth: 0
             },
@@ -63,7 +212,7 @@ function initSpiderWeb(visitData) {
 }
 
 function initScatterPlot() {
-    $(function() {
+    $(function () {
         $('#scatter-plot').highcharts({
             chart: {
                 type: 'scatter',

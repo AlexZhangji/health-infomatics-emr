@@ -5,6 +5,22 @@ require_once '../globals.php';
 require_once "$srcdir/formdata.inc.php";
 include_once "$srcdir/sql.inc";
 
+
+// uncomment function to create dummy database
+// run create dummy patient first before run create dummy visits
+
+// $textDB = readTxt('tsv_files/icd10cm_order_2016.txt');
+
+// foreach ($textDB as $text) {
+//     $text = preg_split('/\s+/', $text);
+//     print_r($text);
+// }
+
+// createDummyPatient(777);
+//importDiseaseDB();
+// createDummyVisit();
+
+
 function readCSV($csvFile)
 {
     $file_handle = fopen($csvFile, 'r');
@@ -27,20 +43,6 @@ function readTxt($filePath)
 
     return $line_of_text;
 }
-
-// $textDB = readTxt('tsv_files/icd10cm_order_2016.txt');
-//
-// foreach ($textDB as $text) {
-//     $text = preg_split('/\s+/', $text);
-//     print_r($text);
-// }
-
-//createDummyPatient(30);
-//importDiseaseDB();
-//createDummyVisit();
-// createDummyPatient(30);
-//importDiseaseDB();
-// createDummyVisit();
 
 function createDummyVisit()
 {
@@ -69,25 +71,46 @@ function createDummyVisit()
         }
 
         foreach ($idList as $_id) {
-            $numVisit = rand(0, 3);
+            $numVisit = rand(1, 5);
 
             for ($i = 0; $i < $numVisit; ++$i) {
                 // generate dummy data
 
-                $_date = getRandDate(strtotime('2012-10-01'), strtotime('2016-10-31'));
-                $_weight = rand(40, 80);
-                $_height = rand(150, 190);
-                $_bpl = rand(60, 85);
-                $_bph = rand(100, 125);
-                $_temp = rand(26, 30);
-                $_pulse = rand(200, 220);
-                $_resRate = rand(70, 90);
+                $_date = getRandDate(strtotime('2016-1-01'), strtotime('2016-11-20'));
+                $_weight = getRandWithOutliers(40, 80);
+                $_height = getRandWithOutliers(150, 190);
+                $_bpl = getRandWithOutliers(60, 85);
+                $_bph = getRandWithOutliers(100, 125);
+                $_temp = getRandWithOutliers(26, 30);
+                $_pulse = getRandWithOutliers(200, 220);
+                $_resRate = getRandWithOutliers(70, 90);
 
                 sqlQuery('INSERT INTO patient_visit_gb '.
             '(p_id, date ,weight,height, bph,bpi, temperature, pulse, respiratory_rate ) '.
             "VALUES('$_id', '$_date','$_weight', '$_height','$_bph','$_bpl','$_temp', '$_pulse', '$_resRate')");
             }
         }
+    }
+}
+
+// add some outlier numbers to the randomly generated data.
+// if sanity is lower than certain threshhold,
+// number that significantly larger or lower than expected range may appear.
+function getRandWithOutliers($lower, $upper)
+{
+    $sanity = rand(0, 10);
+
+    if ($sanity < 4) {
+        $range = $upper - $lower;
+        $_changeRate = rand(3 - $sanity, 4) / 10;
+
+        $extraLower = $lower * (1 - $_changeRate);
+        $extraUpper = $upper * (1 + $_changeRate);
+
+        return rand($extraLower, $extraUpper);
+    } else {
+
+      return rand($lower, $upper);
     }
 }
 
@@ -136,10 +159,9 @@ function createDummyPatient($numPpl)
     if ($result = sqlQuery("SHOW TABLES LIKE '$tableName'")) {
         echo 'Table exists';
     } else {
-
-      echo 'create patient table';
+        echo 'create patient table';
       // create tables;
-      sqlQuery("CREATE TABLE $tableName " .
+      sqlQuery("CREATE TABLE $tableName ".
       '(id BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id) , '.
       'name VARCHAR(255), gender VARCHAR(255), DOB date, city_village VARCHAR(255), '.
       'state_province VARCHAR(255), address_1 VARCHAR(255), address_2 VARCHAR(255), postal_num BIGINT, phone_num BIGINT);');
@@ -148,21 +170,21 @@ function createDummyPatient($numPpl)
       $genderListDummy = array('male', 'female');
       // should use dictionary here
       $cityListDummy = array('los angeles', 'new york city', 'barcelona', 'seattle', 'chengdu');
-      $stateListDummy = array('california', 'new york', 'catalonia', 'washington', 'sichuan');
+        $stateListDummy = array('california', 'new york', 'catalonia', 'washington', 'sichuan');
 
       // comiles to something diablo like : speedy Crab, defiant lizard
       $nameAdjList = array('abandoned', 'able', 'absolute', 'adorable', 'adventurous', 'academic', 'acceptable', 'acclaimed', 'accomplished', 'accurate', 'aching', 'acidic', 'acrobatic', 'babyish', 'bad', 'back', 'baggy', 'bare', 'barren', 'basic', 'beautiful', 'belated', 'beloved',
       'calculating', 'calm', 'candid', 'canine', 'capital', 'carefree', 'careful', 'careless', 'caring', 'damaged', 'damp', 'dangerous', 'dapper', 'daring', 'darling', 'dark', 'dazzling', 'dead', 'deadly', 'deafening', 'dear', 'dearest', 'fast', 'fat', 'fatal',
       'fatherly', 'favorable', 'favorite', 'fearful', 'fearless', 'feisty', 'feline', 'female', 'feminine', 'few', 'radiant', 'ragged', 'rapid', 'rare', 'rash', 'raw', 'recent', 'reckless', 'rectangular', );
 
-            $nameAnimalList = array('Cat', 'Flea', 'Flowerpecker', 'Fly', 'Flying', 'Fish', 'Flying', 'Frog', 'Fossa', 'Fox', 'Frigatebird', 'Frog', 'Frogmouth', 'Fulmar', 'G', 'Galago', 'Gallinule', 'Gannet', 'Gar', 'Garter', 'Snake', 'Gaur', 'Gazelle',
+        $nameAnimalList = array('Cat', 'Flea', 'Flowerpecker', 'Fly', 'Flying', 'Fish', 'Flying', 'Frog', 'Fossa', 'Fox', 'Frigatebird', 'Frog', 'Frogmouth', 'Fulmar', 'G', 'Galago', 'Gallinule', 'Gannet', 'Gar', 'Garter', 'Snake', 'Gaur', 'Gazelle',
        'Gecko', 'Geoffroy', 's', 'Cat', 'Gerbil', 'Gerenuk', 'Giant', 'Panda', 'Giant', 'Tortoise', 'Gibbon', 'Gila', 'Monster', 'Giraffe', 'Gnu', 'Goat', 'Goatfish', 'Goldfish', 'Goose', 'Gopher', 'Goral', 'Gorilla', 'Gourami', 'Grackle', 'Grasshopper',
        'Greater', 'Glider', 'Grebe', 'Green', 'Iguana', 'Grison', 'Grizzly', 'Bear', 'Groundhog', 'Grouse', 'Guanaco', 'Guinea', 'Pig', 'Gull', 'Gundi', 'H', 'Hamster', 'Harrier', 'Hartebeest', 'Hawaiian', 'Honeycreeper', 'Hawk', 'Hedgehog', 'Helmetshrike',
        'Hermit', 'Crab', 'Heron', 'Himalayan', 'Tahr', 'Hippopotamus', 'Hissing', 'Cockroach', 'Honeyeater', 'Hornbill', 'Hornet', 'Horse', 'Hoverfly', 'Hummingbird', 'Hutia', 'Hyena', 'Hyrax', 'I', 'Iberian', 'Lynx', 'Ibex', 'Ibis', 'Icterid', 'Iguana',
        'Impala', 'Insect', 'J', 'Jacana', 'Jack', 'Jackal', 'Jaguar', 'Jaguarundi', 'Jay', 'Jellyfish', 'Jerboa', 'Jungle', 'Cat', 'K', 'Kangaroo', 'Kangaroo', 'Rat', 'kerodon', 'Kestrel', 'King', 'Cobra', 'Kingbird', 'Kingfisher', 'Kinkajou', 'Kite',
         'Kitten', 'Kiwi', 'Klipspringer', 'Knifefish', 'Koala', 'Kodiak', 'Bear', 'Kodkod', 'Koi', 'Komodo', 'Dragon', 'Kookaburra', 'Kowari', 'Kudu', 'Kultarr', 'L', 'Ladybug', 'Lamb', 'Lamprey', 'Lapwing', 'Leech', 'Lemming', 'Lemur', 'Leopard',
          'Liger', 'Lion', 'Lionfish', 'Lizard', 'Llama', 'Loach', 'Lobster', 'Long', 'Tailed', 'Tit', 'Longspur', 'Loon', 'Loris', 'Lory', 'Lovebird', 'Lynx', 'Lyrebird', 'M', 'Macaw', 'Mallard', 'Mamba',
-         'Mammoth', 'Manakin', 'Manatee', 'Mandrill', 'Manta', 'Ray', );
+         'Mammoth', 'Manakin', 'Manatee', 'Mandrill', 'Manta', 'Ray', 'Zealot', 'Hydralisk', 'Marine', 'Overlords', 'Zergling', 'Roach', 'Dragoon', 'Banshee', 'Nasu', 'Shiro', );
 
       // get a list of IDs from DB, so that no duplicate names will be created
       // $rawIdList = sqlQuery("SELECT id " .
@@ -185,7 +207,7 @@ function createDummyPatient($numPpl)
 
           $cityIndex = array_search($curCity, $cityListDummy);
           $curState = array_values($stateListDummy)[$cityIndex];
-          $curDate = getRandDate(strtotime('1972-10-01'), strtotime('2015-12-31'));
+          $curDate = getRandDate(strtotime('1940-10-01'), strtotime('2015-12-31'));
 
           $addNewPatient = sqlQuery('INSERT INTO patient_data_gb '.
           '(name,gender, DOB ,city_village,state_province) '.
