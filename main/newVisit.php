@@ -98,6 +98,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
 
 $patientId = trim($_GET['patientId']);
 
+
 $diseasesql = 'SELECT name FROM disease_data_gb';
 $diseaseresult = mysql_query($diseasesql);
 
@@ -105,6 +106,7 @@ $disease_list = array();
 while ($row = mysql_fetch_array($diseaseresult)) {
     $disease_list[] = $row['name'];
 }
+
 
 ?>
 
@@ -335,7 +337,9 @@ while ($row = mysql_fetch_array($diseaseresult)) {
         width: 200px;
     }
 
+
 </style>
+
 
 
 </body>
