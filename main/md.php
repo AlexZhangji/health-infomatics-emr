@@ -108,12 +108,6 @@ function debug_to_console($data)
     }
     echo $output;
 }
-
-
-
-
-
-
 // get patinet id
 // $patientId = trim($_GET['patientId']);
 $patientId = trim($_GET['patientId']);
@@ -123,9 +117,6 @@ if ($patientId) {
         'WHERE `id`=?', array(intval($patientId)));
     $visits_query = "SELECT * FROM patient_visit_gb WHERE p_id = $patientId ";
     $visits_query_results = mysql_query($visits_query);
-
-
-
     $visits = array();
     if (!$visits_query_results) {
         echo 'invalid patient visits query';
@@ -138,10 +129,24 @@ if ($patientId) {
 
     $visits_size = count($visits);
     $visitData = $visits[0];
-    //$visitData= mysql_fetch_array($visits, MYSQL_ASSOC);
     $height = $visitData['height'] / 100;
     $height = $height * $height;
     $bmi = round($visitData['weight'] / $height, 2);
+
+    $diagnosis = array();
+    for ($i=0; $i<$visits_size; $i++){
+        if ($visits[$i]['diagnosis']!=''){
+            $pieces = explode(",", $visits[$i]['diagnosis']);
+            for ($j=0; $j<count($pieces); $j++){
+
+                if ($pieces[$j]!=''){
+                    //echo $pieces[$j]."<br>";
+
+                    $diagnosis[] = $pieces[$j];
+                }
+            }
+        }
+    }
     // debug_to_console_2($patientData);
     // debug_to_console($patientData['name']);
     $patientYO = getYearsOld($patientData['DOB']);
@@ -299,7 +304,6 @@ if ($patientId) {
                 <div style="margin-left:3%; font-weight:bold;margin-bottom:4px;">
                     Visit Date
                     <select name="visits_dropdown" id="visits_dropdown" onchange="selectDropDown();">
-
                         <?php
                         for ($i = 0; $i < $visits_size; ++$i) {
                             echo '<option value='.$i.'>'.$visits[$i]['date'].' </option>';
@@ -348,16 +352,30 @@ if ($patientId) {
             </form>
 
 
+
+
             <!-- vital card end -->
-            <div class="patient-appoinment m-card" style="clear:both;width:100%;">
+            <div class="patient-diagnosis m-card" style="clear:both;width:100%;">
                 <div class="title" style="border-bottom: 5px solid #2196F3;margin-bottom:5px;">
-                    <i class="fa fa-calendar" aria-hidden="true"></i> Appointments
+                    <i class="fa fa-medkit" aria-hidden="true"></i> Diagnosis
                 </div>
-                <div style="margin:7px; margin-bottom:4px;">
-                    None
+                <div class="vitals-stats" >
+                    <ul class="list-group">
+
+                        <?php
+                        for ($i=0; $i<count($diagnosis); $i++){
+                            echo '<li class="list-group-item">'.$diagnosis[$i].'</li>';
+                        }
+                        ?>
+
+                    </ul>
+                    <br />
                 </div>
             </div>
-        </div>
+
+
+
+                    </div>
         <!-- END OF LEFT PANE -->
 
         <!-- right pane -->
@@ -399,6 +417,16 @@ if ($patientId) {
                 </div>
             </div>
             <!-- end of visulization -->
+
+            <div class="patient-appoinment m-card" style="clear:both;width:100%;">
+                <div class="title" style="border-bottom: 5px solid #2196F3;margin-bottom:5px;">
+                    <i class="fa fa-calendar" aria-hidden="true"></i> Appointments
+                </div>
+                <div style="margin:7px; margin-bottom:4px;">
+                    None
+                </div>
+                <br />
+            </div>
 
         </div>
         <!-- right pane -->
@@ -498,8 +526,10 @@ if ($patientId) {
         var visit_json = JSON.parse('<?php echo json_encode($visits) ?>');
 
 
+
         console.log(n);
         console.log(visit_json[n]['height']);
+
 
         document.getElementById("height").value = visit_json[n]['height'];
         document.getElementById("weight").value = visit_json[n]['weight'];
@@ -513,32 +543,6 @@ if ($patientId) {
         document.getElementById("bpl").value= visit_json[n]['bpi'];
     });
     }
-
-    // //  default uneditable
-    $(function(){
-      $('.badge input').prop('readonly', true);
-    });
-
-    // for edit
-    function editClicked(){
-      $(function(){
-        var checkbox = document.getElementById("editSwitch");
-        console.log('clicked');
-
-        var inputList = $('.badge input');
-        if (checkbox.checked==true){
-          inputList.prop('readonly', false);
-          inputList.css('border-bottom','solid #2196F3 2px');
-          $('#edit_visit_button').css('visibility','visible');
-        }
-        else{
-          inputList.prop('readonly', true);
-          inputList.css('border','none');
-          $('#edit_visit_button').css('visibility','hidden');
-        }
-      });
-    }
-
 
     //  for lols
       function whoLetTheCatOut(){
@@ -575,9 +579,7 @@ if ($patientId) {
 
 
 
-
 </script>
-
 
 
 

@@ -300,7 +300,7 @@ while ($row = mysql_fetch_array($diseaseresult)) {
 
                 <input name='patient_id' type="hidden" value="<?php echo text($patientId); ?>">
                 <input type="submit" value="Submit" name="submit_visit_button" class='btn btn-raised active'
-                       style="width:10vw;height:auto; margin-left:20vw;" id='comm-search-btn'>
+                       style="width:10vw;height:auto; margin-left:20vw; font-size:16px; text-align= center;" id='comm-search-btn'>
             </form>
         </div>
 </div>

@@ -15,7 +15,7 @@ function initColChart(diseaseSorted){
                 type: 'column'
             },
             title: {
-                text: 'Most Common Disease'
+                text: 'Most Common Disease in Three Months'
             },
             subtitle: {
                 text: 'Source: TeamEMR'

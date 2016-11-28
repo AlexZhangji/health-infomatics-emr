@@ -90,7 +90,7 @@ function createDummyVisit()
                 $_bpl = getRandWithOutliers(60, 85);
                 $_bph = getRandWithOutliers(100, 125);
                 $_temp = getRandWithOutliers(26, 30);
-                $_pulse = getRandWithOutliers(200, 220);
+                $_pulse = getRandWithOutliers(90, 120);
                 $_resRate = getRandWithOutliers(70, 90);
 
                 $_disease = mysql_real_escape_string(getDisease($diseasesList));
