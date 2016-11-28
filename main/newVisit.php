@@ -232,7 +232,7 @@ while ($row = mysql_fetch_array($diseaseresult)) {
 
         <div class="visit-container m-card">
 
-          
+
                 <h2 style="float:left; margin-left:10px;">Create Visit &nbsp;&nbsp;</h2>
                 <form action="md.php" method="get">
                     <input type="submit" value="Back" class='btn btn-raised active'

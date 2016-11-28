@@ -275,16 +275,19 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
 
 
 
- <div class="panel panel-default" id="search_module">
-
- <p> <input type="text" placeholder="Name" name='namefield' id='namefield'>
-<button name="search_button" id = "search_button">Search</button>
-</p>
+ <div class="form-group form-group-lg is-empty ">
+     <label class="control-label" for="village-search" style='color:#2196F3; font-size:20px;'>Input the
+         Community:</label>
+     <input class="form-control" type="text" placeholder="Name" name='namefield' id='namefield'>
+     <a class="btn btn-raised active " style=' width:20vw;' id='comm-search-btn'
+        onclick='searchComm();'>
+         Search
+     </a>
 </div>
 
  <script>
     $(document).ready(function(){
-      $("#search_button").click(function(e){
+      $("#comm-search-btn").click(function(e){
 
          var names = $("#namefield").val();
 
