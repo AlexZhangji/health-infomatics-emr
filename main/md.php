@@ -456,7 +456,7 @@ if ($patientId) {
 <script src="chart.js"></script>
 
 <!-- voice control -->
-<script src="js/voice.js"></script> -->
+<!-- <script src="js/voice.js"></script> -->
 
 <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script> -->
 <script>
@@ -523,9 +523,7 @@ if ($patientId) {
         var n = dropdown.options[dropdown.selectedIndex].value;
 
 
-        var visit_json = JSON.parse('<?php echo json_encode($visits) ?>');
-
-
+        var visit_json = <?php echo json_encode($visits); ?>;
 
         console.log(n);
         console.log(visit_json[n]['height']);
