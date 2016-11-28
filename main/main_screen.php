@@ -124,11 +124,11 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
 
         }
 
-        
-        
+
+
          var db = openDatabase('openemr', '1.0', 'Open EMR Client DB', 2 * 1024 * 1024);
          var msg;
-            
+
          db.transaction(function (tx) {
             var numrows;
             tx.executeSql('CREATE TABLE IF NOT EXISTS patient_data_gb (id BIGINT, name VARCHAR(255), gender VARCHAR(255), DOB date, city_village VARCHAR(255), state_province VARCHAR(255), address_1 VARCHAR(255), address_2 VARCHAR(255), country VARCHAR(255), postal_num BIGINT, phone_num BIGINT);');
@@ -136,7 +136,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
                         type: "POST",
                         url: "patientdatatablerow.php",
                         dataType: "JSON",
-                       
+
                         success:function(json){
                                     db.transaction(function (tx){
                                         var arrayLength = json.length;
@@ -145,43 +145,43 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
                                               //Do something
                                              // alert("passed insert");
                                         }
-                                        alert(json[1][1]);
+                                        // alert(json[1][1]);
                                         db.transaction(function (tx){
 
-                                    
+
                                         tx.executeSql('SELECT * FROM patient_data_gb', [], function (tx, results) {
                                           var len = results;
-                                          alert(len);
-                                    
+                                          // alert(len);
+
                                         });
 
 
-                              
-                                    }); 
-                              
-                                    });
-                                   
-                                  
-                          
 
-                               
+                                    });
+
+                                    });
+
+
+
+
+
 
                         },
                         error: function() {
-                          alert("Not able to sync data");
-                            
+                          // alert("Not able to sync data");
+
 
                         }
 
-                 
-             
-           
+
+
+
             });
         });
 
-        
-            
-    
+
+
+
 
 
 

@@ -311,11 +311,14 @@ $chartVisibility = 'hidden';
       }
       if(localVisitList !== null){
         initMonthlyVisit(parseMonthlyVisits(localVisitList));
+        initScatterPlot();
       }
 
-      initScatterPlot();
+      // initScatterPlot();
       // initPressureHist();
-      initColChart();
+      var diseaseSorted = parseDiseasData(localVisitList);
+      console.log(diseaseSorted);
+      initColChart(diseaseSorted);
     });
 
 

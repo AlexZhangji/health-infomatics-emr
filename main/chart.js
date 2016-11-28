@@ -1,47 +1,34 @@
 // initSpiderWeb();
 
-function initColChart(){
+function initColChart(diseaseSorted){
+    var commonDiseaseNameList = [];
+    var commonDiseaseNumList = [];
+
+    diseaseSorted.forEach(function(dict){
+      commonDiseaseNameList.push(dict[0]);
+      commonDiseaseNumList.push(dict[1]);
+    });
+
     $(function () {
         $('#column-plot').highcharts({
             chart: {
                 type: 'column'
             },
             title: {
-                text: 'Monthly Average Rainfall'
+                text: 'Most Common Disease'
             },
             subtitle: {
-                text: 'Source: WorldClimate.com'
+                text: 'Source: TeamEMR'
             },
             xAxis: {
-                categories: [
-                    'Jan',
-                    'Feb',
-                    'Mar',
-                    'Apr',
-                    'May',
-                    'Jun',
-                    'Jul',
-                    'Aug',
-                    'Sep',
-                    'Oct',
-                    'Nov',
-                    'Dec'
-                ],
+                categories: commonDiseaseNameList,
                 crosshair: true
             },
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Rainfall (mm)'
+                    text: 'Number of occurence'
                 }
-            },
-            tooltip: {
-                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
-                footerFormat: '</table>',
-                shared: true,
-                useHTML: true
             },
             plotOptions: {
                 column: {
@@ -50,25 +37,26 @@ function initColChart(){
                 }
             },
             series: [{
-                name: 'Tokyo',
-                data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+                name: commonDiseaseNameList[0],
+                data: [commonDiseaseNumList[0]]
 
             }, {
-                name: 'New York',
-                data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
-
+              name: commonDiseaseNameList[1],
+              data: [commonDiseaseNumList[1]]
             }, {
-                name: 'London',
-                data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
-
+              name: commonDiseaseNameList[2],
+              data: [commonDiseaseNumList[2]]
             }, {
-                name: 'Berlin',
-                data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
-
+              name: commonDiseaseNameList[3],
+              data: [commonDiseaseNumList[3]]
+            }, {
+              name: commonDiseaseNameList[4],
+              data: [commonDiseaseNumList[4]]
             }]
         });
     });
 }
+
 
 function parseDOB(dobList){
   var curYear = new Date().getFullYear();
@@ -151,6 +139,7 @@ function initPieChart(ageGroupList){
         });
     });
 }
+
 
 
 function parseMonthlyVisits(visitData){
@@ -282,7 +271,56 @@ function initSpiderWeb(visitData) {
     });
 }
 
-function initScatterPlot() {
+function parseDiseasData(localVisitList){
+  var curMonth = new Date().getMonth();
+  var curYear = new Date().getFullYear();
+
+  var diseasesData = [];
+  var diseasesSet = new Set();
+
+  // get list of diseases in recent month
+  localVisitList.forEach(function(visit){
+    var year = parseInt(visit['date'].split('-')[0]);
+    var month = parseInt(visit['date'].split('-')[1]);
+
+    if(year == curYear){
+      // only use data from recent months
+      if(month >= curMonth -2){
+        var curDiseasesList = visit['diagnosis'].split(',');
+
+        curDiseasesList.forEach(function(_disease){
+          if(_disease.length > 1){
+            if(diseasesSet.has(_disease)){
+              diseasesData[_disease] += 1;
+            }else{
+              diseasesSet.add(_disease);
+              diseasesData[_disease] = 1;
+            }
+          }
+        });
+
+      }
+    }
+  });
+  // sort dictionary by values
+  // diseasesData = Object.keys(diseasesData).sort(function(a,b){return diseasesData[a]-diseasesData[b]})
+  var sortDisease = [];
+  for (var dis in diseasesData)
+      sortDisease.push([dis, diseasesData[dis]])
+
+  sortDisease.sort(function(a, b) {
+      return a[1] - b[1]
+  })
+
+  var topFiveDisease = [];
+  for(var i = 4; i > -1; i--){
+    topFiveDisease.push(sortDisease[sortDisease.length- 5 + i]);
+  }
+
+  return topFiveDisease;
+}
+
+function initScatterPlot(localVisitList) {
     $(function () {
         $('#scatter-plot').highcharts({
             chart: {
