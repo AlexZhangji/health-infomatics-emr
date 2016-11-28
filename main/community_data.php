@@ -317,13 +317,13 @@ function searchComm() {
       }
       if(localVisitList !== null){
         initMonthlyVisit(parseMonthlyVisits(localVisitList));
-        initScatterPlot();
+        initScatterPlot(parseScatterVisit(localVisitList));
       }
 
       // initScatterPlot();
       // initPressureHist();
       var diseaseSorted = parseDiseasData(localVisitList);
-      console.log(diseaseSorted);
+      // console.log(diseaseSorted);
       initColChart(diseaseSorted);
 
     });
