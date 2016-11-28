@@ -1,17 +1,17 @@
-#heading{
+/*#heading{
 	background-color: white;
 	width: 100%;
-	padding: 0px 0px 0px 0px; 
+	padding: 0px 0px 0px 0px;
 
 
-}
+}*/
 
-img.LoginLogo {
+/*img.LoginLogo {
 	 display: block;
     margin-left: auto;
     margin-right: auto;
-    padding: 0px 0px 0px 0px; 
-}
+    padding: 0px 0px 0px 0px;
+}*/
 ul {
     list-style-type: none;
     margin: 0;
@@ -22,7 +22,7 @@ ul {
 li{
 	color: white;
 	text-decoration: none;
-	font-family: Verdana; 
+	font-family: Verdana;
 	font-size: 20px
 }
 li.right{
@@ -55,22 +55,22 @@ a:visited {
 }
 
 #container{
- 
+
 	width: 900px;
 	height: 660px;
     border: 1px solid grey;
     padding: 5px 20px 10px 20px;
 	color:Black;
-   	margin: 0 auto; 
+   	margin: 0 auto;
     -webkit-box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
     -moz-box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
 }
 #TaskList {
-    
+
     height: 470px;
 
     line-height: 2em;
-   
+
     padding: 0;
     margin: 0;
     overflow: scroll;
@@ -78,10 +78,10 @@ a:visited {
 }
 #tasklistdiv{
     height: 470px;
-    width: 94%;   
+    width: 94%;
     padding: 25px;
     color:#FFF;
-    margin: 0 auto; 
+    margin: 0 auto;
     border: 1px solid grey;
     -webkit-box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
     -moz-box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
@@ -104,7 +104,7 @@ a:visited {
 #datepickerinput::-webkit-calendar-picker-indicator{
     display: none;
 }
-#datepickerinput::-webkit-input-placeholder{ 
+#datepickerinput::-webkit-input-placeholder{
     visibility: hidden !important;
 }
 .ui-datepicker {
@@ -115,7 +115,7 @@ a:visited {
     -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
     -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
-   
+
 
 }
 .ui-datepicker a {
@@ -126,7 +126,7 @@ a:visited {
     width: 90%;
 }
 .ui-datepicker-div{
-     position: absolute; 
+     position: absolute;
     top: 432px;
     left: 197px;
 }
@@ -163,13 +163,13 @@ a:visited {
     float: left;
     background-position: center 0px;
     background-image: url('arrowprev.png');
-    background-size:     cover;       
+    background-size:     cover;
 }
 .ui-datepicker-next {
     float: right;
     background-position: center 0px;
     background-image: url('arrownext.png');
-    background-size:     cover;  
+    background-size:     cover;
 }
 .ui-datepicker thead {
     background-color: #f7f7f7;
@@ -264,7 +264,7 @@ textarea {
    resize: none;
    width:100%;
    height: 50%;
-   font-family: Verdana; 
+   font-family: Verdana;
     font-size: 20px
 
 }
@@ -300,15 +300,15 @@ p.Modal_Title{
     cursor: pointer;
 }
 
-form.date { 
-    margin: 0 auto; 
+form.date {
+    margin: 0 auto;
     align:left;
-    
+
 }
 form.datemodal{
    position: relative;
     padding: 0px 0px 10px 0px;
-    
+
 }
 
 #NewTaskButton {
@@ -316,13 +316,13 @@ form.datemodal{
     width: 100%;
     border: none;
     color: white;
-    
+
     height: 80px;
     padding: 10px 10px 10px 10px;
     text-decoration: none;
     margin: 4px 2px;
     cursor: pointer;
-    font-family: Verdana; 
+    font-family: Verdana;
 	font-size: 40px
 }
 #datepickermodal{
@@ -339,10 +339,6 @@ form.datemodal{
     text-decoration: none;
     margin: 4px ;
     cursor: pointer;
-    font-family: Verdana; 
+    font-family: Verdana;
     font-size: 30px
 }
-
-
-
-

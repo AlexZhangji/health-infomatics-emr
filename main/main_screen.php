@@ -246,7 +246,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
         </div>
         <div class="card-shadow main-option">
             <i class="fa fa-comments-o" aria-hidden="true"></i><br>
-            <form action="message.php" method="get">
+            <form action="#" method="get">
                 <input type="submit" value="Messages"
                        name="Messages" id="messages_link" onclick="top.restoreSession()"/>
             </form>
@@ -254,7 +254,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
         <div class="card-shadow main-option">
             <i class="fa fa-book" aria-hidden="true"></i><br>
 
-            <form action="dictionary.php" method="get">
+            <form action="#" method="get">
                 <input type="submit" value="Dictionary" id="dictionary">
 
             </form>
@@ -270,7 +270,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
         <div class="card-shadow main-option">
             <i class="fa fa-cogs" aria-hidden="true"></i><br>
 
-            <form action="place_holder.php" method="get">
+            <form action="#" method="get">
                 <input type="submit" value="System Setting" id="system">
             </form>
         </div>

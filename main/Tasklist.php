@@ -124,14 +124,14 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
        return loadedFrameCount >= 2;
 
       }
-   
-      
+
+
       if (localStorage.getItem("Sizeofnewtaskcache") === null){
         localStorage.setItem("Sizeofnewtaskcache", 0);
-        
-        
-        
-      } 
+
+
+
+      }
       else{
         if (localStorage.getItem("Sizeofnewtaskcache") == 0){
           alert("there are no pending tasks");
@@ -141,27 +141,27 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
           alert(localStorage.getItem("Sizeofnewtaskcache"));
 
           //for (int i = 0; i < parseInt(localStorage.getItem("Sizeofnewpatientcache")); i++){
-            
-           
-           
-           
+
+
+
+
           var taskarea;
           var datenewtask;
-         
+
 
            for( var i = parseInt(localStorage.getItem("Sizeofnewtaskcache")) - 1; i >= 0; i--) {
                     var keyval = "NewTask" + i;
                     var getdata = JSON.parse(localStorage.getItem(keyval));
                     //getdata = getdata.split(",");
 
-                  
+
                     taskarea = getdata[0];
                     datenewtask = getdata[1];
-                    
+
                     //alert(names+gender+address1);
-                     
-                    
-                     
+
+
+
                     $.ajax({
                             type: "POST",
                             url: "newTask.php",
@@ -181,7 +181,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
                               alert("failed");
                               /*var cacheditems = parseInt(localStorage.getItem("Sizeofnewpatientcache"));
                               var cacheditemarr = [names,gender,address1,address2,date,cityVillage,stateProvince,selectCountry,postalCode,phoneNumber];
-                              
+
                               var key = "NewPatient" + cacheditems;
                              // alert(key);
                               localStorage.setItem(key, JSON.stringify(cacheditemarr));
@@ -192,107 +192,109 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
                             }
 
                     });
-                    
-                   
 
 
 
 
 
-                          
-                 
+
+
+
+
 
             }
-             
+
             //alert(test);
 
-            
+
              /* if (test){
                             for (var y = 0; y < parseInt(localStorage.getItem("Sizeofnewpatientcache")); y++){
                               var keyvals = "NewPatient" + y;
                               localStorage.removeItem(keyvals);
 
-                            } 
+                            }
                             localStorage["Sizeofnewpatientcache"] = 0;
                           }
 
-           
+
         //  }*/
 
 
 
         }
-        
+
       }
 
-  
- 
 
 
-     
+
+
+
     </script>
     <link rel=stylesheet href="../themes/tasklist.css" type="text/css">
 
-     
+        <!--  fonts import  -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,500" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500" rel="stylesheet">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+        <!-- end of fonts import -->
+        <link rel=stylesheet href="../themes/main_screen.css" type="text/css">
+
+
   </head>
 
    <body  >
+   <div>
+
+        <p id="heading">
+           <a href="main_screen.php">
+               <img class="LoginLogo" src="../pic/sites/images/Global_Brigades_Logo_H.png" alt="Login Image"
+                    style="height:100px;">
+           </a>
+       </p>
+   <ul class="header card-shadow">
+       <li class="left"><a href="main_screen.php">Home</a></li>
+       <li class="left"><a href="Tasklist.php">To Dos</a></li>
+       <li class="left"><a href="#Dictionary">Dictionary</a></li>
+       <li class="left"><a href="community_data.php">Communities</a></li>
+
+       <li class="right">
+           <a href="../logout.php" target="_top" class="css_button_small" id="logout_link"
+              onclick="top.restoreSession()">
+               <span><?php echo htmlspecialchars(xl('Logout'), ENT_QUOTES) ?></span></a></td>
+       </li>
+       <li class="right">User</li>
+       <li class="right"><a href="#settings">Settings</a></li>
 
 
-
-      <h id = "heading">
-
-        <p id = "heading">
-        <a href="main_screen.php">
-           <img class="LoginLogo" src="/openemr-4.2.0/sites/default/images/Global_Brigades_Logo.png" alt="Login Image" style="width:200px;height:100px;">
-
-        </a>
-         
-        </p>
-
-        </h>
-        <ul>
-      <li class = "left"><a href="main_screen.php">Home</a></li>
-      <li class = "left"><a href="#news">News</a></li>
-      <li class = "left"><a href="#contact">Contact</a></li>
-      <li class = "left"><a href="#tutorial">Tutorial</a></li>
-      
-      <li class = "right">
-       <a href="../logout.php" target="_top" class="css_button_small"  id="logout_link" onclick="top.restoreSession()" >
-      <span><?php echo htmlspecialchars( xl('Logout'), ENT_QUOTES) ?></span></a>
-      </li>
-      <li class = "right">User</li>
-      <li class = "right"><a href="#settings">Settings</a></li>
-
-
-    </ul>
+   </ul>
     </br>
-        <div id="container">
-            
-             
+        <div id="container" style='background-color:white;'>
+
+
             <form class="date" method = "POST">
-             
+
             Date:
             <input type="date" name="datepickerinput" id ="datepickerinput" value="<?php echo date('Y-m-d'); ?>"/> >
-            
 
 
-            
 
-            
+
+
+
             <div id="tasklistdiv">
               <ul id="TaskList" name = "TaskList">
-                <?php 
+                <?php
 
 
                    if (empty($_POST['TaskList'])){
-                        
 
-      
+
+
                         $userID = $_SESSION['authId'];
                         $date = date('Y-m-d');
-                      
-                        
+
+
                         $yourArray = array(); // make a new array to hold all your data
 
                         $res = sqlStatement("select Task from Task where userID = '$userID' and Date = '$date'");
@@ -300,24 +302,24 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
                         $index = 0;
 
                         while($row = mysql_fetch_row($res)){ // loop to store the data in an associative array.
-                              
+
                              echo '<li>' . $row[0] . '</li>';
                              $index++;
-                             
-                        }
-                        
 
-                       
-                                              
-                       
-                    
+                        }
+
+
+
+
+
+
                   }
 
 
-                  
+
                   //echo $_POST['datevalue'];
- 
-               
+
+
 
                 ?>
 
@@ -325,7 +327,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
 
 
                 <script>
-               
+
 
 
 
@@ -336,7 +338,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
                       dateFormat: "yy-mm-dd",
                       onSelect: function(dateText) {
                         //alert("value changed");
-                        
+
                         $(this).change();
                       }
                     }).on("change", function() {
@@ -358,8 +360,8 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
                                          $("#TaskList").append('<li>'+ json[i]+'</li>');
                                           //Do something
                                       }
-                                      
-                                        
+
+
 
                                            //Write code here for you successful update (if you want to)
                           },
@@ -369,41 +371,41 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
                         });
                     });
 
-                    
+
 
                   });
-                                  
+
             </script>
 
-              
+
 
               </ul>
-             </div> 
+             </div>
              </form>
 
                 <input class="button large" type="submit" value="New Task" id="NewTaskButton" >
-              
+
 
 
 
               <div id="myModal" class="modal">
-                    
+
                 <!-- Modal content -->
                 <div class="modal-content">
-                
+
                   <span class="close">×</span>
-                 
-                        
-                          
-                         
-                          
-               
-                     
-                    
+
+
+
+
+
+
+
+
 
                     <p class="Modal_Title">New Task</p>
 
-                  
+
 
 
 
@@ -414,24 +416,24 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
 
                       <div>
                         <textarea rows="4" cols="50" maxlength="240" name="taskarea" id="taskarea">
-                          
+
                         </textarea>
-                           
+
                       </div>
-             
+
                       Date:
 
                       <input type="date" name="datenewtask" id ="datenewtask" >
                       </br>
-                      
+
                       <input class="button large" type="submit" value="New Task" id="NewTaskModalButton" name = "submitbutton" >
-                     
-                    
+
+
 
                      <script>
     $(document).ready(function(){
       $("#NewTaskModalButton").click(function(e){
-          
+
          var taskarea = $("#taskarea").val();
          var datenewtask = $("#datenewtask").val();
          var keyval = "keyval";
@@ -441,10 +443,10 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
                 //dataType: "JSON",
                 data: {'taskarea': taskarea,
                        'datenewtask': datenewtask
-                       
+
                                          },
                 success:function(result){
-                  
+
 
                   document.getElementById("taskarea").value = "";
                   $('#myModal').modal('hide');
@@ -453,10 +455,10 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
                 },
                 error: function() {
                   // Save
-                  
+
                   var cacheditems = parseInt(localStorage.getItem("Sizeofnewtaskcache"));
                   var cacheditemarr = [taskarea,datenewtask];
-                  
+
                   var key = "NewTask" + cacheditems;
                  // alert(key);
                   localStorage.setItem(key, JSON.stringify(cacheditemarr));
@@ -467,14 +469,14 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
                 }
 
         });
-        
-        
+
+
       });
     });
     </script>
 
 
-                
+
                 </div>
                 <script>
                   // Get the modal
@@ -504,12 +506,12 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
                       }
                   }
 
-               
+
 
 
                 </script>
                  <script>
-               
+
 
 
                   // Datepicker
@@ -519,31 +521,33 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) $nav_area_width = $GLOBALS['gbl_nav_
                       dateFormat: "yy-mm-dd",
                       onSelect: function(dateText) {
                         //alert("value changed");
-                        
+
                         $(this).change();
                       }
                     }).on("change", function() {
-                       
 
-                    
+
+
                     });
 
-                    
+
 
                   });*/
-                                  
+
             </script>
 
-                
+
 
               </div>
 
         </div>
-  
+        </div>
+
+
     </body>
 
-  
 
-  
+
+
 
 </html>

@@ -407,7 +407,7 @@ if ($patientId) {
                     </div>
 
                     <div role="tabpanel" class="tab-pane fade" id="bmi-scatter">
-                        <div id="scatter-plot"></div>
+                        <div id="scatter-dummy-plot"></div>
                     </div>
 
                     <div role="tabpanel" class="tab-pane fade" id="pressure-hist">
@@ -460,24 +460,24 @@ if ($patientId) {
 
 <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script> -->
 <script>
-    if (annyang) {
-        // Let's define a command.
-        var commands = {
-            'hello': function() {
-                alert('Hello world!');
-            },
-            'show me *tag': showPlots,
-            'test': function() {
-                alert('Working!');
-            },
-        };
-
-        // Add our commands to annyang
-        annyang.addCommands(commands);
-
-        // Start listening.
-        annyang.start();
-    }
+    // if (annyang) {
+    //     // Let's define a command.
+    //     var commands = {
+    //         'hello': function() {
+    //             alert('Hello world!');
+    //         },
+    //         'show me *tag': showPlots,
+    //         'test': function() {
+    //             alert('Working!');
+    //         },
+    //     };
+    //
+    //     // Add our commands to annyang
+    //     annyang.addCommands(commands);
+    //
+    //     // Start listening.
+    //     annyang.start();
+    // }
 </script>
 
 <script>
@@ -568,7 +568,7 @@ if ($patientId) {
         console.log(visitData);
         console.log(plotNumArr);
         initSpiderWeb(plotNumArr);
-        initScatterPlot();
+        initDummyScatterPlot();
         initPressureHist();
         // for toggle patient info
         $('#expand-patient-info').click(function () {
