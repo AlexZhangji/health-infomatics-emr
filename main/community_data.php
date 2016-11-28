@@ -297,6 +297,12 @@ $chartVisibility = 'hidden';
 <!-- highcharts data-->
 <script src="chart.js"></script>
 
+<script>
+function searchComm() {
+    var _village = document.querySelector('#village-search').value;
+    window.location.href = "community_data.php?location=" + encodeURIComponent(_village);
+}
+</script>
 
 
 <script>
@@ -319,13 +325,10 @@ $chartVisibility = 'hidden';
       var diseaseSorted = parseDiseasData(localVisitList);
       console.log(diseaseSorted);
       initColChart(diseaseSorted);
+
     });
 
 
-    function searchComm() {
-        var _village = document.querySelector('#village-search').value;
-        window.location.href = "community_data.php?location=" + encodeURIComponent(_village);
-    }
 
 
     // init bootstrap-material
