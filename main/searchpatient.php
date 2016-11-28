@@ -119,7 +119,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
 
       var db = openDatabase('openemr', '1.0', 'Open EMR Client DB', 2 * 1024 * 1024);
          var msg;
-            
+
          db.transaction(function (tx) {
             var numrows;
             tx.executeSql('CREATE TABLE IF NOT EXISTS patient_data_gb (id BIGINT, name VARCHAR(255), gender VARCHAR(255), DOB date, city_village VARCHAR(255), state_province VARCHAR(255), address_1 VARCHAR(255), address_2 VARCHAR(255), country VARCHAR(255), postal_num BIGINT, phone_num BIGINT);');
@@ -127,7 +127,7 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
                         type: "POST",
                         url: "patientdatatablerow.php",
                         dataType: "JSON",
-                       
+
                         success:function(json){
                                     db.transaction(function (tx){
                                         var arrayLength = json.length;
@@ -136,43 +136,43 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
                                               //Do something
                                              // alert("passed insert");
                                         }
-                                        
+
                                         db.transaction(function (tx){
 
-                                    
+
                                           tx.executeSql('SELECT * FROM patient_data_gb', [], function (tx, results) {
                                             var len = results;
-                                           
-                                      
+
+
                                           });
 
 
-                                
-                                      }); 
-                              
-                                    });
-                                   
-                                  
-                          
 
-                               
+                                      });
+
+                                    });
+
+
+
+
+
 
                         },
                         error: function() {
                           alert("Not able to sync data");
-                            
+
 
                         }
 
-                 
-             
-           
+
+
+
             });
         });
 
           var names = $("#namefield").val();
 
-         
+
         $.ajax({
                 type: "POST",
                 url: "patientsearchdb.php",
@@ -182,35 +182,35 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
                 success:function(json){
 
                   var arrayLength = json.length;
-               
-                                      for (var i = 0; i < arrayLength; i++) {
-                                        $("#patienttable").append("<tr><td><a href=md.php?patientId=" + json[i][0] +  "style='color: #0B0080 '>'" + json[i][1] + "</a></td><td>" + json[i][2] + "</td><td>"+ json[i][3]+ "</td></tr>");
-                                          
 
- 
+                                      for (var i = 0; i < arrayLength; i++) {
+                                        $("#patienttable").append("<tr><td><a href= 'md.php?patientId=" + json[i][0] +  "' style='color: #0B0080 '>'" + json[i][1] + "</a></td><td>" + json[i][2] + "</td><td>"+ json[i][3]+ "</td></tr>");
+
+
+
                                           //Do something
                                       }
-                                      
+
                 },
                 error: function() {
                   // Save
                   alert("failed");
                    db.transaction(function (tx){
 
-                                    
+
                                           tx.executeSql('SELECT * FROM patient_data_gb', [], function (tx, results) {
                                            $.each(results.rows, function(rowIndex){
                                               var row = results.rows.item(rowIndex);
-                                              $("#patienttable").append("<tr><td><a href=md.php?patientId=" + row.id +  "style='color: #0B0080 '>'" + row.name + "</a></td><td>" + row.DOB + "</td><td>"+ row.city_village+ "</td></tr>");
+                                              $("#patienttable").append("<tr><td><a href= 'md.php?patientId=" + row.id +  "' style='color: #0B0080 '>'" + row.name + "</a></td><td>" + row.DOB + "</td><td>"+ row.city_village+ "</td></tr>");
                                             });
-                                           
-                                      
+
+
                                           });
 
 
-                                
-                                      }); 
-                  
+
+                                      });
+
                   //alert(key);
                   //alert(JSON.parse(localStorage.getItem(key)));
 
@@ -285,10 +285,10 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
  <script>
     $(document).ready(function(){
       $("#search_button").click(function(e){
-          
+
          var names = $("#namefield").val();
 
-         
+
         $.ajax({
                 type: "POST",
                 url: "patientsearchdb.php",
@@ -300,18 +300,18 @@ if (!empty($GLOBALS['gbl_nav_area_width'])) {
                   var arrayLength = json.length;
                  $("#patienttable").empty();
                                       for (var i = 0; i < arrayLength; i++) {
-                                        $("#patienttable").append("<tr><td><a href=md.php?patientId=" + json[i][0] +  "style='color: #0B0080 '>'" + json[i][1] + "</a></td><td>" + json[i][2] + "</td><td>"+ json[i][3]+ "</td></tr>");
-                                          
+                                        $("#patienttable").append("<tr><td><a href= 'md.php?patientId=" + json[i][0] +  "style='color: #0B0080 '>'" + json[i][1] + "</a></td><td>" + json[i][2] + "</td><td>"+ json[i][3]+ "</td></tr>");
 
- 
+
+
                                           //Do something
                                       }
-                                      
+
                 },
                 error: function() {
                   // Save
                   alert("failed");
-                  
+
                   //alert(key);
                   //alert(JSON.parse(localStorage.getItem(key)));
 

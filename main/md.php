@@ -428,28 +428,28 @@ if ($patientId) {
 <script src="chart.js"></script>
 
 <!-- voice control -->
-<!-- <script src="js/voice.js"></script> -->
+<script src="js/voice.js"></script> -->
 
 <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script> -->
 <script>
-    // if (annyang) {
-    //     // Let's define a command.
-    //     var commands = {
-    //         'hello': function() {
-    //             alert('Hello world!');
-    //         },
-    //         'show me *tag': showPlots,
-    //         'test': function() {
-    //             alert('Working!');
-    //         },
-    //     };
-    //
-    //     // Add our commands to annyang
-    //     annyang.addCommands(commands);
-    //
-    //     // Start listening.
-    //     annyang.start();
-    // }
+    if (annyang) {
+        // Let's define a command.
+        var commands = {
+            'hello': function() {
+                alert('Hello world!');
+            },
+            'show me *tag': showPlots,
+            'test': function() {
+                alert('Working!');
+            },
+        };
+
+        // Add our commands to annyang
+        annyang.addCommands(commands);
+
+        // Start listening.
+        annyang.start();
+    }
 </script>
 
 <script>
@@ -493,10 +493,10 @@ if ($patientId) {
     $(function(){
         var dropdown = document.getElementById("visits_dropdown");
         var n = dropdown.options[dropdown.selectedIndex].value;
-    
+
 
         var visit_json = JSON.parse('<?php echo json_encode($visits) ?>');
-        
+
 
         console.log(n);
         console.log(visit_json[n]['height']);

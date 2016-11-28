@@ -18,7 +18,7 @@ include_once "$srcdir/sql.inc";
 
 // createDummyPatient(777);
 //importDiseaseDB();
-// createDummyVisit();
+createDummyVisit();
 
 
 function readCSV($csvFile)
@@ -70,6 +70,14 @@ function createDummyVisit()
             $idList[] = $row['id'];
         }
 
+        // get the diseases database
+        $diseasesList = array();
+        $rawDiseasesDB = mysql_query('SELECT `name` FROM `disease_data_gb` ;');
+        while ($row = mysql_fetch_array($rawDiseasesDB)) {
+            $diseasesList[] = $row['name'];
+        }
+
+
         foreach ($idList as $_id) {
             $numVisit = rand(1, 5);
 
@@ -85,12 +93,26 @@ function createDummyVisit()
                 $_pulse = getRandWithOutliers(200, 220);
                 $_resRate = getRandWithOutliers(70, 90);
 
+                $_disease = mysql_real_escape_string(getDisease($diseasesList));
+
                 sqlQuery('INSERT INTO patient_visit_gb '.
-            '(p_id, date ,weight,height, bph,bpi, temperature, pulse, respiratory_rate ) '.
-            "VALUES('$_id', '$_date','$_weight', '$_height','$_bph','$_bpl','$_temp', '$_pulse', '$_resRate')");
+            '(p_id, date ,weight,height, bph,bpi, temperature, pulse, respiratory_rate, diagnosis ) '.
+            "VALUES('$_id', '$_date','$_weight', '$_height','$_bph','$_bpl','$_temp', '$_pulse', '$_resRate', '$_disease')");
             }
         }
     }
+}
+
+function getDisease($rawDiseasesList){
+  $_disease = '';
+  $numDiseases = rand(1,3);
+
+  for($i = 0; $i < $numDiseases; $i++){
+    $curDisease = $rawDiseasesList[rand(0,count($rawDiseasesList)-1)];
+    $_disease .= $curDisease.',';
+  }
+
+  return $_disease;
 }
 
 // add some outlier numbers to the randomly generated data.
