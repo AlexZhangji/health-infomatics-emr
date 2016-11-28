@@ -132,6 +132,7 @@ while ($row = mysql_fetch_array($diseaseresult)) {
                 // Change this number if more frames participate in reporting.
                 return loadedFrameCount >= 2;
             }
+          }
     </script>
     <link rel=stylesheet href="../themes/registration.css" type="text/css">
 
@@ -231,7 +232,7 @@ while ($row = mysql_fetch_array($diseaseresult)) {
 
         <div class="visit-container m-card">
 
-            <form class="new_visit" id="new_visit" action="createVisit.php" method="POST">
+          
                 <h2 style="float:left; margin-left:10px;">Create Visit &nbsp;&nbsp;</h2>
                 <form action="md.php" method="get">
                     <input type="submit" value="Back" class='btn btn-raised active'
@@ -240,6 +241,7 @@ while ($row = mysql_fetch_array($diseaseresult)) {
                 </form>
                 <br style="clear:both;"/>
                 <br/>
+                <form class="new_visit" id="new_visit" action="createVisit.php" method="POST">
 
                 <p><label for="visitDate">Date</label><input type="date" name="visit_date"/>&nbsp;</p>
                 <p>&nbsp;</p>
